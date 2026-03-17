@@ -23,8 +23,11 @@ source "proxmox-iso" "ubuntu-2404" {
   token                    = var.proxmox_token
   node                     = "proxmox"
   task_timeout             = "10m"
+  vm_id                    = 9000
+  vm_name                  = "ubuntu-2404-base"
 
   boot_iso {
+    type             = "ide"
     iso_url          = "https://releases.ubuntu.com/noble/ubuntu-24.04.4-live-server-amd64.iso"
     iso_checksum     = "sha256:e907d92eeec9df64163a7e454cbc8d7755e8ddc7ed42f99dbc80c40f1a138433"
     iso_storage_pool = "isos"
@@ -55,7 +58,7 @@ source "proxmox-iso" "ubuntu-2404" {
   ssh_private_key_file = "~/.ssh/keys/ansible@theblacklodge.org"
   ssh_timeout          = "25m"
 
-  boot_wait = "15s"
+  boot_wait = "30s"
 
   # Commands for GRUB, bootloader and general ISO install. May need to tweak. https://developer.hashicorp.com/packer/docs/builders/virtualbox/iso#boot-command
   boot_command = [
