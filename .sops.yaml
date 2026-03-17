@@ -1,0 +1,7 @@
+creation_rules:
+  - path_regex: .*\.pkrvars\.hcl$
+    age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
+  - path_regex: ansible/.*secrets.*\.ya?ml$
+    age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
+  - path_regex: terraform/.*\.tfvars$
+    age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
