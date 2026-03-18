@@ -31,3 +31,4 @@ sops -e packer/ubuntu-2404/secrets.auto.pkrvars.hcl > packer/ubuntu-2404/secrets
 packer init packer/ubuntu-2404
 packer build packer/ubuntu-2404
 ```
+

@@ -1,2 +1,6 @@
 secrets.auto.pkrvars.hcl
+secrets.auto.tfvars
+.terraform
+.terraform.lock.hcl
+*tfstate*
 downloaded_iso_path
