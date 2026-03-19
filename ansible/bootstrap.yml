@@ -1,0 +1,59 @@
+- name: Configure firewall and Cockpit
+  hosts: all
+  become: true
+  tasks:
+    - name: Install firewalld
+      ansible.builtin.package:
+        name: firewalld
+        state: present
+
+    - name: Disable and stop ufw
+      ansible.builtin.systemd:
+        name: ufw
+        state: stopped
+        enabled: false
+      when: ansible_facts.services['ufw.service'] is defined
+
+    - name: Enable and start firewalld
+      ansible.builtin.systemd:
+        name: firewalld
+        state: started
+        enabled: true
+
+    - name: Allow ssh
+      ansible.posix.firewalld:
+        service: ssh
+        zone: public
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Allow cockpit in firewalld
+      ansible.posix.firewalld:
+        service: cockpit
+        zone: public
+        permanent: true
+        state: enabled
+        immediate: true
+
+    - name: Install cockpit - server management UI
+      include_role:
+        name: linux-system-roles.cockpit
+      vars:
+        cockpit_packages: default
+        cockpit_port: 9090
+        cockpit_manage_selinux: true
+        cockpit_enabled: true
+        cockpit_started: true
+        cockpit_transactional_update_reboot_ok: true
+
+    - name: Join FreeIPA domain
+      ansible.builtin.include_role:
+        name: freeipa.ansible_freeipa.ipaclient
+      vars:
+        ipaclient_domain: theblacklodge.org
+        ipaclient_realm: THEBLACKLODGE.ORG
+        ipaadmin_principal: "{{ vault_ipa_admin_user }}"
+        ipaadmin_password: "{{ vault_ipa_admin_password }}"
+        ipaclient_mkhomedir: true
+        ipaclient_hostname: ubuntu-clone.theblacklodge.org

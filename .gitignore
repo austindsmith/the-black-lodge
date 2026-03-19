@@ -4,3 +4,6 @@ secrets.auto.tfvars
 .terraform.lock.hcl
 *tfstate*
 downloaded_iso_path
+
+.venv
+.vault_pass
