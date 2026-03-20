@@ -43,6 +43,7 @@ resource "proxmox_virtual_environment_vm" "vm" {
     }
     dns {
       servers = var.dns_servers
+      domain  = "theblacklodge.org"
     }
     ip_config {
       ipv4 {

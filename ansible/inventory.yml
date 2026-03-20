@@ -1,4 +1,6 @@
 virtual_machines:
   hosts:
-    ubuntu-clone:
+    k3s-server-01:
       ansible_host: 192.168.100.5
+    freeipa:
+      ansible_host: 192.168.50.20

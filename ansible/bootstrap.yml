@@ -1,5 +1,5 @@
 - name: Configure firewall and Cockpit
-  hosts: all
+  hosts: k3s-server-01
   become: true
   tasks:
     - name: Install firewalld
@@ -55,5 +55,10 @@
         ipaclient_realm: THEBLACKLODGE.ORG
         ipaadmin_principal: "{{ vault_ipa_admin_user }}"
         ipaadmin_password: "{{ vault_ipa_admin_password }}"
+        ipaclient_configure_dns_resolver: yes
         ipaclient_mkhomedir: true
-        ipaclient_hostname: ubuntu-clone.theblacklodge.org
+        ipaclient_dns_servers: 192.168.1.5
+        ipaclient_force_join: yes
+        ipaclient_servers: ipa.theblacklodge.org
+        ipaclient_hostname: k3s-server-01.theblacklodge.org
+        ipaclient_enable_dns_updates: true
