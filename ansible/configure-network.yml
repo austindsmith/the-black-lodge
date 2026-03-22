@@ -1,0 +1,5 @@
+---
+- name: Configure client network
+  hosts: clients
+  roles:
+    - client-network
