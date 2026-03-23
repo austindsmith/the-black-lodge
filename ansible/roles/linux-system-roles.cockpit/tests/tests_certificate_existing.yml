@@ -1,0 +1,112 @@
+---
+# yamllint disable rule:line-length
+- name: Test using an existing certificate with cockpit
+  hosts: all
+  tasks:
+    - name: Include role
+      include_role:
+        name: linux-system-roles.cockpit
+        public: true
+      vars:
+        cockpit_packages: minimal
+        cockpit_cert: /etc/myserver.crt
+        cockpit_private_key: /etc/myserver.key
+
+    - name: Collect installed package versions
+      package_facts:
+
+    - name: Check if cockpit is new enough (at least 257) to support existing certificates
+      when: ansible_facts.packages['cockpit-ws'][0].version | int >= 257
+      block:
+        - name: Check if the managed node needs crypto-policies to be able to use PQC
+          when:
+            - __cockpit_is_rh_distro | bool
+            - (ansible_facts["distribution"] == "RedHat" and ansible_facts["distribution_version"] is version("9.7", ">=")
+              and ansible_facts["distribution_version"] is version("10", "<"))
+              or (ansible_facts["distribution"] != "RedHat" and
+                  ansible_facts['distribution_major_version'] is version("9", "=="))
+          block:
+            # calling role with null will just return the current policy
+            - name: Get current crypto policy
+              include_role:
+                name: fedora.linux_system_roles.crypto_policies
+              vars:
+                crypto_policies_policy: null
+
+            - name: Set variables needed for support and cleanup
+              set_fact:
+                # We need to reset this after the test is done
+                __crypto_policies_policy: "{{ crypto_policies_active | d('') }}"
+
+            # https://issues.redhat.com/browse/RHEL-107877
+            # rhel 9.7 and later, or EL9 other than RHEL, needs crypto-policies to be able to use PQC
+            - name: Ensure managed node is able to use PQC
+              include_role:
+                name: fedora.linux_system_roles.crypto_policies
+              vars:
+                crypto_policies_policy: DEFAULT:PQ
+
+        - name: Create test certificate key
+          command: openssl ecparam -name secp521r1 -genkey -out /etc/myserver.key
+          args:
+            creates: /etc/myserver.key
+
+        - name: Get openssl algorithms
+          command: openssl list -public-key-algorithms
+          register: openssl_algorithms
+          changed_when: false
+          no_log: true  # this is quite verbose
+
+        # Use PQ algorithm if available, otherwise use default
+        # cockpit uses gnutls, which supports mldsa65 since 3.8.10
+        - name: Create test certificate cert
+          command: openssl req -x509 {{ key_algo_args }} /etc/myserver.key -subj '/CN=localhost' -out /etc/myserver.crt -days 365
+          args:
+            creates: /etc/myserver.crt
+          vars:
+            key_algo_args: "{{ '-nodes -newkey mldsa65 -keyout' if 'MLDSA65' in openssl_algorithms.stdout and
+              ansible_facts.packages['gnutls'][0].version is version('3.8.10', '>=')
+              else '-new -key' }}"
+
+        # ostree cannot remove packages and cannot cleanup properly
+        # this works around that issue
+        - name: Restart cockpit to use the new certificates
+          service:
+            name: "{{ __cockpit_daemon }}"
+            state: restarted
+          when: __cockpit_is_ostree | d(false)
+
+        - name: Test - cockpit works with TLS and expected certificate
+          # noqa command-instead-of-module
+          command:
+            cmd: curl --cacert /etc/myserver.crt https://localhost:9090
+            # ansible 2.11's uri module has ca_path, but that's still too new for us
+          changed_when: false
+          when: __cockpit_is_booted
+
+      always:
+        - name: Cleanup - test certificate cert
+          file:
+            path: /etc/myserver.crt
+            state: absent
+          tags:
+            - always
+            - tests::cleanup
+
+        - name: Cleanup - test certificate key
+          file:
+            path: /etc/myserver.key
+            state: absent
+          tags:
+            - always
+            - tests::cleanup
+
+        - name: Reset crypto policies
+          include_role:
+            name: fedora.linux_system_roles.crypto_policies
+          vars:
+            crypto_policies_policy: "{{ __crypto_policies_policy }}"
+          when: __crypto_policies_policy | d("") | length > 0
+
+        - name: Cleanup
+          include_tasks: tasks/cleanup.yml

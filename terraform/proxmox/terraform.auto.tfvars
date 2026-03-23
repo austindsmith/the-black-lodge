@@ -1,4 +1,4 @@
-name        = "k3s-server-01"
+name        = "tang"
 description = ""
 tags        = ["gitops", "terraform", "packer"]
 vm_id       = 8000
