@@ -1,0 +1,86 @@
+---
+- name: Test cockpit_* role options
+  hosts: all
+  gather_facts: true
+  tasks:
+    - name: Tests
+      block:
+        - name: Install SELinux tools
+          include_tasks: tasks/install_selinux_tools.yml
+
+        - name: Allow cockpit to own customized port in SELinux
+          # all supported buildah environments (bootc) have SELinux enabled;
+          # but there we need --noreload
+          shell: |
+            set -eu
+            if selinuxenabled || [ -n "{{ __noreload }}" ]; then
+              semanage port {{ __noreload }} -m -t websm_port_t -p tcp 443
+            fi
+          vars:
+            __noreload: "{{ '--noreload' if ansible_connection == 'buildah' else '' }}"
+          changed_when: false
+          when: not __bootc_validation | d(false)
+
+        - name: Run cockpit role
+          include_role:
+            name: linux-system-roles.cockpit
+            public: true
+          vars:
+            cockpit_packages: minimal
+            cockpit_port: 443
+          when: not __bootc_validation | d(false)
+
+        - name: Flush handlers
+          meta: flush_handlers
+          when: not __bootc_validation | d(false)
+
+        - name: Create QEMU deployment during bootc end-to-end test
+          delegate_to: localhost
+          become: false
+          command: "{{ lsr_scriptdir }}/bootc-buildah-qcow.sh {{ ansible_host }}"
+          changed_when: true
+          when: ansible_connection == "buildah"
+
+        # role does not run during bootc QEMU validation, thus __cockpit_is_booted is undefined
+        - name: Set __cockpit_is_booted for bootc validation tests
+          set_fact:
+            __cockpit_is_booted: true
+          when: __bootc_validation | d(false)
+
+        # config file only check for non-booted environments
+        - name: Test - Ensure that port was configured
+          command: grep -q ListenStream=443 /etc/systemd/system/cockpit.socket.d/listen.conf
+          changed_when: false
+
+        - name: Test - cockpit works on customized port
+          get_url:
+            dest: /run/out
+            url: https://localhost
+            validate_certs: false
+            mode: "0600"
+          when: __cockpit_is_booted
+
+        - name: Test - HTTP response is something sensible
+          command: grep 'id="login-user-input"' /run/out
+          changed_when: false
+          when: __cockpit_is_booted
+
+        - name: Test - cockpit does not listen on port 9090
+          get_url:
+            dest: /run/out
+            url: https://localhost:9090
+            validate_certs: false
+            mode: "0600"
+          register: result
+          failed_when: result is succeeded
+          when: __cockpit_is_booted
+
+        - name: Test - clean up output file
+          file:
+            path: /run/out
+            state: absent
+
+      always:
+        - name: Cleanup
+          include_tasks: tasks/cleanup.yml
+          when: not __bootc_validation | d(false)

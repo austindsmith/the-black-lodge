@@ -2,9 +2,9 @@ all:
   children:
     servers:
       hosts:
-        k3s-server-01:
+        tang:
           ansible_host: 192.168.100.5
-        freeipa:
+        ipa:
           ansible_host: 192.168.50.20
     clients:
       hosts:

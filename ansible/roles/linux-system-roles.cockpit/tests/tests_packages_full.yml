@@ -1,0 +1,66 @@
+---
+- name: "Test cockpit_packages: full"
+  hosts: all
+  gather_facts: true
+  vars:
+    cockpit_manage_firewall: true
+    cockpit_manage_selinux: false
+  tasks:
+    - name: Tests
+      block:
+        - name: Include cockpit role
+          include_role:
+            name: linux-system-roles.cockpit
+            public: true
+          vars:
+            cockpit_packages: full
+
+        - name: Flush handlers
+          meta: flush_handlers
+
+        - name: Refresh package facts
+          package_facts:
+
+        # basic package (part of minimal)
+        - name: Test - cockpit-system is installed
+          fail:
+            msg: cockpit-system is not installed
+          when: "'cockpit-system' not in ansible_facts.packages"
+
+        # metapackage (part of default)
+        - name: Test - cockpit metapackage is installed
+          fail:
+            msg: cockpit is not installed
+          when: "'cockpit' not in ansible_facts.packages"
+
+        # extra package (part of full)
+        - name: Test - extra package is installed
+          fail:
+            msg: "{{ __extra_pkg }} is not installed"
+          when: __extra_pkg not in ansible_facts.packages
+          vars:
+            __extra_pkg: "{{ 'cockpit-storaged'
+              if ansible_facts['os_family'] == 'RedHat'
+              else 'cockpit-machines' }}"
+
+        # another extra package (part of full)
+        - name: Test - cockpit-doc is installed
+          fail:
+            msg: cockpit-doc is not installed
+          when: "'cockpit-doc' not in ansible_facts.packages"
+
+        - name: Ensure excluded packages are not installed
+          fail:
+            msg: The package {{ item }} should not be installed
+          when:
+            - not __cockpit_is_ostree | d(false)  # skip this test on ostree
+            - item in ansible_facts.packages
+          loop: "{{ __cockpit_packages_exclude | d([]) }}"
+
+        - name: >-
+            Test - ensure cockpit_port is configured for firewall and selinux
+          include_tasks: tasks/check_port.yml
+
+      always:
+        - name: Cleanup
+          include_tasks: tasks/cleanup.yml

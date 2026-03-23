@@ -1,5 +1,5 @@
 - name: Configure firewall and Cockpit
-  hosts: k3s-server-01
+  hosts: tang
   become: true
   tasks:
     - name: Install firewalld
@@ -42,7 +42,6 @@
       vars:
         cockpit_packages: default
         cockpit_port: 9090
-        cockpit_manage_selinux: true
         cockpit_enabled: true
         cockpit_started: true
         cockpit_transactional_update_reboot_ok: true
@@ -55,10 +54,11 @@
         ipaclient_realm: THEBLACKLODGE.ORG
         ipaadmin_principal: "{{ vault_ipa_admin_user }}"
         ipaadmin_password: "{{ vault_ipa_admin_password }}"
-        ipaclient_configure_dns_resolver: yes
+        ipaclient_configure_dns_resolver: true
         ipaclient_mkhomedir: true
         ipaclient_dns_servers: 192.168.1.5
-        ipaclient_force_join: yes
+        ipaclient_force_join: true
         ipaclient_servers: ipa.theblacklodge.org
-        ipaclient_hostname: k3s-server-01.theblacklodge.org
+        ipaclient_hostname: "{{ inventory_hostname }}.theblacklodge.org"
         ipaclient_enable_dns_updates: true
+      when: inventory_hostname != 'ipa'

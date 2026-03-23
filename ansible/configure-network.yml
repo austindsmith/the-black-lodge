@@ -1,5 +1,10 @@
 ---
-- name: Configure client network
-  hosts: clients
+- name: Build tang server
+  hosts: tang
+  become: true
   roles:
-    - client-network
+    - tang
+#- name: Configure client network
+#  hosts: clients
+#  roles:
+#    - clients

@@ -1,0 +1,40 @@
+---
+# yamllint disable rule:line-length
+name: Integration tests
+on:  # yamllint disable-line rule:truthy
+  pull_request:
+  # run them regularly, to catch changes in operating systems
+  schedule:
+    - cron: 0 4 * * MON
+
+jobs:
+  ubuntu:
+    strategy:
+      matrix:
+        release:
+          - ubuntu-22.04
+          - ubuntu-24.04
+    runs-on: '${{ matrix.release }}'
+    timeout-minutes: 30
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v6
+
+      - name: Install Ansible
+        run: |
+          sudo apt update
+          sudo apt install -y ansible
+
+      - name: Install dependencies
+        run: |
+          set -euo pipefail
+          for ff in meta/collection-requirements.yml tests/collection-requirements.yml; do
+            if [ -f "$ff" ]; then
+              sudo ansible-galaxy collection install -vv -r "$ff"
+            fi
+          done
+
+      - name: Run test playbooks
+        run: |
+          cd tests
+          sudo ansible-playbook -vv --connection=local --inventory localhost, tests_*.yml
