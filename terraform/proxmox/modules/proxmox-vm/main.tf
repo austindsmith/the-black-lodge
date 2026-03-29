@@ -1,3 +1,4 @@
+
 resource "proxmox_virtual_environment_vm" "vm" {
   name        = var.name
   description = var.description
@@ -52,6 +53,10 @@ resource "proxmox_virtual_environment_vm" "vm" {
       }
     }
   }
+}
+
+terraform {
+  backend "local" {}
 }
 
 output "vm_ipv4_address" {

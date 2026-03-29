@@ -1,10 +1,10 @@
 - name: Configure firewall and Cockpit
-  hosts: tang
+  hosts: tang, k8s
   become: true
   handlers:
     - name: Restart ssh
       ansible.builtin.systemd:
-        name: sshd
+        name: ssh
         state: restarted
   tasks:
     - name: Install firewalld
@@ -37,8 +37,6 @@
         permanent: true
         state: enabled
         immediate: true
-
-
 
     - name: Allow cockpit in firewalld
       ansible.posix.firewalld:
@@ -81,5 +79,18 @@
         path: /etc/ssh/sshd_config.d/04-ipa.conf
         regexp: '^AuthorizedKeysCommand '
         line: 'AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys %u'
-        validate: ssh -t -f %s
+        validate: sshd -t -f %s
       notify: Restart ssh
+
+
+    - name: Register DNS A record in FreeIPA
+      community.general.ipa_dnsrecord:
+        ipa_host: ipa.theblacklodge.org
+        ipa_user: "{{ vault_ipa_admin_user }}"
+        ipa_pass: "{{ vault_ipa_admin_password }}"
+        zone_name: theblacklodge.org
+        record_name: "{{ inventory_hostname }}"
+        record_type: A
+        record_value: "{{ ansible_host }}"
+        state: present
+      when: inventory_hostname != 'ipa'
