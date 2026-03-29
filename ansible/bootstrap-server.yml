@@ -1,10 +1,20 @@
 - name: Configure firewall and Cockpit
   hosts: tang
   become: true
+  handlers:
+    - name: Restart ssh
+      ansible.builtin.systemd:
+        name: sshd
+        state: restarted
   tasks:
     - name: Install firewalld
       ansible.builtin.package:
         name: firewalld
+        state: present
+
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
         state: present
 
     - name: Disable and stop ufw
@@ -28,6 +38,8 @@
         state: enabled
         immediate: true
 
+
+
     - name: Allow cockpit in firewalld
       ansible.posix.firewalld:
         service: cockpit
@@ -37,7 +49,7 @@
         immediate: true
 
     - name: Install cockpit - server management UI
-      include_role:
+      ansible.builtin.include_role:
         name: linux-system-roles.cockpit
       vars:
         cockpit_packages: default
@@ -62,3 +74,12 @@
         ipaclient_hostname: "{{ inventory_hostname }}.theblacklodge.org"
         ipaclient_enable_dns_updates: true
       when: inventory_hostname != 'ipa'
+
+
+    - name: Configure sshd for sssd key lookup
+      ansible.builtin.lineinfile:
+        path: /etc/ssh/sshd_config.d/04-ipa.conf
+        regexp: '^AuthorizedKeysCommand '
+        line: 'AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys %u'
+        validate: ssh -t -f %s
+      notify: Restart ssh

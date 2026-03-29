@@ -1,4 +1,4 @@
-name        = "tang"
+name        = "tang.theblacklodge.org"
 description = ""
 tags        = ["gitops", "terraform", "packer"]
 vm_id       = 8000
@@ -18,6 +18,6 @@ cpu_type  = "host"
 ram       = 4096
 
 vlan_id      = 5
-dns_servers  = ["192.168.1.5", "1.1.1.1"]
+dns_servers  = ["192.168.1.5"]
 ipv4_address = "192.168.100.5/24"
 gateway      = "192.168.100.1"
