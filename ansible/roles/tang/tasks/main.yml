@@ -1,4 +1,3 @@
----
 - name: Install tang
   ansible.builtin.apt:
     name: tang
@@ -9,11 +8,3 @@
     name: tangd.socket
     state: started
     enabled: true
-
-- name: Allow http
-  ansible.posix.firewalld:
-    service: http
-    zone: public
-    permanent: true
-    state: enabled
-    immediate: true

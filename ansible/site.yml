@@ -1,0 +1,14 @@
+- name: Configure firewall and Cockpit
+  hosts: tang, k8s
+  become: true
+  tasks:
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
+        state: present
+
+  roles:
+    - firewall
+    - cockpit
+    - ipa-client
+    - tang

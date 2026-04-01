@@ -28,7 +28,6 @@ provider "proxmox" {
 EOF
 }
 
-
 inputs = {
   description = ""
   tags        = ["gitops", "terraform", "packer"]

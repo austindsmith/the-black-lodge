@@ -1,0 +1,36 @@
+- name: Join FreeIPA domain
+  ansible.builtin.include_role:
+    name: freeipa.ansible_freeipa.ipaclient
+  vars:
+    ipaclient_domain: theblacklodge.org
+    ipaclient_realm: THEBLACKLODGE.ORG
+    ipaadmin_principal: "{{ vault_ipa_admin_user }}"
+    ipaadmin_password: "{{ vault_ipa_admin_password }}"
+    ipaclient_configure_dns_resolver: true
+    ipaclient_mkhomedir: true
+    ipaclient_dns_servers: 192.168.1.5
+    ipaclient_force_join: true
+    ipaclient_servers: ipa.theblacklodge.org
+    ipaclient_hostname: "{{ inventory_hostname }}.theblacklodge.org"
+    ipaclient_enable_dns_updates: true
+  when: inventory_hostname != 'ipa'
+
+- name: Configure sshd for sssd key lookup
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config.d/04-ipa.conf
+    regexp: '^AuthorizedKeysCommand '
+    line: 'AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys %u'
+    validate: sshd -t -f %s
+  notify: Restart ssh
+
+- name: Register DNS A record in FreeIPA
+  community.general.ipa_dnsrecord:
+    ipa_host: ipa.theblacklodge.org
+    ipa_user: "{{ vault_ipa_admin_user }}"
+    ipa_pass: "{{ vault_ipa_admin_password }}"
+    zone_name: theblacklodge.org
+    record_name: "{{ inventory_hostname }}"
+    record_type: A
+    record_value: "{{ ansible_host }}"
+    state: present
+  when: inventory_hostname != 'ipa'
