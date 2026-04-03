@@ -8,7 +8,9 @@
         state: present
 
   roles:
-    - firewall
-    - cockpit
-    - ipa-client
-    - tang
+    - role: firewall
+    - role: cockpit
+    - role: ipa-client
+    - role: tang
+    - role: kubernetes
+      tags: kubernetes

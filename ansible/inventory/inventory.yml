@@ -1,9 +1,12 @@
 all:
   children:
     servers:
+      children:
+        kubernetes:
+          hosts:
+            k8s:
+              ansible_host: 192.168.100.15
       hosts:
-        k8s:
-          ansible_host: 192.168.100.15
         tang:
           ansible_host: 192.168.100.5
         ipa:
