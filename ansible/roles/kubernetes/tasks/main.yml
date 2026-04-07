@@ -1,0 +1,23 @@
+- name: Disable and stop ufw
+  ansible.builtin.systemd:
+    name: ufw
+    state: stopped
+    enabled: false
+  when:
+    - ansible_facts.services['ufw.service'] is defined
+    - inventory_hostname in groups['server']
+    - inventory_hostname in groups['agent']
+
+- name: Disable and stop firewalld
+  ansible.builtin.systemd:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when:
+    - ansible_facts.services['firewalld.service'] is defined
+    - inventory_hostname in groups['server']
+    - inventory_hostname in groups['agent']
+
+- name: Prepare k3s client (machine running kubectl)
+  ansible.builtin.include_tasks: clients.yml
+  when: inventory_hostname in groups['client']

@@ -1,0 +1,29 @@
+- name: Bootstrap VMs
+  hosts: tang
+  become: true
+  tasks:
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
+        state: present
+
+  roles:
+    - role: cockpit
+      tags: cockpit
+    - role: ipa-client
+      tags: ipa-client
+    - role: tang
+      tags: tang
+
+- name: Prepare VM for Kubernetes
+  hosts: 
+    - k8s-server-01
+    - primary_desktop
+  become: true
+  roles: 
+    - role: kubernetes
+      tags: kubernetes
+
+
+- name: Import kube cluster playbook
+  ansible.builtin.import_playbook: k3s.orchestration.site
