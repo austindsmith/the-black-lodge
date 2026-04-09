@@ -12,7 +12,7 @@ spec:
       valuesObject:
         ingress:
           ingressClassName: traefik
-          servicePort: 30500
+          servicePort: 80
   destination:
     name: in-cluster
     namespace: cattle-system
