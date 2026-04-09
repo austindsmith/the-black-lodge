@@ -88,7 +88,7 @@
 
 - name: Copy root app manifest to server
   ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../gitops/root-app.yaml"
+    src: "{{ playbook_dir }}/../../kubernetes/root-app.yaml"
     dest: /tmp/root-app.yaml
 
 - name: Apply root ArgoCD app
