@@ -18,6 +18,9 @@ spec:
         bootstrapPassword: admin
         ingress:
           ingressClassName: traefik
+        startupProbe:
+          failureThreshold: 60
+          periodSeconds: 10
   destination:
     name: in-cluster
     namespace: cattle-system
