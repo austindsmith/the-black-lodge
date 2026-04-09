@@ -13,9 +13,11 @@ spec:
     targetRevision: 2.13.3
     helm:
       valuesObject:
+        hostname: rancher.local
+        replicas: 1
+        bootstrapPassword: admin
         ingress:
           ingressClassName: traefik
-          servicePort: 80
   destination:
     name: in-cluster
     namespace: cattle-system
