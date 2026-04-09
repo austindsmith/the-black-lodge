@@ -18,6 +18,26 @@
     - inventory_hostname in groups['server']
     - inventory_hostname in groups['agent']
 
+- name: Install pip
+  ansible.builtin.package:
+    name: python3-pip
+    state: present
+  become: true
+  when:
+    - inventory_hostname in groups['server']
+
+- name: Install kubernetes Python library
+  ansible.builtin.package:
+    name: python3-kubernetes
+    state: present
+  when:
+    - inventory_hostname in groups['server']
+
 - name: Prepare k3s client (machine running kubectl)
   ansible.builtin.include_tasks: clients.yml
   when: inventory_hostname in groups['client']
+
+- name: Deploy ArgoCD
+  ansible.builtin.import_tasks: argocd.yml
+  when: inventory_hostname in groups['server']
+  tags: argocd

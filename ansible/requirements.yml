@@ -16,6 +16,8 @@ collections:
   - name: freeipa.ansible_freeipa
     version: "1.16.0"
 
+  - name: kubernetes.core
+    version: "6.3.0"
 roles:
   - name: linux-system-roles.cockpit
     version: "1.7.4"
