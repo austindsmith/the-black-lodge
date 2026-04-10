@@ -32,3 +32,7 @@ packer init packer/ubuntu-2404
 packer build packer/ubuntu-2404
 ```
 
+### Creating Pangolin secret
+```
+kubectl create secret generic newt -n pangolin --from-env-file=newt.env
+```
