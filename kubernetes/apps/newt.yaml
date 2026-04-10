@@ -8,7 +8,7 @@ metadata:
 spec:
   project: default
   source:
-    chart: fosrl/newt
+    chart: fossorial/newt
     repoURL: https://charts.fossorial.io
     targetRevision: 1.2.0
     helm:
