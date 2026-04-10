@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: newt
+  namespace: argocd
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
+spec:
+  project: default
+  source:
+    chart: fosrl/newt
+    repoURL: https://charts.fossorial.io
+    targetRevision: 1.2.0
+    helm:
+      valuesObject:
+        replicas: 1
+        ingress:
+          ingressClassName: traefik
+        startupProbe:
+          failureThreshold: 60
+          periodSeconds: 10
+  destination:
+    name: in-cluster
+    namespace: pangolin
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

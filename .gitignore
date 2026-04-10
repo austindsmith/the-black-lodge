@@ -7,4 +7,4 @@ downloaded_iso_path
 *cache*
 .venv
 .vault_pass
-
+*.env

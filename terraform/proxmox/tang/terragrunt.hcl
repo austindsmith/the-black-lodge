@@ -14,6 +14,7 @@ inputs = {
   description = ""
   tags        = ["gitops", "terraform", "packer"]
   vm_id       = 8000
+  ram         = 4096
 
   ipv4_address = "192.168.100.5/24"
 

@@ -44,7 +44,6 @@ inputs = {
   disk_size = 64
   cores     = 2
   cpu_type  = "host"
-  ram       = 4096
 
   vlan_id                       = 5
   dns_servers                   = ["192.168.1.5"]
