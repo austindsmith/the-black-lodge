@@ -17,7 +17,7 @@ spec:
         - name: main
           enabled: true
           auth:
-            existingSecretName: newt-cred
+            existingSecretName: newt
             keys:
               endpointKey: PANGOLIN_ENDPOINT
               idKey: NEWT_ID
