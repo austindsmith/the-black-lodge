@@ -1,5 +1,5 @@
 - name: Bootstrap VMs
-  hosts: tang
+  hosts: tang, k8s-server-01
   become: true
   tasks:
     - name: Install zsh

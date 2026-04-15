@@ -3,6 +3,23 @@
     path: /etc/rancher/k3s/k3s.yaml
     mode: '0644'
 
+- name: Copy ArgoCD values to server
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../../kubernetes/apps/argocd/values.yaml"
+    dest: /tmp/argocd-values.yaml
+    mode: "0644"
+
+- name: Install ArgoCD via Helm
+  kubernetes.core.helm:
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+    name: argocd
+    chart_ref: argo-cd
+    chart_repo_url: https://argoproj.github.io/argo-helm
+    release_namespace: argocd
+    create_namespace: true
+    values_files:
+      - /tmp/argocd-values.yaml
+
 - name: Create argocd namespace
   kubernetes.core.k8s:
     api_version: v1
@@ -10,17 +27,6 @@
     name: argocd
     state: present
     kubeconfig: /etc/rancher/k3s/k3s.yaml
-
-- name: Install ArgoCD via Helm
-  kubernetes.core.helm:
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
-    name: argocd
-    chart_ref: argo-cd
-    chart_repo_url: https://charts.argoproj.io
-    release_namespace: argocd
-    create_namespace: true
-    values_files:
-      - "{{ playbook_dir }}/../../kubernetes/apps/argocd/values.yaml"
 
 - name: Wait for ArgoCD server to be ready
   kubernetes.core.k8s_info:

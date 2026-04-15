@@ -19,9 +19,13 @@ repoServer:
   initContainers:
     - name: install-ksops
       image: viaductoss/ksops:v4
-      command: ["/bin/sh", "-c"]
-      args:
-        - cp /usr/local/bin/ksops /custom-tools/ && cp /usr/local/bin/kustomize /custom-tools/
+      command: ["cp", "/usr/local/bin/ksops", "/custom-tools/ksops"]
+      volumeMounts:
+        - mountPath: /custom-tools
+          name: custom-tools
+    - name: install-kustomize
+      image: viaductoss/ksops:v4
+      command: ["cp", "/usr/local/bin/kustomize", "/custom-tools/kustomize"]
       volumeMounts:
         - mountPath: /custom-tools
           name: custom-tools
