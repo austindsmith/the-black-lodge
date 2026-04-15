@@ -11,13 +11,16 @@
     state: present
     kubeconfig: /etc/rancher/k3s/k3s.yaml
 
-- name: Install ArgoCD
-  kubernetes.core.k8s:
-    namespace: argocd
-    state: present
-    src: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-  environment:
-    KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+- name: Install ArgoCD via Helm
+  kubernetes.core.helm:
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+    name: argocd
+    chart_ref: argo-cd
+    chart_repo_url: https://charts.argoproj.io
+    release_namespace: argocd
+    create_namespace: true
+    values_files:
+      - "{{ playbook_dir }}/../../kubernetes/apps/argocd/values.yaml"
 
 - name: Wait for ArgoCD server to be ready
   kubernetes.core.k8s_info:
@@ -110,65 +113,6 @@
         namespace: argocd
       stringData:
         keys.txt: "{{ lookup('file', '~/.config/sops/age/keys.txt') }}"
-
-- name: Patch ArgoCD repo server for ksops
-  kubernetes.core.k8s:
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
-    state: present
-    definition:
-      apiVersion: apps/v1
-      kind: Deployment
-      metadata:
-        name: argocd-repo-server
-        namespace: argocd
-      spec:
-        template:
-          spec:
-            volumes:
-              - name: custom-tools
-                emptyDir: {}
-              - name: sops-age
-                secret:
-                  secretName: sops-age-key
-            initContainers:
-              - name: install-ksops
-                image: viaductoss/ksops:v4
-                command: ["/bin/sh", "-c"]
-                args:
-                  - mv ksops /custom-tools/;
-                    mv kustomize /custom-tools/;
-                volumeMounts:
-                  - mountPath: /custom-tools
-                    name: custom-tools
-            containers:
-              - name: argocd-repo-server
-                env:
-                  - name: XDG_CONFIG_HOME
-                    value: /.config
-                  - name: SOPS_AGE_KEY_FILE
-                    value: /.config/sops/age/keys.txt
-                volumeMounts:
-                  - mountPath: /usr/local/bin/kustomize
-                    name: custom-tools
-                    subPath: kustomize
-                  - mountPath: /usr/local/bin/ksops
-                    name: custom-tools
-                    subPath: ksops
-                  - mountPath: /.config/sops/age
-                    name: sops-age
-
-- name: Patch ArgoCD configmap for kustomize alpha plugins
-  kubernetes.core.k8s:
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
-    state: present
-    definition:
-      apiVersion: v1
-      kind: ConfigMap
-      metadata:
-        name: argocd-cm
-        namespace: argocd
-      data:
-        kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
 
 - name: Copy secrets bootstrap manifest to server
   ansible.builtin.copy:
