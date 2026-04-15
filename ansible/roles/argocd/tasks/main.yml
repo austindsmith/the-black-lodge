@@ -169,3 +169,15 @@
         namespace: argocd
       data:
         kustomize.buildOptions: "--enable-alpha-plugins --enable-exec"
+
+- name: Copy secrets bootstrap manifest to server
+  ansible.builtin.copy:
+    src: "{{ playbook_dir }}/../../kubernetes/secrets-bootstrap.yaml"
+    dest: /tmp/secrets-bootstrap.yaml
+    mode: "0644"
+
+- name: Apply secrets bootstrap app
+  kubernetes.core.k8s:
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+    state: present
+    src: /tmp/secrets-bootstrap.yaml

@@ -1,0 +1,24 @@
+# .github/workflows/check-encryption.yml
+name: Check secrets are encrypted
+
+on: [push, pull_request]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check for unencrypted secrets
+        run: |
+          for f in $(find . -path "*/secrets/*.yaml" -o -path "*/secrets/*.yml"); do
+            basename=$(basename "$f")
+            if [[ "$basename" == "kustomization.yaml" || "$basename" == "secret_generator.yaml" ]]; then
+              continue
+            fi
+            if ! grep -q "ENC\[AES256_GCM" "$f"; then
+              echo "UNENCRYPTED: $f"
+              exit 1
+            fi
+          done
+          echo "All secrets encrypted"
