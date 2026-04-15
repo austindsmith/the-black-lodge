@@ -39,3 +39,4 @@ repoServer:
       subPath: ksops
     - mountPath: /.config/sops/age
       name: sops-age
+      

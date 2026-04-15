@@ -3,11 +3,11 @@
     path: /etc/rancher/k3s/k3s.yaml
     mode: '0644'
 
-- name: Copy ArgoCD values to server
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../../kubernetes/apps/argocd/values.yaml"
-    dest: /tmp/argocd-values.yaml
-    mode: "0644"
+#- name: Copy ArgoCD values to server
+#  ansible.builtin.copy:
+#    src: "{{ playbook_dir }}/../../kubernetes/apps/argocd/values.yaml"
+#    dest: /tmp/argocd-values.yaml
+#    mode: "0644"
 
 - name: Install ArgoCD via Helm
   kubernetes.core.helm:
@@ -39,7 +39,6 @@
       type: Available
       status: "True"
     wait_timeout: 120
-
 - name: Hash ArgoCD admin password
   ansible.builtin.command:
     cmd: python3 -c "import bcrypt; print(bcrypt.hashpw(b'{{ argocd_admin_password }}', bcrypt.gensalt(10)).decode())"
