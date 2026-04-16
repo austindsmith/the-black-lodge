@@ -6,9 +6,6 @@ k3s_cluster:
         k8s-server-01:
     agent:
       hosts: {}
-    client:
-      hosts:
-        primary_desktop
   # Required Vars
   vars:
     ansible_port: 22

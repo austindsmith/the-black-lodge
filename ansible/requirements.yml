@@ -14,8 +14,7 @@ collections:
     version: "1.2.0"
 
   - name: freeipa.ansible_freeipa
-    version: "1.16.0"sudo kadmin.local -q "ktadd -k /etc/krb5.keytab host/ipa.theblacklodge.org"
-
+    version: "1.16.0"
 
   - name: kubernetes.core
     version: "6.3.0"

@@ -1,0 +1,6 @@
+- name: Bootstrap
+  hosts: freeipa_servers
+  become: true
+  roles:
+    - role: cockpit
+    - role: freeipa-server

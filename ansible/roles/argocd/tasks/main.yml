@@ -1,24 +1,7 @@
-- name: Make k3s kubeconfig world-readable
+- name: Update k3s kubeconfig permissions
   ansible.builtin.file:
     path: /etc/rancher/k3s/k3s.yaml
     mode: '0644'
-
-#- name: Copy ArgoCD values to server
-#  ansible.builtin.copy:
-#    src: "{{ playbook_dir }}/../../kubernetes/apps/argocd/values.yaml"
-#    dest: /tmp/argocd-values.yaml
-#    mode: "0644"
-
-- name: Install ArgoCD via Helm
-  kubernetes.core.helm:
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
-    name: argocd
-    chart_ref: argo-cd
-    chart_repo_url: https://argoproj.github.io/argo-helm
-    release_namespace: argocd
-    create_namespace: true
-    values_files:
-      - /tmp/argocd-values.yaml
 
 - name: Create argocd namespace
   kubernetes.core.k8s:
@@ -28,7 +11,20 @@
     state: present
     kubeconfig: /etc/rancher/k3s/k3s.yaml
 
-- name: Wait for ArgoCD server to be ready
+- name: Download argocd manifest
+  ansible.builtin.get_url:
+    url: https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    dest: /tmp/argocd-install.yaml
+
+- name: Install argocd
+  kubernetes.core.k8s:
+    namespace: argocd
+    state: present
+    src: /tmp/argocd-install.yaml
+  environment:
+    KUBECONFIG: /etc/rancher/k3s/k3s.yaml
+
+- name: Wait for argocd to be ready
   kubernetes.core.k8s_info:
     kubeconfig: /etc/rancher/k3s/k3s.yaml
     kind: Deployment
@@ -38,15 +34,16 @@
     wait_condition:
       type: Available
       status: "True"
-    wait_timeout: 120
-- name: Hash ArgoCD admin password
+    wait_timeout: 180
+
+- name: Hash argocd admin password
   ansible.builtin.command:
     cmd: python3 -c "import bcrypt; print(bcrypt.hashpw(b'{{ argocd_admin_password }}', bcrypt.gensalt(10)).decode())"
   register: argocd_password_hash
   changed_when: false
   no_log: true
 
-- name: Set ArgoCD admin password
+- name: Set argocd admin password
   kubernetes.core.k8s:
     kubeconfig: /etc/rancher/k3s/k3s.yaml
     state: present
@@ -60,7 +57,7 @@
         admin.password: "{{ argocd_password_hash.stdout }}"
         admin.passwordMtime: "{{ ansible_date_time.iso8601 }}"
 
-- name: Expose ArgoCD via NodePort (or Ingress later)
+- name: Expose argocd via nodeport
   kubernetes.core.k8s:
     kubeconfig: /etc/rancher/k3s/k3s.yaml
     definition:
@@ -78,7 +75,7 @@
             targetPort: 8080
             nodePort: 30080
 
-- name: Register GitHub repo with ArgoCD
+- name: Register github repo with argocd
   kubernetes.core.k8s:
     kubeconfig: /etc/rancher/k3s/k3s.yaml
     state: present
@@ -100,7 +97,31 @@
     dest: /tmp/root-app.yaml
     mode: "0644"
 
-- name: Apply root ArgoCD app
+
+- name: Create pangolin namespace
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: pangolin
+    state: present
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+- name: create newt secret
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: newt
+        namespace: pangolin
+      type: Opaque
+      stringData:
+        PANGOLIN_ENDPOINT: "{{ pangolin_endpoint }}"
+        NEWT_ID: "{{ newt_id }}"
+        NEWT_SECRET: "{{ newt_secret }}"
+        
+- name: Apply root argocd app
   kubernetes.core.k8s:
     kubeconfig: /etc/rancher/k3s/k3s.yaml
     state: present

@@ -1,6 +1,0 @@
-# helm
-
-- name: Full system upgrade
-  community.general.pacman:
-    name: helm
-    state: present

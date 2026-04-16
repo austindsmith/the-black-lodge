@@ -9,27 +9,5 @@
 
   roles:
     - role: cockpit
-      tags: cockpit
-    - role: ipa-client
-      tags: ipa-client
+    - role: freeipa-client
     - role: tang
-      tags: tang
-
-- name: Prepare VM for Kubernetes
-  hosts: 
-    - k8s-server-01
-  become: true
-  roles: 
-    - role: kubernetes
-      tags: kubernetes
-
-
-- name: Import kube cluster playbook
-  ansible.builtin.import_playbook: k3s.orchestration.site
-
-- name: Deploy cluster tooling
-  hosts: k8s-server-01
-  become: true
-  roles:
-    - role: argocd
-      tags: argocd

@@ -1,0 +1,15 @@
+- name: Join FreeIPA domain
+  ansible.builtin.include_role:
+    name: freeipa.ansible_freeipa.ipaclient
+  vars:
+    ipaclient_domain: theblacklodge.org
+    ipaclient_realm: THEBLACKLODGE.ORG
+    ipaadmin_principal: "{{ vault_ipa_admin_user }}"
+    ipaadmin_password: "{{ vault_ipa_admin_password }}"
+    ipaclient_configure_dns_resolver: true
+    ipaclient_mkhomedir: true
+    ipaclient_dns_servers: 192.168.1.5
+    ipaclient_servers: ipa.theblacklodge.org
+    ipaclient_hostname: "{{ inventory_hostname }}.theblacklodge.org"
+    ipaclient_enable_dns_updates: true
+  when: inventory_hostname != 'ipa'

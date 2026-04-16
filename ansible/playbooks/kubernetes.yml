@@ -1,0 +1,39 @@
+- name: Prepare VM for Kubernetes
+  hosts: 
+    - k3s_cluster
+  become: true
+  pre_tasks:
+    - name: Wait for apt lock to be released
+      ansible.builtin.shell: |
+        while fuser /var/lib/dpkg/lock-frontend /var/lib/apt/lists/lock /var/cache/apt/archives/lock >/dev/null 2>&1; do
+          sleep 2
+        done
+      changed_when: false
+      timeout: 300
+
+    - name: Disable unattended-upgrades
+      ansible.builtin.systemd:
+        name: unattended-upgrades
+        state: stopped
+        enabled: false
+      when: ansible_facts.services['unattended-upgrades.service'] is defined
+      
+  tasks:
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
+        state: present
+
+  roles: 
+    - role: cockpit
+    - role: freeipa-client
+    - role: kubernetes
+
+- name: Import kube cluster playbook
+  ansible.builtin.import_playbook: k3s.orchestration.site
+
+- name: Deploy cluster tooling
+  hosts: server
+  become: true
+  roles:
+    - role: argocd

@@ -1,3 +1,6 @@
+- name: Refresh service facts
+  ansible.builtin.service_facts:
+
 - name: Disable and stop ufw
   ansible.builtin.systemd:
     name: ufw
@@ -5,8 +8,6 @@
     enabled: false
   when:
     - ansible_facts.services['ufw.service'] is defined
-    - inventory_hostname in groups['server']
-    - inventory_hostname in groups['agent']
 
 - name: Disable and stop firewalld
   ansible.builtin.systemd:
@@ -15,24 +16,14 @@
     enabled: false
   when:
     - ansible_facts.services['firewalld.service'] is defined
-    - inventory_hostname in groups['server']
-    - inventory_hostname in groups['agent']
 
 - name: Install pip
   ansible.builtin.package:
     name: python3-pip
     state: present
   become: true
-  when:
-    - inventory_hostname in groups['server']
 
 - name: Install kubernetes Python library
   ansible.builtin.package:
     name: python3-kubernetes
     state: present
-  when:
-    - inventory_hostname in groups['server']
-
-- name: Prepare k3s client (machine running kubectl)
-  ansible.builtin.include_tasks: clients.yml
-  when: inventory_hostname in groups['client']

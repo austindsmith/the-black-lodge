@@ -5,7 +5,6 @@
       nameserver 192.168.1.5
       search theblacklodge.org
     mode: '0644'
-  when: inventory_hostname != 'ipa'
 
 
 - name: Join FreeIPA domain
@@ -16,13 +15,13 @@
     ipaclient_realm: THEBLACKLODGE.ORG
     ipaadmin_principal: "{{ vault_ipa_admin_user }}"
     ipaadmin_password: "{{ vault_ipa_admin_password }}"
+    ipaclient_force_join: true
     ipaclient_configure_dns_resolver: true
     ipaclient_mkhomedir: true
     ipaclient_dns_servers: 192.168.1.5
     ipaclient_servers: ipa.theblacklodge.org
     ipaclient_hostname: "{{ inventory_hostname }}.theblacklodge.org"
     ipaclient_enable_dns_updates: true
-  when: inventory_hostname != 'ipa'
 
 - name: Configure sshd AuthorizedKeysCommand
   ansible.builtin.lineinfile:
@@ -51,4 +50,3 @@
     record_type: A
     record_value: "{{ ansible_host }}"
     state: present
-  when: inventory_hostname != 'ipa'
