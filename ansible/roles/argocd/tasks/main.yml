@@ -120,6 +120,7 @@
         PANGOLIN_ENDPOINT: "{{ pangolin_endpoint }}"
         NEWT_ID: "{{ newt_id }}"
         NEWT_SECRET: "{{ newt_secret }}"
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
         
 - name: Apply root argocd app
   kubernetes.core.k8s:
