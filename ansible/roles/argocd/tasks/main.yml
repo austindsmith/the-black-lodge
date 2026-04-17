@@ -3,6 +3,20 @@
     path: /etc/rancher/k3s/k3s.yaml
     mode: '0644'
 
+- name: create infisical secret for external-secrets
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: universal-auth-credentials
+      type: Opaque
+      stringData:
+        clientId: "{{ infisical_client_id }}"
+        clientSecret: "{{ infisical_client_secret }}"
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+
 - name: Create argocd namespace
   kubernetes.core.k8s:
     api_version: v1

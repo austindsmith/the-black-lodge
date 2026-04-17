@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Secret
+metadata:
+    name: universal-auth-credentials
+type: Opaque
+stringData:
+    clientId: ENC[AES256_GCM,data:tSIhBGatTVZXuLp06S5qqqtnikHy5bccULVl47zfJbXlJ7e5,iv:V2mhnI2NtxTopiymeHJvKl7u3BfzCS5baRlkSdicR8s=,tag:mENmyhKjJV1ESK3kQJd2Xg==,type:str]
+    clientSecret: ENC[AES256_GCM,data:ZZTJ8W9LFVhxtJiVyaCqXRCJ5oDRGR8YtPKmXBXDYSbdGSn2hELq2yGoTLPt9ZfaG6Uvez9MmwX86StgdUSpBQ==,iv:9xKsXHU+13/BKqTZHWKhFDiwlKG9uKXzi7GkL2qf8gc=,tag:z1gPOW7b38vMiFDtCNZtUA==,type:str]
+sops:
+    age:
+        - recipient: age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSByMEtkbjQ4Z0RZcmpGZTBy
+            aS83UmZLYzcxWnRVbkZPckYwTVROVC91Z3pFCnZpc0FEaitGMEZKNHByZzlXcTQ0
+            VGxLSDNscTk5QjlHT1k1TUdyc0h3bmcKLS0tIDZHWk9WNUVFWVBEUTdkT0dmbThU
+            MXdhbXh3WXptekY1Z3BDUEZsYkZNZTQKeXWlI0gSpbNLWfS6cJOvIJB9VnITvL/u
+            GHwEvvoQt7p7lQsCi7VulahUuz8Pv+9ZuP62TkcHN5BmJxAR4wyprw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2026-04-17T01:41:46Z"
+    mac: ENC[AES256_GCM,data:fY2uJkHJGRyQtnCaNe8nsINREW8LHYXokH7b5A77p3gmkpHYn31Y2hFSTFAtGComFM1ovGMsHz0KjIv16ByhGNw4LUMKJeBtHaZ3h4KcjZbaDnieb/2gQ7TMfdy8cFVIoSYeVSgDbUxY1Zemji9sMATzUI0PHMNvsXpgcSSiePI=,iv:9htSMbP6xmPPKbWrHHytDatzNdv6vOt/DLEQ5Ix3qAc=,tag:snrB95B8o5vFgcBVTWlxyQ==,type:str]
+    unencrypted_regex: ^(apiVersion|metadata|kind|type)$
+    version: 3.12.2
