@@ -3,18 +3,12 @@
     path: /etc/rancher/k3s/k3s.yaml
     mode: '0644'
 
-- name: create infisical secret for external-secrets
+- name: Create external-secrets namespace
   kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: external-secrets
     state: present
-    definition:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: universal-auth-credentials
-      type: Opaque
-      stringData:
-        clientId: "{{ infisical_client_id }}"
-        clientSecret: "{{ infisical_client_secret }}"
     kubeconfig: /etc/rancher/k3s/k3s.yaml
 
 - name: Create argocd namespace
@@ -23,6 +17,45 @@
     kind: Namespace
     name: argocd
     state: present
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+- name: Create pangolin namespace
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: pangolin
+    state: present
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+- name: create infisical secret for external-secrets
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: universal-auth-credentials
+        namespace: external-secrets
+      type: Opaque
+      stringData:
+        clientId: "{{ infisical_client_id }}"
+        clientSecret: "{{ infisical_client_secret }}"
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+- name: create newt secret
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: newt
+        namespace: pangolin
+      type: Opaque
+      stringData:
+        PANGOLIN_ENDPOINT: "{{ pangolin_endpoint }}"
+        NEWT_ID: "{{ newt_id }}"
+        NEWT_SECRET: "{{ newt_secret }}"
     kubeconfig: /etc/rancher/k3s/k3s.yaml
 
 - name: Download argocd manifest
@@ -110,59 +143,9 @@
     src: "{{ playbook_dir }}/../../kubernetes/root-app.yaml"
     dest: /tmp/root-app.yaml
     mode: "0644"
-
-
-- name: Create pangolin namespace
-  kubernetes.core.k8s:
-    api_version: v1
-    kind: Namespace
-    name: pangolin
-    state: present
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
-
-- name: create newt secret
-  kubernetes.core.k8s:
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: newt
-        namespace: pangolin
-      type: Opaque
-      stringData:
-        PANGOLIN_ENDPOINT: "{{ pangolin_endpoint }}"
-        NEWT_ID: "{{ newt_id }}"
-        NEWT_SECRET: "{{ newt_secret }}"
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
         
 - name: Apply root argocd app
   kubernetes.core.k8s:
     kubeconfig: /etc/rancher/k3s/k3s.yaml
     state: present
     src: /tmp/root-app.yaml
-
-- name: Create sops age key secret
-  kubernetes.core.k8s:
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
-    state: present
-    definition:
-      apiVersion: v1
-      kind: Secret
-      metadata:
-        name: sops-age-key
-        namespace: argocd
-      stringData:
-        keys.txt: "{{ lookup('file', '~/.config/sops/age/keys.txt') }}"
-
-- name: Copy secrets bootstrap manifest to server
-  ansible.builtin.copy:
-    src: "{{ playbook_dir }}/../../kubernetes/secrets-bootstrap.yaml"
-    dest: /tmp/secrets-bootstrap.yaml
-    mode: "0644"
-
-- name: Apply secrets bootstrap app
-  kubernetes.core.k8s:
-    kubeconfig: /etc/rancher/k3s/k3s.yaml
-    state: present
-    src: /tmp/secrets-bootstrap.yaml

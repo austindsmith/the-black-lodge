@@ -7,6 +7,12 @@
         name: zsh
         state: present
 
+    - name: Add default zshrc to skel
+      ansible.builtin.copy:
+        dest: /etc/skel/.zshrc
+        content: "# default zshrc\n"
+        mode: "0644"
+        
   roles:
     - role: cockpit
     - role: freeipa-client
