@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://charts.external-secrets.io
     chart: external-secrets
-    targetRevision: 0.10.0
+    targetRevision: v2.3.0
     helm:
       values: |
         installCRDs: true
