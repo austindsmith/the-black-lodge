@@ -1,0 +1,11 @@
+repositories:
+- name: longhorn
+  url: https://charts.longhorn.io
+releases:
+- name: longhorn
+  namespace: longhorn-system
+  version: 1.11.1
+  chart: longhorn/longhorn
+
+helmDefaults:
+  createNamespace: true

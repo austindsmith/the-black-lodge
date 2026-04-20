@@ -1,0 +1,15 @@
+releases:
+- name: cert-manager
+  namespace: cert-manager
+  version: v1.20.2
+  chart: oci://quay.io/jetstack/charts/cert-manager
+  set:
+  - name: crds.enabled
+    value: true
+  - name: prometheus.enabled
+    value: false
+  - name: webhook.timeoutSeconds
+    value: 4
+
+helmDefaults:
+  createNamespace: true
