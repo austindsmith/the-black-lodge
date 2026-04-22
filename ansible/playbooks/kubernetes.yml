@@ -20,3 +20,4 @@
   roles:
     - role: k8s-server
     - role: external-secrets
+      tags: external-secrets

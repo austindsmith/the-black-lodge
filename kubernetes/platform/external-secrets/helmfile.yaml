@@ -10,7 +10,9 @@ releases:
   version: v2.3.0
   chart: external-secrets/external-secrets
   hooks:
-    - events: ["presync"]
+    - events: ["postsync"]
+      command: kubectl
+      args: ["wait", "--for=condition=established", "--timeout=60s", "crd/clustersecretstores.external-secrets.io"]
+    - events: ["postsync"]
       command: kubectl
       args: ["apply", "-f", "manifests/"]
-
