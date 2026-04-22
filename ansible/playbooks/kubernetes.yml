@@ -10,30 +10,13 @@
         done
       changed_when: false
       timeout: 300
-
-    - name: Disable unattended-upgrades
-      ansible.builtin.systemd:
-        name: unattended-upgrades
-        state: stopped
-        enabled: false
-      when: ansible_facts.services['unattended-upgrades.service'] is defined
       
-  tasks:
-    - name: Install zsh
-      ansible.builtin.package:
-        name: zsh
-        state: present
-
-    - name: Install open-iscsi
-      ansible.builtin.package:
-        name: open-iscsi
-        state: present
-
 - name: Import kube cluster playbook
   ansible.builtin.import_playbook: k3s.orchestration.site
 
-- name: Deploy cluster tooling
+- name: Bootstrap cluster
   hosts: server
   become: true
   roles:
-    - role: argocd
+    - role: k8s-server
+    - role: external-secrets

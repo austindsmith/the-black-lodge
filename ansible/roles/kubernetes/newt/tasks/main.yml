@@ -1,0 +1,23 @@
+- name: Create pangolin namespace
+  kubernetes.core.k8s:
+    api_version: v1
+    kind: Namespace
+    name: pangolin
+    state: present
+    kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+- name: create newt secret
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Secret
+      metadata:
+        name: newt
+        namespace: pangolin
+      type: Opaque
+      stringData:
+        PANGOLIN_ENDPOINT: "{{ pangolin_endpoint }}"
+        NEWT_ID: "{{ newt_id }}"
+        NEWT_SECRET: "{{ newt_secret }}"
+    kubeconfig: /etc/rancher/k3s/k3s.yaml

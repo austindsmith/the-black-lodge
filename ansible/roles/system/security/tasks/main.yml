@@ -1,0 +1,6 @@
+- name: Disable unattended-upgrades
+  ansible.builtin.systemd:
+    name: unattended-upgrades
+    state: stopped
+    enabled: false
+  when: ansible_facts.services['unattended-upgrades.service'] is defined

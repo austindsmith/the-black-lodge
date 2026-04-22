@@ -1,0 +1,23 @@
+- name: Refresh service facts
+  ansible.builtin.service_facts:
+
+- name: Update k3s kubeconfig permissions
+  ansible.builtin.file:
+    path: /etc/rancher/k3s/k3s.yaml
+    mode: '0644'
+
+- name: Install open-iscsi
+  ansible.builtin.package:
+    name: open-iscsi
+    state: present
+
+- name: Install pip
+  ansible.builtin.package:
+    name: python3-pip
+    state: present
+  become: true
+
+- name: Install kubernetes Python library
+  ansible.builtin.package:
+    name: python3-kubernetes
+    state: present
