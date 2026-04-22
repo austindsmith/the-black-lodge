@@ -10,6 +10,12 @@ releases:
   version: v0.0.23
   chart: cloudflare-tunnel-ingress-controller/cloudflare-tunnel-ingress-controller
   hooks:
-    - events: ["presync"]
+    - events: ["postsync"]
+      command: kubectl
+      args: ["wait", "--for=condition=established", "--timeout=60s", "crd/clustersecretstores.external-secrets.io"]
+    - events: ["postsync"]
+      command: kubectl
+      args: ["wait", "--for=condition=established", "--timeout=60s", "deployments/external-secrets-webhook", "-n", "external-secrets"]
+    - events: ["postsync"]
       command: kubectl
       args: ["apply", "-f", "manifests/"]
