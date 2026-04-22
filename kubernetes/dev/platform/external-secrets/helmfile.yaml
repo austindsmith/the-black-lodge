@@ -1,3 +1,6 @@
+helmDefaults:
+  createNamespace: true
+
 repositories:
 - name: external-secrets
   url: https://charts.external-secrets.io
@@ -7,5 +10,3 @@ releases:
   version: v2.3.0
   chart: external-secrets/external-secrets
 
-helmDefaults:
-  createNamespace: true

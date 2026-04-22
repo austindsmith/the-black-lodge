@@ -1,3 +1,6 @@
+helmDefaults:
+  createNamespace: true
+  
 releases:
 - name: cert-manager
   namespace: cert-manager
@@ -11,5 +14,3 @@ releases:
   - name: webhook.timeoutSeconds
     value: 4
 
-helmDefaults:
-  createNamespace: true
