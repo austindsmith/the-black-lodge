@@ -15,7 +15,7 @@ releases:
       args: ["wait", "--for=condition=established", "--timeout=60s", "crd/externalsecrets.external-secrets.io"]
     - events: ["postsync"]
       command: kubectl
-      args: ["wait", "--for=condition=established", "--timeout=60s", "deployments/external-secrets-webhook", "-n", "external-secrets"]
+      args: ["wait", "--for=condition=available", "--timeout=120s", "deployments/external-secrets-webhook", "-n", "external-secrets"]
     - events: ["postsync"]
       command: kubectl
       args: ["apply", "-f", "manifests/"]
