@@ -9,4 +9,7 @@ releases:
   namespace: longhorn-system
   version: 1.11.1
   chart: longhorn/longhorn
-
+  hooks:
+    - events: ["postsync"]
+      command: kubectl
+      args: ["apply", "-f", "manifests/"]
