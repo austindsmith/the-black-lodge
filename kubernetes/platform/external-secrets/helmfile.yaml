@@ -12,7 +12,10 @@ releases:
   hooks:
     - events: ["postsync"]
       command: kubectl
-      args: ["wait", "--for=condition=established", "--timeout=60s", "crd/clustersecretstores.external-secrets.io"]
+      args: ["wait", "--for=condition=established", "--timeout=60s", "crd/externalsecrets.external-secrets.io"]
+    - events: ["postsync"]
+      command: kubectl
+      args: ["wait", "--for=condition=available", "--timeout=120s", "deployments/external-secrets-webhook", "-n", "external-secrets"]
     - events: ["postsync"]
       command: kubectl
       args: ["apply", "-f", "manifests/"]
