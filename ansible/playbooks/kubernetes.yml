@@ -23,15 +23,11 @@
       ansible.builtin.package:
         name: zsh
         state: present
-        
+
     - name: Install open-iscsi
       ansible.builtin.package:
         name: open-iscsi
         state: present
-  roles: 
-    - role: cockpit
-    - role: freeipa-client
-    - role: kubernetes
 
 - name: Import kube cluster playbook
   ansible.builtin.import_playbook: k3s.orchestration.site
