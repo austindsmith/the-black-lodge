@@ -3,11 +3,11 @@ helmDefaults:
   
 repositories:
 - name: postgres
-  url: https://prometheus-community.github.io/helm-charts
+  url: https://cloudnative-pg.io/charts
 releases:
 - name: postgres
   namespace: postgres
-  version: 1.29
-  chart: cloudnative-pg/cloudnative-pg
+  version: 0.28.0
+  chart: cnpg/cloudnative-pg
   values:
     - values.yaml

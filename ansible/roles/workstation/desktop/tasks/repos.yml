@@ -1,0 +1,12 @@
+- name: Check if dotfiles exists
+  stat:
+    path: ~/.dotfiles
+  register: dotfiles_exists
+
+- name: Clone dotfiles repo
+  ansible.builtin.git:
+    repo: git@github.com:austindsmith/dotfiles.git
+    dest: ~/.dotfiles
+    clone: yes
+  when: dotfiles_exists.rc != 0
+

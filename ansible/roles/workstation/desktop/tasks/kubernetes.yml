@@ -1,0 +1,58 @@
+- name: Install docker packages
+  community.general.pacman:
+    name:
+      - docker
+      - docker-compose
+    state: present
+
+- name: Enable and start docker
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started
+
+- name: Add user to docker group
+  ansible.builtin.user:
+    name: "austin"
+    groups: docker
+    append: true
+
+#wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+- name: Check if k3d is installed
+  command: which k3d
+  register: k3d_installed
+  failed_when: false
+  changed_when: false
+
+- name: Download k3d
+  get_url: 
+    url: https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh
+    dest: /tmp/k3d_install.sh
+    mode: "0755"
+  when: k3d_installed.rc != 0 # rc is return code
+  
+- name: Install k3d
+  script: /tmp/k3d_install.sh
+  when: k3d_installed.rc != 0
+
+- name: Check if k3d cluster exists
+  ansible.builtin.command: k3d cluster get local-machine-cluster
+  register: k3d_cluster_exists
+  failed_when: false
+  changed_when: false
+
+- name: Copy k3d config
+  copy: 
+    src: k3d_config.yaml # In files folder, sibling of tasks
+    dest: "/home/{{ vault_primary_desktop_user }}/tmp/k3d_config.yaml"
+  when: k3d_cluster_exists.rc != 0
+
+- name: Use default docker context
+  command: docker context use default
+
+- name: Configure k3d
+  command: k3d cluster create --config "/home/{{ vault_primary_desktop_user }}/tmp/k3d_config.yaml"
+  when: k3d_cluster_exists.rc != 0
+
+- name: Start cluster
+  command: k3d cluster start local-machine-cluster
