@@ -1,0 +1,3 @@
+# .kustomizeignore
+helmfile.yaml
+**/helmfile.yaml
