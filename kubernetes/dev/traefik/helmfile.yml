@@ -1,0 +1,11 @@
+helmDefaults:
+  createNamespace: true
+  
+repositories:
+- name: traefik
+  url: https://traefik.github.io/charts
+releases:
+- name: traefik
+  namespace: traefik
+  version: 39.0.5
+  chart: traefik/traefik
