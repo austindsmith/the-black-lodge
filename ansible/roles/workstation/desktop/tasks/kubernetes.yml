@@ -22,9 +22,48 @@
 - name: use default docker context
   command: docker context use default
 
+
+#### kustomize
+
+- name: check if kustomize is installed
+  command: which kustomize
+  register: kustomize_installed
+  failed_when: false
+  changed_when: false
+
+- name: download kustomize cli
+  get_url: 
+    url: https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh
+    dest: /tmp/kustomize_install.sh
+    mode: "0755"
+  when: kustomize_installed.rc != 0
+
+- name: Install kustomize
+  script: /tmp/kustomize_install.sh
+  when: kustomize_installed.rc != 0
+
+#### ksops
+
+- name: check if ksops is installed
+  command: which ksops
+  register: ksops_installed
+  failed_when: false
+  changed_when: false
+
+- name: download ksops cli
+  get_url: 
+    url: https://raw.githubusercontent.com/viaduct-ai/kustomize-sops/master/scripts/install-ksops-archive.sh
+    dest: /tmp/ksops_install.sh
+    mode: "0755"
+  when: ksops_installed.rc != 0
+
+- name: Install ksops
+  become: true
+  script: /tmp/ksops_install.sh
+  when: ksops_installed.rc != 0
+
 #### k3d
 
-#wget -q -O - https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 - name: check if k3d is installed
   command: which k3d
   register: k3d_installed

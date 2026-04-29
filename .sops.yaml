@@ -15,5 +15,5 @@ creation_rules:
   - path_regex: .*infisical.yaml
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
     # Dev kubernetes secrets
-  - path_regex: .*kubernetes/dev/.*secret.ya?ml
+  - path_regex: .*kubernetes/.*secret.ya?ml
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"

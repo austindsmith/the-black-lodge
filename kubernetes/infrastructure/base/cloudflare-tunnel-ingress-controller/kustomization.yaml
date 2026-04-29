@@ -1,0 +1,69 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: cloudflare-tunnel
+
+resources:
+  - ./namespace.yaml
+generators:
+  - ./secret-generator.yaml
+
+helmCharts:
+  - name: cloudflare-tunnel-ingress-controller
+    repo: https://helm.strrl.dev
+    version: v0.0.23
+    releaseName: cloudflare-tunnel-ingress-controller
+    namespace: cloudflare-tunnel
+    valuesInline:
+      cloudflare:
+        secretRef:
+          name: cloudflare-api
+          apiTokenKey: cloudflare-api-token
+          accountIDKey: cloudflare-account-id
+          tunnelNameKey: cloudflare-tunnel-name
+
+patches:
+  - target:
+      kind: Namespace
+      name: cloudflare-tunnel-ingress-controller
+    patch: |
+      $patch: delete
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: cloudflare-tunnel-ingress-controller
+  - target:
+      kind: ServiceAccount
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: cloudflare-tunnel
+  - target:
+      kind: Role
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: cloudflare-tunnel
+  - target:
+      kind: RoleBinding
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: cloudflare-tunnel
+  - target:
+      kind: Deployment
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: cloudflare-tunnel
+  - target:
+      kind: Service
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: cloudflare-tunnel
+  - target:
+      kind: Secret
+    patch: |
+      - op: replace
+        path: /metadata/namespace
+        value: cloudflare-tunnel

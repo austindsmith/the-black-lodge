@@ -4,10 +4,13 @@ metadata:
   name: local-machine-cluster
 servers: 1
 kubeAPI:
-  hostIP: 0.0.0.0
+  hostIP: 127.0.0.1
   hostPort: "6443"
 ports:
-- port: 8080:80
+- port: 80:80
+  nodeFilters:
+  - loadbalancer
+- port: 443:443
   nodeFilters:
   - loadbalancer
 options:
