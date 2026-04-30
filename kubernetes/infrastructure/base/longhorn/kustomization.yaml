@@ -1,0 +1,32 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: traefik
+
+resources:
+  - ./dashboard-ingress.yaml
+  - ./cloudflare-ingress.yaml
+  - ./namespace.yaml
+
+helmCharts:
+  - name: traefik
+    repo: https://traefik.github.io/charts
+    version: 39.0.8
+    releaseName: traefik
+    namespace: traefik
+    valuesFile: values.yaml
+
+    helmDefaults:
+  createNamespace: true
+  
+repositories:
+- name: longhorn
+  url: https://charts.longhorn.io
+releases:
+- name: longhorn
+  namespace: longhorn-system
+  version: 1.11.1
+  chart: longhorn/longhorn
+  hooks:
+    - events: ["postsync"]
+      command: kubectl
+      args: ["apply", "-f", "manifests/"]

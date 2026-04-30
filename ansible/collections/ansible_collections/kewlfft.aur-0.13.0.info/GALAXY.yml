@@ -1,0 +1,8 @@
+download_url: https://galaxy.ansible.com/api/v3/plugin/ansible/content/published/collections/artifacts/kewlfft-aur-0.13.0.tar.gz
+format_version: 1.0.0
+name: aur
+namespace: kewlfft
+server: https://galaxy.ansible.com/api/
+signatures: []
+version: 0.13.0
+version_url: /api/v3/plugin/ansible/content/published/collections/index/kewlfft/aur/versions/0.13.0/

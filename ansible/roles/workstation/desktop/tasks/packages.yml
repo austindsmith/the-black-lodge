@@ -1,0 +1,42 @@
+- name: installing packages
+  block:
+
+  - name: Load package vars
+    include_vars:
+      file: "{{ role_path }}/vars/packages.yaml"
+
+  - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: "{{ role_path }}/reports/{{ ansible_facts['hostname'] }}"
+      state: directory
+    
+  - name: Export currently installed official packages to .txt
+    shell: pacman -Qqe > {{ role_path }}/reports/{{ ansible_facts['hostname'] }}/official-packages.txt
+
+  - name: Export currently installed aur packages to .txt
+    shell: pacman -Qqem > {{role_path}}/reports/{{ ansible_facts['hostname'] }}/aur-packages.txt
+
+  - name: Install official packages
+    community.general.pacman:
+      name: "{{ packages.official }}"
+      state: present
+    become: true
+
+  - name: Install utilities packages
+    kewlfft.aur.aur:
+      name: "{{ packages.utilities }}"
+      use: paru
+      state: present
+    become: false
+
+  - name: Install communication packages
+    kewlfft.aur.aur:
+      name: "{{ packages.communication }}"
+      state: present
+    become: false
+
+  - name: Install devops packages
+    kewlfft.aur.aur:
+      name: "{{ packages.devops }}"
+      state: present
+    become: false

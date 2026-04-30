@@ -3,6 +3,8 @@
 ## Reference
 
 - [HashiCorp Boot Commands](https://developer.hashicorp.com/packer/docs/builders/virtualbox/iso#boot-command)
+- [Makefile Tutorial](https://makefiletutorial.com/)
+- [Just Files](https://github.com/casey/just)
 
 ## Snippets
 

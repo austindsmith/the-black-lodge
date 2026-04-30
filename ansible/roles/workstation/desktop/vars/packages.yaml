@@ -1,0 +1,11 @@
+packages:
+  official:
+    - paru
+  utilities:
+    - btop
+  communication:
+    - vesktop
+  devops:
+    - just
+    - terraform
+    - packer
