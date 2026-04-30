@@ -7,14 +7,6 @@ packer {
   }
 }
 
-variable "proxmox_username" {
-  type = string
-}
-
-variable "proxmox_token" {
-  type      = string
-  sensitive = true
-}
 
 source "proxmox-iso" "ubuntu-2404" {
   proxmox_url              = "https://proxmox.theblacklodge.org:8006/api2/json"

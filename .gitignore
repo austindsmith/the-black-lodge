@@ -1,4 +1,5 @@
 secrets.auto.pkrvars.hcl
+secrets.pkrvars.hcl
 secrets.auto.tfvars
 .terraform
 .terraform.lock.hcl

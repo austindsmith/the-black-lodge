@@ -2,7 +2,6 @@
   hosts: 
     - desktop
     - laptop
-  #become: true
   roles:
     - role: arch
   
