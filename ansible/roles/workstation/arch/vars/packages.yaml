@@ -3,6 +3,7 @@ packages:
     - paru
   utilities:
     - btop
+    - direnv
   communication:
     - vesktop
   devops:

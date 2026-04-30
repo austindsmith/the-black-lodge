@@ -90,11 +90,11 @@
 - name: copy k3d config
   copy: 
     src: k3d_config.yaml # In files folder, sibling of tasks
-    dest: "/home/{{ vault_primary_desktop_user }}/tmp/k3d_config.yaml"
+    dest: "/home/{{ vault_workstation_user }}/tmp/k3d_config.yaml"
   when: k3d_cluster_exists.rc != 0
 
 - name: configure k3d
-  command: k3d cluster create --config "/home/{{ vault_primary_desktop_user }}/tmp/k3d_config.yaml"
+  command: k3d cluster create --config "/home/{{ vault_workstation_user }}/tmp/k3d_config.yaml"
   when: k3d_cluster_exists.rc != 0
 
 - name: start cluster

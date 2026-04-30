@@ -1,7 +1,8 @@
 - name: Refresh workstations
   hosts: 
-    - primary_desktop
+    - desktop
+    - laptop
   #become: true
   roles:
-    - role: desktop
+    - role: arch
   
