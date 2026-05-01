@@ -17,6 +17,3 @@ creation_rules:
     # Dev kubernetes secrets
   - path_regex: .*kubernetes/.*secret.ya?ml
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
-
-  - path_regex: .*kubernetes/.*test.ya?ml
-    age: "age1yubikey1qvep9uz5xzds4azvlrf5vatl5gmfj48qr8huw5009quwffzvwv80c9avq5j"

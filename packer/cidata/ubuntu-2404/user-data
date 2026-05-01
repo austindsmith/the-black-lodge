@@ -6,7 +6,7 @@ autoinstall:
     keyboard:
         layout: us
     identity:
-        hostname: ubuntu-server
+        hostname: ubuntu
         password: ""
         username: ubuntu
     ssh:

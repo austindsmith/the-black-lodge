@@ -1,0 +1,8 @@
+# Prints all commands when running `just`
+default:
+    @just --list
+
+# Runs a Packer build, taking `os` as a parameter
+build os:
+    packer build \
+    -var-file {{os}}.pkrvars.hcl .

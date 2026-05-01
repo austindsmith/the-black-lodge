@@ -10,5 +10,5 @@ downloaded_iso_path
 .vault_pass
 *.env
 kubernetes/dev/platform/external-secrets/Secret.yaml
-**build**
+**build/
 **charts/
