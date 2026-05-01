@@ -4,6 +4,7 @@ packages:
   utilities:
     - btop
     - direnv
+    - age-plugin-yubikey
   communication:
     - vesktop
   devops:
