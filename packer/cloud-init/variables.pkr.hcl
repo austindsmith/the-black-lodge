@@ -72,6 +72,68 @@ variable "boot_wait" {
   default = "30s"
 }
 
-variable "boot_command" {
+variable "model" {
+  type    = string
+  default = "virtio"
+}
+
+variable "bridge" {
+  type    = string
+  default = "vmbr0"
+}
+
+variable "disk_type" {
+  type    = string
+  default = "scsi"
+}
+
+variable "disk_size" {
+  type    = string
+  default = "64G"
+}
+
+variable "storage_pool" {
+  type    = string
+  default = "local"
+}
+
+variable "boot_iso_type" {
+  type    = string
+  default = "ide"
+}
+
+variable "iso_url" {
+  type = string
+}
+
+variable "iso_checksum" {
+  type = string
+}
+
+variable "boot_iso_storage_pool" {
+  type    = string
+  default = "local"
+}
+
+variable "disk_interface" {
+  type    = string
+  default = "virtio"
+}
+
+variable "cd_files" {
   type = list(string)
+}
+
+variable "cd_label" {
+  type    = string
+  default = "cidata"
+}
+
+variable "additional_iso_storage_pool" {
+  type    = string
+  default = "isos"
+}
+variable "additional_unmount" {
+  type    = bool
+  default = true
 }

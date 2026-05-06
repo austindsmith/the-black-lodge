@@ -3,6 +3,14 @@ default:
     @just --list
 
 # Runs a Packer build, taking `os` as a parameter
-build os:
+build-iso os:
     packer build \
-    -var-file {{os}}.pkrvars.hcl .
+    -var-file=iso/{{os}}.pkrvars.hcl \
+    -var-file=shared/secrets.pkrvars.hcl \
+    iso/
+
+build-cloud os:
+    packer build \
+    -var-file=cloud-init/{{os}}.pkrvars.hcl \
+    -var-file=shared/secrets.pkrvars.hcl \
+    cloud-init/

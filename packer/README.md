@@ -10,3 +10,8 @@ packer build \
   -var-file=ubuntu.pkrvars.hcl \
   .
 ```
+
+## Cloud images
+
+- [Rocky Linux](https://download.rockylinux.org/pub/rocky/)
+- [Ubuntu](https://cloud-images.ubuntu.com/)

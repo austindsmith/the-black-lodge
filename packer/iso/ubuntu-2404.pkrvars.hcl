@@ -33,3 +33,5 @@ boot_command = [
     "<enter><wait>",
     "boot<enter><wait>",
   ]
+
+cleanup_script = "./iso/scripts/cleanup-ubuntu.sh"

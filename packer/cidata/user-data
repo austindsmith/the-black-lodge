@@ -1,0 +1,21 @@
+#cloud-config
+hostname: basevm
+
+users:
+  - name: the-black-lodge
+    groups: wheel, sudo
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    lock_passwd: true
+    ssh_authorized_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJX0mh+BfWY7aSt9LccuFdMbJCXEebr6qbI/glX7A6V ansible@theblacklodge.org"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ87NZyVSmPPFAD2gzBlv3YJSMD+amqBHTIkb5rGDETd austin@theblacklodge.org"
+
+
+ssh_pwauth: false
+
+package_update: true
+package_upgrade: true
+
+runcmd:
+  - systemctl enable --now qemu-guest-agent || true

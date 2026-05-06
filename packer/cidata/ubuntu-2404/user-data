@@ -8,7 +8,7 @@ autoinstall:
     identity:
         hostname: ubuntu
         password: ""
-        username: ubuntu
+        username: the-black-lodge
     ssh:
         allow-pw: false
         install-server: true
