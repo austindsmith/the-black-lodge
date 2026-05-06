@@ -1,13 +1,15 @@
 4chan-downloader
 acroread-dc-wine
-antigravity
 appimagelauncher
+beekeeper-studio-bin
 bookokrat-bin
 bruno
 carapace-bin
 cheat
 claude-desktop-bin
 colorz
+datagrip
+datagrip-jre
 dataspell
 dataspell-jre
 docker-credential-pass
@@ -59,6 +61,7 @@ rstudio-desktop-bin
 rustdesk-bin
 steam-native-runtime
 tabby
+tex-fmt
 textext
 themix-full-git
 themix-theme-oomox-git

@@ -5,13 +5,13 @@ adobe-source-han-sans-cn-fonts
 adobe-source-han-sans-jp-fonts
 adobe-source-han-sans-kr-fonts
 age
+age-plugin-yubikey
 alacritty
 alsa-firmware
 alsa-plugins
 alsa-utils
 android-tools
 android-udev
-antigravity
 appimagelauncher
 ark
 atuin
@@ -20,6 +20,7 @@ awww
 base
 base-devel
 bash-completion
+beekeeper-studio-bin
 bind
 bluedevil
 blueman
@@ -59,6 +60,7 @@ cachyos-wallpapers
 cachyos-zsh-config
 calibre
 carapace-bin
+ccid
 char-white
 cheat
 chromium
@@ -72,6 +74,8 @@ colorz
 copyq
 cpupower
 cryptsetup
+datagrip
+datagrip-jre
 dataspell
 dataspell-jre
 dbeaver
@@ -121,7 +125,6 @@ fsarchiver
 fstabfmt
 fwupd
 getnf
-ghostty
 gigolo
 gimp
 git
@@ -420,6 +423,7 @@ talosctl
 tcpdump
 tectonic
 terraform
+tex-fmt
 texinfo
 texlive-binextra
 texlive-fontsrecommended
@@ -511,6 +515,7 @@ youtui
 yt-dlp-drop-in
 ytermusic-bin
 ytsurf
+yubikey-manager
 zathura
 zathura-pdf-poppler
 zed
