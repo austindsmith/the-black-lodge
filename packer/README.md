@@ -1,5 +1,9 @@
 # Packer
 
+## Documentation
+
+- [Packer boot commands](https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/build/bootcommand#special-keys)
+
 ## Commands
 
 Passing a var file path, can be used multiple times. Needed for including var files outside of the folder of the `pkr.hcl`. Note that --var-file order impacts the order of implementation. Here, `ubuntu.pkrvars.hcl` will override anything in `shared.pkvars.hcl` if there are any conflicting variables set.

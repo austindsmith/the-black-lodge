@@ -38,6 +38,7 @@ dataspell-jre
 device-mapper
 dgop
 diffutils
+direnv
 dmidecode
 dmraid
 dms-shell-bin
@@ -124,6 +125,7 @@ inxi
 iptables
 iwd
 jfsutils
+just
 kate
 kcalc
 kde-cli-tools
@@ -193,6 +195,7 @@ obsidian
 okular
 openssh
 os-prober
+packer
 pacman-contrib
 papirus-icon-theme
 paru

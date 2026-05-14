@@ -6,7 +6,8 @@ packages:
     - direnv
     - yq
     - age-plugin-yubikey
-  communication:
+  applications:
+    - zed
     - vesktop
   devops:
     - just

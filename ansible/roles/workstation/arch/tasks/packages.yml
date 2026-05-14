@@ -26,6 +26,7 @@
         name: "{{ packages.utilities }}"
         use: paru
         state: present
+        extra_args: "--noconfirm"
       become: false
 
     - name: Install communication packages

@@ -16,12 +16,11 @@ build_name = "rocky-x86-64"
 build_sources = [
     "source.proxmox-iso.rocky-101",
   ]
-
   boot_command = [
+    "<esc><wait>",
     "e<wait>",
-    "<down><down><down><end>",
-    " inst.ks=cdrom:/ks.cfg inst.text",
+    "<end><spacebar>",
+    "inst.ks=cdrom:/ks.cfg",
     "<f10>"
   ]
-
 cleanup_script = "./iso/scripts/cleanup-rocky.sh"

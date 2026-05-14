@@ -1,10 +1,8 @@
 #!/bin/sh
 set -eux
 
-while [ ! -f /var/lib/cloud/instance/boot-finished ]; do
-  echo 'Waiting for cloud-init...'
-  sleep 1
-done
+echo "Waiting for cloud-init..."
+cloud-init status --wait
 
 sudo rm -f /etc/ssh/ssh_host_*
 sudo truncate -s 0 /etc/machine-id
