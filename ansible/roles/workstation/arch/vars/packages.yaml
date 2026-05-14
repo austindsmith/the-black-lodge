@@ -4,6 +4,7 @@ packages:
   utilities:
     - btop
     - direnv
+    - yq
     - age-plugin-yubikey
   communication:
     - vesktop

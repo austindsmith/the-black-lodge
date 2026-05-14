@@ -462,6 +462,7 @@ upower
 usb_modeswitch
 usbutils
 uwsm
+vagrant
 vde2
 vencord
 ventoy-bin

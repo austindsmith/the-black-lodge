@@ -67,6 +67,7 @@ textext
 themix-full-git
 themix-theme-oomox-git
 trezor-suite-appimage
+vagrant
 vencord
 visual-studio-code-bin
 wallust

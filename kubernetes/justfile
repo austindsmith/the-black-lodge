@@ -1,0 +1,11 @@
+local action:
+    @echo "Deploying local cluster"
+    kubectl config use-context k3d-local-machine-cluster
+    kustomize build clusters/staging \
+      --enable-helm \
+      --enable-alpha-plugins \
+      --enable-exec \
+    | kubectl {{ action }} -f -
+
+cloud:
+    @echo "Deploying cloud cluster"
