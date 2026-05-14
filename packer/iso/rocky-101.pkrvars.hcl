@@ -17,12 +17,11 @@ build_sources = [
     "source.proxmox-iso.rocky-101",
   ]
 
-boot_command = [
-  "<up><wait>",
-  "e<wait>",
-  "<down><down><end>",
-  " inst.ks=cdrom<wait>",
-  "<leftCtrlOn>x<leftCtrlOff>",
-]
+  boot_command = [
+    "e<wait>",
+    "<down><down><down><end>",
+    " inst.ks=cdrom:/ks.cfg inst.text",
+    "<f10>"
+  ]
 
 cleanup_script = "./iso/scripts/cleanup-rocky.sh"
