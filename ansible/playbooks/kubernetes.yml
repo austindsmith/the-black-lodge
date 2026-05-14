@@ -1,5 +1,5 @@
 - name: Prepare VM for Kubernetes
-  hosts: 
+  hosts:
     - k3s_cluster
   become: true
   pre_tasks:
@@ -10,7 +10,7 @@
         done
       changed_when: false
       timeout: 300
-      
+
 - name: Import kube cluster playbook
   ansible.builtin.import_playbook: k3s.orchestration.site
 

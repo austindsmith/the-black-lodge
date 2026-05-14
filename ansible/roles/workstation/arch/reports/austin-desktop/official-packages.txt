@@ -60,6 +60,7 @@ cachyos-wallpapers
 cachyos-zsh-config
 calibre
 carapace-bin
+catppuccin-whiskers-bin
 ccid
 char-white
 cheat
@@ -69,11 +70,11 @@ cilium-cli
 claude-desktop-bin
 clevis
 cliphist
-cloudflare-warp-bin
 colorz
 copyq
 cpupower
 cryptsetup
+d2
 datagrip
 datagrip-jre
 dataspell
@@ -96,6 +97,7 @@ downgrade
 duckdb
 duf
 dunst
+dust
 e2fsprogs
 easyeffects
 efibootmgr
@@ -204,7 +206,6 @@ konsole
 koreader-bin
 kscreen
 kubectl
-kubectx
 kustomize
 kvantum
 kvantum-qt5
@@ -321,7 +322,6 @@ perl
 perl-image-exiftool
 phonon-qt6-vlc
 picom
-pika-backup
 pinta
 pipewire-alsa
 pipewire-jack
@@ -346,7 +346,9 @@ poppler-glib
 posting
 power-profiles-daemon
 powerdevil
+prettier
 printrun
+procs
 proton-ge-custom-bin
 proton-mail-bin
 proton-vpn-gtk-app
@@ -386,6 +388,7 @@ rofi-power-menu
 rstudio-desktop-bin
 rsync
 rtkit
+ruff
 rustdesk-bin
 rustup
 s-nail
@@ -396,6 +399,7 @@ sddm
 sddm-kcm
 seahorse
 sg3_utils
+shfmt
 smartmontools
 snapper
 sof-firmware
@@ -420,6 +424,7 @@ systemd-boot-manager
 tabby
 talhelper
 talosctl
+taplo-cli
 tcpdump
 tectonic
 terraform
@@ -448,6 +453,7 @@ ttf-liberation
 ttf-meslo-nerd
 ttf-opensans
 tumbler
+typst
 udiskie
 ufw
 unrar

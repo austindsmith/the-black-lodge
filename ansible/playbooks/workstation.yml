@@ -1,7 +1,6 @@
 - name: Refresh workstations
-  hosts: 
+  hosts:
     - desktop
     - laptop
   roles:
     - role: arch
-  

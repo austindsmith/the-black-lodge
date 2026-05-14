@@ -3,16 +3,17 @@ kind: Simple
 metadata:
   name: local-machine-cluster
 servers: 1
+image: rancher/k3s:v1.35.4-k3s1
 kubeAPI:
   hostIP: 127.0.0.1
   hostPort: "6443"
 ports:
-- port: 80:80
-  nodeFilters:
-  - loadbalancer
-- port: 443:443
-  nodeFilters:
-  - loadbalancer
+  - port: 80:80
+    nodeFilters:
+      - loadbalancer
+  - port: 443:443
+    nodeFilters:
+      - loadbalancer
 options:
   k3d:
     wait: true
@@ -22,9 +23,9 @@ options:
     disableRollback: false
   k3s:
     extraArgs:
-    - arg: --tls-san=127.0.0.1
-      nodeFilters:
-      - servers:*
-    - arg: --disable=traefik
-      nodeFilters:
-      - servers:*
+      - arg: --tls-san=127.0.0.1
+        nodeFilters:
+          - servers:*
+      - arg: --disable=traefik
+        nodeFilters:
+          - servers:*

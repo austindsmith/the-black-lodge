@@ -4,8 +4,8 @@
 
 - [HashiCorp Boot Commands](https://developer.hashicorp.com/packer/docs/builders/virtualbox/iso#boot-command)
 - [Makefile Tutorial](https://makefiletutorial.com/)
-- [Just Files](https://github.com/casey/just)
-
+- [Just Files](https://github.com/casey/just) - Useful for saving hard to remember commands.k3d
+- [Just Files Manual](https://just.systems/man/en/)
 ## Snippets
 
 ### Generating a `$6$` hash

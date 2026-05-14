@@ -5,6 +5,7 @@ beekeeper-studio-bin
 bookokrat-bin
 bruno
 carapace-bin
+catppuccin-whiskers-bin
 cheat
 claude-desktop-bin
 colorz

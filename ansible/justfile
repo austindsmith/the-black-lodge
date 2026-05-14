@@ -1,0 +1,11 @@
+package:
+    ansible-playbook playbooks/workstation.yml --tags packages -l desktop
+
+sops:
+    ansible-playbook playbooks/workstation.yml --tags sops -l desktop
+
+k8s:
+    ansible-playbook playbooks/workstation.yml --tags kubernetes -l desktop
+
+vault:
+    ansible-vault edit inventory/group_vars/all/vault.yml --vault-password-file .vault_pass

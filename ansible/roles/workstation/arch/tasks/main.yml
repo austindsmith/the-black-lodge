@@ -1,7 +1,14 @@
 - name: Install packages
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: packages.yml
-    
+  tags: packages
+
 - name: Prepare kubernetes tools
-  ansible.builtin.include_tasks:
+  ansible.builtin.import_tasks:
     file: kubernetes.yml
+  tags: kubernetes
+
+- name: Install sops
+  ansible.builtin.import_tasks:
+    file: sops.yml
+  tags: sops

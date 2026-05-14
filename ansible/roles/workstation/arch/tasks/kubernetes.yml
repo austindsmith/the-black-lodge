@@ -1,6 +1,6 @@
 #### docker
 
-- name: Install docker packages
+- name: install docker packages
   community.general.pacman:
     name:
       - docker
@@ -22,7 +22,6 @@
 - name: use default docker context
   command: docker context use default
 
-
 #### kustomize
 
 - name: check if kustomize is installed
@@ -32,7 +31,7 @@
   changed_when: false
 
 - name: download kustomize cli
-  get_url: 
+  get_url:
     url: https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh
     dest: /tmp/kustomize_install.sh
     mode: "0755"
@@ -51,7 +50,7 @@
   changed_when: false
 
 - name: download ksops cli
-  get_url: 
+  get_url:
     url: https://raw.githubusercontent.com/viaduct-ai/kustomize-sops/master/scripts/install-ksops-archive.sh
     dest: /tmp/ksops_install.sh
     mode: "0755"
@@ -71,12 +70,12 @@
   changed_when: false
 
 - name: download k3d
-  get_url: 
+  get_url:
     url: https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh
     dest: /tmp/k3d_install.sh
     mode: "0755"
   when: k3d_installed.rc != 0 # rc is return code
-  
+
 - name: install k3d
   script: /tmp/k3d_install.sh
   when: k3d_installed.rc != 0
@@ -88,7 +87,7 @@
   changed_when: false
 
 - name: copy k3d config
-  copy: 
+  copy:
     src: k3d_config.yaml # In files folder, sibling of tasks
     dest: "/home/{{ vault_workstation_user }}/tmp/k3d_config.yaml"
   when: k3d_cluster_exists.rc != 0
@@ -109,12 +108,16 @@
   changed_when: false
 
 - name: download flux cli
-  get_url: 
+  get_url:
     url: https://fluxcd.io/install.sh
     dest: /tmp/flux_install.sh
     mode: "0755"
   when: flux_installed.rc != 0
 
-- name: Install flux
+- name: install flux
   script: /tmp/flux_install.sh
   when: flux_installed.rc != 0
+
+- name: bootstrap flux
+  script: flux_bootstrap.sh
+  when: 0 > 1

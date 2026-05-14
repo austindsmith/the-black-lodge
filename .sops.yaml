@@ -1,6 +1,6 @@
 creation_rules:
-    # Ansible
-  - path_regex: ansible/.*secrets.*\.ya?ml$
+  # Ansible
+  - path_regex: .*.ya?ml$
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
     # Packer
   - path_regex: .*\.pkrvars\.hcl$
