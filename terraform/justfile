@@ -1,0 +1,2 @@
+tf action dir:
+    cd proxmox/{{ dir }} && terragrunt {{ action }} -auto-approve

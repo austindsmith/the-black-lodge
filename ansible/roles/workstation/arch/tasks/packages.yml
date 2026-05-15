@@ -29,9 +29,9 @@
         extra_args: "--noconfirm"
       become: false
 
-    - name: Install communication packages
+    - name: Install applications packages
       kewlfft.aur.aur:
-        name: "{{ packages.communication }}"
+        name: "{{ packages.applications }}"
         state: present
       become: false
 

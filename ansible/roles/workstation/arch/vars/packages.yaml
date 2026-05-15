@@ -6,6 +6,7 @@ packages:
     - direnv
     - yq
     - age-plugin-yubikey
+    - chezmoi
   applications:
     - zed
     - vesktop

@@ -34,4 +34,4 @@ boot_command = [
     "boot<enter><wait>",
   ]
 
-cleanup_script = "./iso/scripts/cleanup-ubuntu.sh"
+cleanup_script = "./proxmox/scripts/cleanup-ubuntu.sh"

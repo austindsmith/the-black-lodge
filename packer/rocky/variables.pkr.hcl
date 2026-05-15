@@ -39,6 +39,11 @@ variable "bios" {
   default = "ovmf"
 }
 
+variable "cpu_type" {
+  type    = string
+  default = "host"
+}
+
 variable "memory" {
   type = string
 }
@@ -72,6 +77,10 @@ variable "boot_wait" {
   default = "30s"
 }
 
+variable "boot_command" {
+  type = list(string)
+}
+
 variable "model" {
   type    = string
   default = "virtio"
@@ -97,6 +106,14 @@ variable "storage_pool" {
   default = "local"
 }
 
+variable "build_name" {
+  type = string
+}
+
+variable "build_sources" {
+  type = list(string)
+}
+
 variable "boot_iso_type" {
   type    = string
   default = "ide"
@@ -120,6 +137,11 @@ variable "disk_interface" {
   default = "virtio"
 }
 
+variable "boot_unmount" {
+  type    = bool
+  default = true
+}
+
 variable "cd_files" {
   type = list(string)
 }
@@ -133,7 +155,12 @@ variable "additional_iso_storage_pool" {
   type    = string
   default = "isos"
 }
+
 variable "additional_unmount" {
   type    = bool
   default = true
+}
+
+variable "cleanup_script" {
+  type = string
 }

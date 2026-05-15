@@ -6,6 +6,18 @@
 - [Makefile Tutorial](https://makefiletutorial.com/)
 - [Just Files](https://github.com/casey/just) - Useful for saving hard to remember commands.k3d
 - [Just Files Manual](https://just.systems/man/en/)
+
+## Autodocs
+
+- Sphinx
+- dbt
+- Dagster
+- Terraform docs
+- Ansible docs
+- Helm docs
+- GitHub actions docs
+- Rego (policies as code)
+
 ## Snippets
 
 ### Generating a `$6$` hash
@@ -23,6 +35,7 @@ age-keygen >> ~/.config/sops/age/keys.txt
 ### Encrypt a file with SOPS and age
 
 .auto is used for auto-detection of pkvars files when running `packer build`
+
 ```bash
 sops -e packer/ubuntu-2404/secrets.auto.pkrvars.hcl > packer/ubuntu-2404/secrets.auto.pkrvars.hcl.enc
 ```
@@ -35,6 +48,7 @@ packer build packer/ubuntu-2404
 ```
 
 ### Creating Pangolin secret
+
 ```
 kubectl create secret generic newt -n pangolin --from-env-file=newt.env
 ```

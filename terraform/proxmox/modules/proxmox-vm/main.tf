@@ -16,6 +16,7 @@ resource "proxmox_virtual_environment_vm" "vm" {
 
   agent {
     enabled = true
+    timeout = "10m"
   }
 
   disk {
@@ -60,5 +61,6 @@ terraform {
 }
 
 output "vm_ipv4_address" {
-  value = proxmox_virtual_environment_vm.vm.ipv4_addresses[1][0]
+  value = split("/", var.ipv4_address)[0]
+  # value = proxmox_virtual_environment_vm.vm.ipv4_addresses[1][0]
 }

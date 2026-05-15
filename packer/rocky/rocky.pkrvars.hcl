@@ -23,4 +23,4 @@ build_sources = [
     "inst.ks=cdrom:/ks.cfg",
     "<f10>"
   ]
-cleanup_script = "./iso/scripts/cleanup-rocky.sh"
+cleanup_script = "./proxmox/scripts/cleanup-rocky.sh"

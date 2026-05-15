@@ -1,23 +1,41 @@
 packer {
   required_plugins {
     proxmox = {
-      version = ">= 1.1.3"
+      version = ">= 1.1.1"
       source  = "github.com/hashicorp/proxmox"
     }
   }
 }
 
 source "proxmox-iso" "virtual-machine" {
-
   proxmox_url              = var.proxmox_url
   insecure_skip_tls_verify = var.insecure_skip_tls_verify
   username                 = var.proxmox_username
   token                    = var.proxmox_token
   node                     = var.proxmox_node
   task_timeout             = var.task_timeout
+  vm_id                    = var.vm_id
+  vm_name                  = var.vm_name
+  scsi_controller = "virtio-scsi-pci"
+  cloud_init              = true
+  cloud_init_storage_pool = "${var.boot_iso_storage_pool}"
+  http_directory           = "./cidata"
+  http_port_min = 8501
+  http_port_max = 8501
+  http_bind_address = "0.0.0.0"
 
-  vm_id   = var.vm_id
-  vm_name = var.vm_name
+
+
+  boot_iso {
+    type             = var.boot_iso_type
+    iso_url          = var.iso_url
+    iso_checksum     = var.iso_checksum
+    iso_storage_pool = var.boot_iso_storage_pool
+    iso_download_pve = true
+    unmount          = var.boot_unmount
+  }
+  bios     = var.bios
+  cpu_type = var.cpu_type
 
   memory = var.memory
   cores  = var.cores
@@ -26,69 +44,40 @@ source "proxmox-iso" "virtual-machine" {
     model  = var.model
     bridge = var.bridge
   }
-
-  boot_iso {
-    type             = "download"
-    iso_url          = var.iso_url
-    iso_checksum     = var.iso_checksum
-    iso_storage_pool = var.boot_iso_storage_pool
-    disk_image       = true
-    iso_download_pve = true
-    unmount          = true
-  }
-
   disks {
     type         = var.disk_type
     disk_size    = var.disk_size
     storage_pool = var.storage_pool
-    io_thread    = true
   }
-
   additional_iso_files {
-    device           = "ide2"
     cd_files         = var.cd_files
     cd_label         = var.cd_label
     iso_storage_pool = var.additional_iso_storage_pool
     unmount          = var.additional_unmount
   }
-
   qemu_agent = var.qemu_agent
 
   ssh_username         = var.ssh_username
   ssh_private_key_file = var.ssh_private_key_file
   ssh_timeout          = var.ssh_timeout
 
-  boot_command = []
+  boot_wait = var.boot_wait
+
+  boot_command = var.boot_command
 
   template_name = join("-", [
-    var.vm_name,
+    var.build_name,
     "base",
     formatdate("YYYYMMDD-hhmm", timestamp()),
   ])
 }
-
 build {
-
+  name = var.build_name
   sources = [
     "source.proxmox-iso.virtual-machine",
   ]
-
   provisioner "shell" {
-    execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
-
-    inline = [
-      "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 2; done",
-
-      "sudo rm -f /etc/ssh/ssh_host_*",
-
-      "sudo truncate -s 0 /etc/machine-id",
-
-      "sudo dnf clean all || true",
-      "sudo yum clean all || true",
-
-      "sudo cloud-init clean",
-
-      "sudo sync"
-    ]
+    execute_command = "echo 'virtual-machine' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
+    script          = var.cleanup_script
   }
 }

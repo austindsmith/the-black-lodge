@@ -3,6 +3,7 @@
 ## Documentation
 
 - [Packer boot commands](https://developer.hashicorp.com/packer/docs/templates/hcl_templates/blocks/build/bootcommand#special-keys)
+- [Reference repo](https://github.com/dustinrue/proxmox-packer)
 
 ## Commands
 

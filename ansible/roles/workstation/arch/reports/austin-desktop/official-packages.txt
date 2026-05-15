@@ -64,6 +64,7 @@ catppuccin-whiskers-bin
 ccid
 char-white
 cheat
+chezmoi
 chromium
 chwd
 cilium-cli
@@ -519,6 +520,7 @@ yaak
 yadm
 youtube-tui
 youtui
+yq
 yt-dlp-drop-in
 ytermusic-bin
 ytsurf

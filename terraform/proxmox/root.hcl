@@ -31,7 +31,7 @@ EOF
 inputs = {
   description = ""
   tags        = ["gitops", "terraform", "packer"]
-  template_id = 9000
+  template_id = 9001
 
   datastore_id = "local-lvm"
 
