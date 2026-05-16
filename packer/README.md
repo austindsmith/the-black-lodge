@@ -20,3 +20,4 @@ packer build \
 
 - [Rocky Linux](https://download.rockylinux.org/pub/rocky/)
 - [Ubuntu](https://cloud-images.ubuntu.com/)
+- [Alpine](https://alpinelinux.org/cloud/)

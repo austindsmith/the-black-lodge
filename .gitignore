@@ -4,11 +4,12 @@ secrets.auto.tfvars
 .terraform
 .terraform.lock.hcl
 *tfstate*
-downloaded_iso_path
 *cache*
 .venv
 .vault_pass
 *.env
+*.log
 kubernetes/dev/platform/external-secrets/Secret.yaml
 **build/
 **charts/
+**downloaded*iso**

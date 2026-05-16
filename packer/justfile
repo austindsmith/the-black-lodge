@@ -4,7 +4,4 @@ default:
 
 # Runs a Packer build, taking `os` as a parameter
 build os:
-    packer build \
-    -var-file=proxmox/{{ os }}.pkrvars.hcl \
-    -var-file=shared/secrets.pkrvars.hcl \
-    proxmox/
+    cd {{ os }} && packer build .
