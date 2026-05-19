@@ -16,13 +16,13 @@ source "proxmox-iso" "virtual-machine" {
   task_timeout             = var.task_timeout
   vm_id                    = var.vm_id
   vm_name                  = var.vm_name
-  scsi_controller = "virtio-scsi-pci"
-  cloud_init              = true
-  cloud_init_storage_pool = "${var.boot_iso_storage_pool}"
+  scsi_controller          = "virtio-scsi-pci"
+  cloud_init               = true
+  cloud_init_storage_pool  = "${var.boot_iso_storage_pool}"
   http_directory           = "./cidata"
-  http_port_min = 8501
-  http_port_max = 8501
-  http_bind_address = "0.0.0.0"
+  http_port_min            = 8501
+  http_port_max            = 8501
+  http_bind_address        = "0.0.0.0"
 
 
 
