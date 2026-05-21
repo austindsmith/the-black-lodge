@@ -1,5 +1,6 @@
 secrets.auto.pkrvars.hcl
 secrets.pkrvars.hcl
+secrets.hcl
 secrets.auto.tfvars
 .terraform
 .terraform.lock.hcl
@@ -13,3 +14,5 @@ kubernetes/dev/platform/external-secrets/Secret.yaml
 **build/
 **charts/
 **downloaded*iso**
+.ansible
+collections/

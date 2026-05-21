@@ -106,14 +106,6 @@ variable "storage_pool" {
   default = "local"
 }
 
-variable "build_name" {
-  type = string
-}
-
-variable "build_sources" {
-  type = list(string)
-}
-
 variable "boot_iso_type" {
   type    = string
   default = "ide"
@@ -142,15 +134,6 @@ variable "boot_unmount" {
   default = true
 }
 
-variable "cd_files" {
-  type = list(string)
-}
-
-variable "cd_label" {
-  type    = string
-  default = "cidata"
-}
-
 variable "additional_iso_storage_pool" {
   type    = string
   default = "isos"
@@ -161,6 +144,21 @@ variable "additional_unmount" {
   default = true
 }
 
-variable "cleanup_script" {
+variable "ssh_password" {
+  type      = string
+  sensitive = true
+}
+
+variable "template_name" {
   type = string
+}
+
+variable "template_name_suffix" {
+  type    = string
+  default = ""
+}
+
+variable "template_description" {
+  type    = string
+  default = ""
 }

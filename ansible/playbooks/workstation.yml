@@ -3,4 +3,4 @@
     - desktop
     - laptop
   roles:
-    - role: arch
+    - role: workstation

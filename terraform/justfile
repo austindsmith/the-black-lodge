@@ -1,2 +1,4 @@
 tf action dir:
-    cd proxmox/{{ dir }} && terragrunt {{ action }} -auto-approve
+    cd proxmox/{{ dir }} && \
+    TF_DATA_DIR={{ justfile_directory() }}/.terraform/{{ dir }} \
+    terragrunt {{ action }} -auto-approve

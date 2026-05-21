@@ -1,80 +1,100 @@
-variable "virtual_environment_endpoint" {
+variable "proxmox_url" {
   type        = string
   description = "The endpoint for the Proxmox Virtual Environment API (example: https://host:port)"
 }
 
-variable "virtual_environment_token" {
+variable "proxmox_token" {
   type        = string
   description = "The token for the Proxmox Virtual Environment API"
   sensitive   = true
 }
 
-variable "virtual_environment_node_name" {
+variable "proxmox_node" {
   type        = string
-  description = "The node name for the Proxmox Virtual Environment API"
+  description = "The Proxmox node on which VMs will be created"
   default     = "proxmox"
+}
+
+variable "pool_id" {
+  type        = string
+  description = "The pool to assign VMs for organization"
+}
+
+variable "template_id" {
+  type        = number
+  description = "VM ID of the Proxmox template to clone"
+}
+
+variable "nodes" {
+  type = map(object({
+    ip    = string
+    vm_id = number
+  }))
+  description = "Map of VM names to their IP address and VM ID"
+}
+
+variable "description" {
+  type        = string
+  description = "Description applied to each VM"
+}
+
+variable "tags" {
+  type        = list(string)
+  description = "Tags applied to each VM"
+}
+
+variable "cores" {
+  type        = number
+  description = "Number of CPU cores per VM"
+}
+
+variable "cpu_type" {
+  type        = string
+  description = "CPU type (e.g. host, kvm64, x86-64-v2-AES)"
+}
+
+variable "ram" {
+  type        = number
+  description = "Dedicated RAM in MB per VM"
 }
 
 variable "datastore_id" {
   type        = string
-  description = "Datastore for VM disks"
+  description = "Proxmox datastore for VM disks"
   default     = "local-lvm"
 }
 
-variable "name" {
-  type = string
-}
-
-variable "description" {
-  type = string
-}
-
-variable "tags" {
-  type = list(string)
-}
-
-variable "username" {
-  type = string
-}
-
-variable "ssh_public_keys" {
-  type = list(string)
-}
 variable "disk_size" {
-  type = number
-}
-variable "cores" {
-  type = number
-}
-
-variable "cpu_type" {
-  type = string
-}
-
-variable "vm_id" {
-  type = string
-}
-
-variable "template_id" {
-  type = number
-}
-
-variable "ram" {
-  type = number
+  type        = number
+  description = "Root disk size in GB"
 }
 
 variable "vlan_id" {
-  type = number
-}
-
-variable "dns_servers" {
-  type = list(string)
-}
-
-variable "ipv4_address" {
-  type = string
+  type        = number
+  description = "VLAN tag for the VM network interface"
 }
 
 variable "gateway" {
-  type = string
+  type        = string
+  description = "Default IPv4 gateway for VM network configuration"
+}
+
+variable "dns_servers" {
+  type        = list(string)
+  description = "List of DNS servers for cloud-init network configuration"
+}
+
+variable "username" {
+  type        = string
+  description = "Default user created via cloud-init"
+}
+
+variable "ssh_public_keys" {
+  type        = list(string)
+  description = "SSH public keys added to the cloud-init user"
+}
+
+variable "ansible_inventory_path" {
+  type    = string
+  default = ""
 }

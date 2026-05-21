@@ -1,10 +1,12 @@
-
 resource "proxmox_virtual_environment_vm" "vm" {
-  name        = var.name
+  for_each = var.nodes
+
+  name        = each.key
   description = var.description
   tags        = var.tags
-  node_name   = var.virtual_environment_node_name
-  vm_id       = var.vm_id
+  pool_id     = var.pool_id
+  node_name   = var.proxmox_node
+  vm_id       = each.value.vm_id
 
   started = true
   on_boot = true
@@ -49,18 +51,9 @@ resource "proxmox_virtual_environment_vm" "vm" {
     }
     ip_config {
       ipv4 {
-        address = var.ipv4_address
+        address = each.value.ip
         gateway = var.gateway
       }
     }
   }
-}
-
-terraform {
-  backend "local" {}
-}
-
-output "vm_ipv4_address" {
-  value = split("/", var.ipv4_address)[0]
-  # value = proxmox_virtual_environment_vm.vm.ipv4_addresses[1][0]
 }

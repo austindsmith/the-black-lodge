@@ -1,0 +1,33 @@
+- name: Bootstrap all VMs
+  hosts: all
+  become: true
+  tasks:
+    - name: Install zsh
+      ansible.builtin.package:
+        name: zsh
+        state: present
+    - name: Add default zshrc to skel
+      ansible.builtin.copy:
+        dest: /etc/skel/.zshrc
+        content: "# default zshrc\n"
+        mode: "0644"
+
+- name: FreeIPA client enrollment
+  hosts: freeipa_clients
+  become: true
+  roles:
+    - role: freeipa-client
+
+- name: Tang NBDE server
+  hosts: tang
+  become: true
+  roles:
+    - role: cockpit
+    - role: tang
+
+- name: Kubernetes nodes
+  hosts: kubernetes
+  become: true
+  roles:
+    - role: cockpit
+    - role: kubernetes

@@ -1,9 +1,16 @@
+download_dir = "${get_repo_root()}/.terragrunt-cache"
+
 remote_state {
   backend = "local"
   config = {
-    path = "${get_parent_terragrunt_dir()}/${path_relative_to_include()}/terraform.tfstate"
+    path = "${get_repo_root()}/.tfstate/${path_relative_to_include()}/terraform.tfstate"
+  }
+  generate = {
+    path      = "backend.tf"
+    if_exists = "overwrite"
   }
 }
+
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
@@ -18,8 +25,8 @@ terraform {
 }
 
 provider "proxmox" {
-  endpoint  = var.virtual_environment_endpoint
-  api_token = var.virtual_environment_token
+  endpoint  = var.proxmox_url
+  api_token = var.proxmox_token
   ssh {
     agent    = true
     username = "ansible"
@@ -28,33 +35,26 @@ provider "proxmox" {
 EOF
 }
 
-inputs = {
-  description = ""
-  tags        = ["gitops", "terraform", "packer"]
-  template_id = 9001
-
-  datastore_id = "local-lvm"
-
-  username = "ansible"
-  ssh_public_keys = [
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJX0mh+BfWY7aSt9LccuFdMbJCXEebr6qbI/glX7A6V ansible@theblacklodge.org",
-    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ87NZyVSmPPFAD2gzBlv3YJSMD+amqBHTIkb5rGDETd austin@theblacklodge.org"
-  ]
-
-  disk_size = 64
-  cores     = 2
-  cpu_type  = "host"
-
-  vlan_id                       = 5
-  dns_servers                   = ["192.168.1.5"]
-  gateway                       = "192.168.100.1"
-  virtual_environment_node_name = "proxmox"
-
-}
-
 terraform {
   extra_arguments "secrets" {
     commands  = get_terraform_commands_that_need_vars()
     arguments = ["-var-file=${get_parent_terragrunt_dir()}/secrets.auto.tfvars"]
   }
+  after_hook "ansible" {
+    commands = ["apply"]
+    execute = [
+      "/bin/bash", "-c",
+      <<-EOT
+        HOSTS=$(terragrunt output -json vm_names 2>/dev/null | jq -r '[.[] ] | join(",")')
+        if [ -n "$HOSTS" ]; then
+          cd ${get_repo_root()}/ansible && ansible-playbook site.yml --limit "$HOSTS"
+        fi
+      EOT
+    ]
+    run_on_error = false
+  }
+}
+
+inputs = {
+  ansible_inventory_path = "${get_repo_root()}/ansible/inventory/terraform.yml"
 }

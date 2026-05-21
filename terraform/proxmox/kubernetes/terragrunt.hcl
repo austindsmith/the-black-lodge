@@ -4,12 +4,12 @@ include "root" {
 
 locals {
   inventory = read_terragrunt_config("${get_terragrunt_dir()}/dev.hcl")
-  nodes      = read_terragrunt_config("${get_terragrunt_dir()}/dev.hcl").inputs.nodes
+  nodes     = read_terragrunt_config("${get_terragrunt_dir()}/dev.hcl").inputs.nodes
 
 }
 
 inputs = local.inventory.inputs
 
 terraform {
-    source =  "${get_repo_root()}/terraform/modules/proxmox-vm"
+  source = "${get_parent_terragrunt_dir()}/modules/proxmox-vm"
 }
