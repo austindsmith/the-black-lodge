@@ -3,6 +3,7 @@ secrets.pkrvars.hcl
 secrets.hcl
 secrets.auto.tfvars
 .terraform
+.packer
 .terraform.lock.hcl
 *tfstate*
 *cache*

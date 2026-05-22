@@ -6,11 +6,14 @@ iface lo inet loopback
 auto eth0
 iface eth0 inet dhcp
 "
+APKREPOSOPTS="-1 -c"
+PKGS="openssh sudo"
 DNSOPTS="-n 192.168.1.5"
-TIMEZONEOPTS="-z UTC"
+TIMEZONEOPTS="-z America/Denver"
 PROXYOPTS="none"
 PKGS="qemu-guest-agent openssh"
 APKREPOSOPTS="-1"
 SSHDOPTS="-c openssh"
 NTPOPTS="-c openntpd"
-DISKOPTS="-L -m sys /dev/sda"
+DISKOPTS="-L -m sys /dev/vda"
+USEROPTS="-a -u -g audio,video,netdev ansible"

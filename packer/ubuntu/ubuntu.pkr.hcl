@@ -14,10 +14,12 @@ source "proxmox-iso" "ubuntu" {
   insecure_skip_tls_verify = true
   node                     = var.proxmox_node
   vm_id                    = 9000
+  pool                     = var.pool
 
   template_name        = "ubuntu-v24-04"
-  template_description = "Ubuntu Linux cloud image with QEMU guest agent, cloud-init and Python."
+  template_description = "Ubuntu Linux cloud image with QEMU guest agent and cloud-init."
 
+  cpu_type   = "host"
   memory     = 4096
   cores      = 2
   os         = "l26"
@@ -29,7 +31,7 @@ source "proxmox-iso" "ubuntu" {
   }
 
   disks {
-    type         = "scsi"
+    type         = "virtio"
     disk_size    = "16G"
     storage_pool = "local-lvm"
     format       = "raw"
@@ -37,9 +39,9 @@ source "proxmox-iso" "ubuntu" {
 
   ssh_username         = "ansible"
   ssh_private_key_file = "~/.ssh/keys/ansible@theblacklodge.org"
-  ssh_port             = local.ssh_port
   ssh_timeout          = "10m"
 
+  boot_wait = "10s"
   boot_command = [
     "<esc><wait>",
     "<esc><wait>",
@@ -59,13 +61,13 @@ source "proxmox-iso" "ubuntu" {
     type             = "ide"
     iso_storage_pool = "local"
     iso_url          = "https://releases.ubuntu.com/noble/ubuntu-24.04.4-live-server-amd64.iso"
-    iso_checksum     = "sha256:e907d92eeec9df64163a7e454cbc8d7755e8ddc7ed42f99dbc80c40f1a138433"
+    iso_checksum     = "file:https://releases.ubuntu.com/noble/SHA256SUMS"
     iso_download_pve = true
     unmount          = true
   }
 
   additional_iso_files {
-    cd_files         = ["./http/user-data", "./http/meta-data"]
+    cd_files         = ["./cdrom/user-data", "./cdrom/meta-data"]
     cd_label         = "cidata"
     iso_storage_pool = "local"
     unmount          = true

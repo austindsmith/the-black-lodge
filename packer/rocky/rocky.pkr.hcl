@@ -1,7 +1,7 @@
 packer {
   required_plugins {
     proxmox = {
-      version = ">= 1.1.1"
+      version = ">= 1.2.3"
       source  = "github.com/hashicorp/proxmox"
     }
   }
@@ -9,41 +9,21 @@ packer {
 
 source "proxmox-iso" "rocky" {
   proxmox_url              = var.proxmox_url
-  insecure_skip_tls_verify = var.insecure_skip_tls_verify
   username                 = var.proxmox_username
   token                    = var.proxmox_token
+  insecure_skip_tls_verify = true
   node                     = var.proxmox_node
-  task_timeout             = var.task_timeout
-  vm_id                    = var.vm_id
-  vm_name                  = var.vm_name
-  scsi_controller          = "virtio-scsi-pci"
+  vm_id                    = 9001
+  pool                     = var.pool
 
-  memory = var.memory
-  cores  = var.cores
+  template_name        = "rocky-v10-1"
+  template_description = "Rocky Linux cloud image with QEMU guest agent and cloud-init."
 
-  iso_storage_pool = "local"
-  iso_url          = "https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.1-x86_64-boot.iso"
-  iso_checksum     = "sha256:18543988d9a1a5632d142c3dc288136dcc48ab71628f92ebcd40ada7f4ecd110"
-
-  template_name        = "${var.template_name}${var.template_name_suffix}"
-  template_description = var.template_description
-
-  unmount_iso = true
-
-  scsi_controller = "virtio-scsi-single"
-  os              = "l26"
-  qemu_agent      = true
-
-
-  boot_iso {
-    type             = var.boot_iso_type
-    iso_url          = var.iso_url
-    iso_checksum     = var.iso_checksum
-    iso_storage_pool = var.boot_iso_storage_pool
-    iso_download_pve = true
-    unmount          = var.boot_unmount
-  }
-
+  cpu_type   = "host"
+  memory     = 4096
+  cores      = 2
+  os         = "l26"
+  qemu_agent = true
 
   network_adapters {
     model  = "virtio"
@@ -51,34 +31,35 @@ source "proxmox-iso" "rocky" {
   }
 
   disks {
-    type         = "scsi"
-    disk_size    = "10G"
+    type         = "virtio"
+    disk_size    = "16G"
     storage_pool = "local-lvm"
     format       = "raw"
-    io_thread    = true
   }
 
-  ssh_username = "root"
-  ssh_password = var.ssh_password
-  ssh_port     = local.ssh_port
-  ssh_timeout  = "5m"
+  ssh_username         = "ansible"
+  ssh_private_key_file = "~/.ssh/keys/ansible@theblacklodge.org"
+  ssh_timeout          = "10m"
+
+  boot_wait    = "10s"
+  boot_command = ["<up><wait><enter><wait>"]
+
+
+  boot_iso {
+    type             = "ide"
+    iso_storage_pool = "local"
+    iso_url          = "https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.1-x86_64-boot.iso"
+    iso_checksum     = "file:https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.1-x86_64-boot.iso.CHECKSUM"
+    iso_download_pve = true
+    unmount          = true
+  }
 
   additional_iso_files {
-    cd_files         = var.cd_files
-    cd_label         = var.cd_label
-    iso_storage_pool = var.additional_iso_storage_pool
-    unmount          = var.additional_unmount
+    cd_files         = ["./cdrom/ks.cfg"]
+    cd_label         = "OEMDRV"
+    iso_storage_pool = "local"
+    unmount          = true
   }
-  qemu_agent = var.qemu_agent
-
-  ssh_username         = var.ssh_username
-  ssh_private_key_file = var.ssh_private_key_file
-  ssh_timeout          = var.ssh_timeout
-
-  boot_wait = var.boot_wait
-
-  boot_command = var.boot_command
-
 
 }
 build {
@@ -87,6 +68,6 @@ build {
   ]
   provisioner "shell" {
     execute_command = "echo 'rocky' | {{ .Vars }} sudo -S -E sh -eux '{{ .Path }}'"
-    script          = var.cleanup_script
+    script          = "./scripts/cleanup.sh"
   }
 }

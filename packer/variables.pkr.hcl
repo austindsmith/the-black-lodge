@@ -16,12 +16,6 @@ variable "proxmox_node" {
   type        = string
 }
 
-variable "ssh_password" {
-  description = "Root user password."
-  type        = string
-  sensitive   = true
-}
-
-local "ssh_port" {
-  expression = "22"
+variable "pool" {
+  type = string
 }

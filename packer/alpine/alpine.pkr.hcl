@@ -14,17 +14,16 @@ source "proxmox-iso" "alpine" {
   insecure_skip_tls_verify = true
   node                     = var.proxmox_node
   vm_id                    = 9002
-
-  iso_storage_pool = "local"
-  iso_url          = "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-virt-3.20.2-x86_64.iso"
-  iso_checksum     = "file:https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-virt-3.20.2-x86_64.iso.sha256"
+  pool                     = var.pool
 
   template_name        = "alpine-v3-20"
-  template_description = "Alpine Linux cloud image with QEMU guest agent, cloud-init and Python."
+  template_description = "Alpine Linux cloud image with QEMU guest agent and cloud-init."
 
-  scsi_controller = "virtio-scsi-single"
-  os              = "l26"
-  qemu_agent      = true
+  cpu_type   = "host"
+  memory     = 4096
+  cores      = 2
+  os         = "l26"
+  qemu_agent = true
 
   network_adapters {
     model  = "virtio"
@@ -32,63 +31,77 @@ source "proxmox-iso" "alpine" {
   }
 
   disks {
-    type         = "scsi"
-    disk_size    = "10G"
+    type         = "virtio"
+    disk_size    = "16G"
     storage_pool = "local-lvm"
     format       = "raw"
-    io_thread    = true
   }
 
-  ssh_username = "root"
-  ssh_password = var.ssh_password
-  ssh_port     = local.ssh_port
-  ssh_timeout  = "5m"
+  ssh_username         = "ansible"
+  ssh_private_key_file = "~/.ssh/keys/ansible@theblacklodge.org"
+  ssh_timeout          = "10m"
 
+  http_directory    = "./http"
+  http_port_min     = 8501
+  http_port_max     = 8501
+  http_bind_address = "0.0.0.0"
+
+  boot_wait = "10s"
   boot_command = [
     "root<enter><wait>",
-    "ifconfig 'eth0' up && udhcpc -i 'eth0'<enter><wait5s>",
-    "setup-alpine -q<enter><wait>",
-    "us<enter>",
-    "us<enter><wait10s>",
-    "setup-timezone -z Israel<enter><wait>",
-    "setup-sshd -c openssh<enter><wait>",
-    "setup-disk -m sys<enter>",
-    "<enter>",
-    "y<enter><wait15s>",
-    "mount /dev/sda3 /mnt<enter>",
-    "echo 'PermitRootLogin yes' >> /mnt/etc/ssh/sshd_config<enter>",
-    "echo 'Port ${local.ssh_port}' >> /mnt/etc/ssh/sshd_config<enter>",
-    "reboot<enter><wait30s>",
-    "root<enter><wait>",
-    "echo 'root:${var.ssh_password}' | chpasswd<enter>",
-    "sed -i 's:#\\(.*/v.*/community\\):\\1:' /etc/apk/repositories<enter>",
-    "apk update<enter><wait5s>",
-    "apk add qemu-guest-agent<enter><wait5s>",
-    "sed -i 's:/dev/virtio-ports/org.qemu.guest_agent.0:$(find /dev/vport* | head -n 1):' /etc/init.d/qemu-guest-agent<enter>",
+    "ifconfig eth0 up && udhcpc -i eth0<enter><wait5>",
+    "wget http://{{.HTTPIP}}:{{.HTTPPort}}/answers<enter><wait2>",
+    "export ERASE_DISKS=/dev/vda<enter>",
+    "setup-alpine -f /root/answers<enter><wait5>",
+    "Maternal9-Brim4-Bucktooth3-Tribune6-Reoccupy2<enter><wait2>",
+    "Maternal9-Brim4-Bucktooth3-Tribune6-Reoccupy2<enter><wait15>",
+    "rc-service sshd stop<enter>",
+    "mount /dev/vg0/lv_root /mnt<enter>",
+    "mount --bind /dev /mnt/dev<enter>",
+    "chroot /mnt<enter><wait>",
+    "mkdir -p /home/ansible/.ssh<enter>",
+    "wget -O /home/ansible/.ssh/authorized_keys http://{{.HTTPIP}}:{{.HTTPPort}}/ssh.keys<enter>",
+    "chown -R ansible:ansible /home/ansible/.ssh<enter>",
+    "chmod 700 /home/ansible/.ssh<enter>",
+    "chmod 600 /home/ansible/.ssh/authorized_keys<enter>",
+    "echo https://dl-cdn.alpinelinux.org/alpine/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/community/ >> /etc/apk/repositories<enter><wait>",
+    "apk update<enter><wait>",
+    "apk upgrade<enter><wait>",
+    "apk add --no-cache qemu-guest-agent<enter><wait>",
     "rc-update add qemu-guest-agent<enter>",
-    "rc-service qemu-guest-agent start<enter>",
+    "apk add --no-cache sudo<enter>",
+    "mkdir -p /etc/sudoers.d<enter>",
+    "echo '%wheel ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/wheel<enter>",
+    "chmod 440 /etc/sudoers.d/wheel<enter>",
+    "exit<enter>",
+    "umount /mnt/dev<enter><wait2>",
+    "umount /mnt<enter><wait2>",
+    "reboot<enter>",
   ]
 
-  cloud_init              = true
-  cloud_init_storage_pool = "local-lvm"
+  boot_iso {
+    type             = "ide"
+    iso_storage_pool = "local"
+    iso_url          = "https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-virt-3.20.2-x86_64.iso"
+    iso_checksum     = "file:https://dl-cdn.alpinelinux.org/alpine/v3.20/releases/x86_64/alpine-virt-3.20.2-x86_64.iso.sha256"
+    iso_download_pve = true
+    unmount          = true
+  }
+
 }
 
 build {
   sources = ["source.proxmox-iso.alpine"]
 
   provisioner "shell" {
+    execute_command = "sudo sh -c '{{ .Path }}'"
     inline = [
-      "apk add python3 py3-pip sudo",
-      "apk add cloud-init e2fsprogs-extra mount py3-pyserial py3-netifaces",
+      "echo 'https://dl-cdn.alpinelinux.org/alpine/v3.20/community' >> /etc/apk/repositories",
+      "apk update",
+      "apk add sudo python3 cloud-init e2fsprogs-extra py3-pyserial py3-netifaces",
       "setup-cloud-init",
-    ]
-  }
-
-  provisioner "shell" {
-    inline = [
-      "sed -i '/PermitRootLogin yes/d' /etc/ssh/sshd_config",
-      "passwd --lock root",
-      "rm -rf /root/.ash_history"
+      "passwd -l root",
+      "rm -f /root/.ash_history",
     ]
   }
 }

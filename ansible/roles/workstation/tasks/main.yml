@@ -12,3 +12,8 @@
   ansible.builtin.import_tasks:
     file: sops.yml
   tags: sops
+
+- name: Prepare devops configurations
+  ansible.builtin.import_tasks:
+    file: devops.yml
+  tags: devops

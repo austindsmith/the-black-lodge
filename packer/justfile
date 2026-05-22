@@ -4,6 +4,7 @@ default:
 
 # Runs a Packer build, taking `os` as a parameter
 build os:
-    cd {{ os }} && packer build \
+    cd {{ os }} && \
+    packer build \
     -var-file={{ justfile_directory() }}/secrets.pkrvars.hcl \
     .
