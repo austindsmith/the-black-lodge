@@ -7,5 +7,11 @@ local action:
       --enable-exec \
     | kubectl {{ action }} -f -
 
-cloud:
-    @echo "Deploying cloud cluster"
+server action:
+    @echo "Deploying server cluster"
+    kubectl config use-context k3s-ansible
+    kustomize build clusters/staging \
+      --enable-helm \
+      --enable-alpha-plugins \
+      --enable-exec \
+    | kubectl {{ action }} -f -
