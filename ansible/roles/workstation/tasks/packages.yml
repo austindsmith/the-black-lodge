@@ -1,26 +1,28 @@
+- name: Force refresh and upgrade
+  kewlfft.aur.aur:
+    upgrade: true
+    update_cache: true
+    extra_args: "--refresh"
+    use: paru
+  become: false
 - name: installing packages
   block:
     - name: Load package vars
       include_vars:
         file: "{{ role_path }}/vars/packages.yaml"
-
     - name: Create a directory if it does not exist
       ansible.builtin.file:
         path: "{{ role_path }}/reports/{{ ansible_facts['hostname'] }}"
         state: directory
-
     - name: Export currently installed official packages to .txt
       shell: pacman -Qqe > {{ role_path }}/reports/{{ ansible_facts['hostname'] }}/official-packages.txt
-
     - name: Export currently installed aur packages to .txt
       shell: pacman -Qqem > {{role_path}}/reports/{{ ansible_facts['hostname'] }}/aur-packages.txt
-
     - name: Install official packages
       community.general.pacman:
         name: "{{ packages.official }}"
         state: present
       become: false
-
     - name: Install utilities packages
       kewlfft.aur.aur:
         name: "{{ packages.utilities }}"
@@ -28,13 +30,16 @@
         state: present
         extra_args: "--noconfirm"
       become: false
-
     - name: Install applications packages
       kewlfft.aur.aur:
         name: "{{ packages.applications }}"
         state: present
       become: false
-
+    - name: Install programming packages
+      kewlfft.aur.aur:
+        name: "{{ packages.programming }}"
+        state: present
+      become: false
     - name: Install devops packages
       kewlfft.aur.aur:
         name: "{{ packages.devops }}"

@@ -17,6 +17,8 @@
   become: true
   roles:
     - role: freeipa-client
+  tags:
+    - freeipa-client
 
 - name: Tang NBDE server
   hosts: tang
@@ -26,7 +28,7 @@
     - role: tang
 
 - name: Kubernetes nodes
-  hosts: kubernetes
+  hosts: k3s_cluster
   become: true
   roles:
     - role: cockpit

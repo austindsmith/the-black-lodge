@@ -1,4 +1,4 @@
 ansible tag host:
-    @echo Tag: {{tag}}
-    @echo Host: {{host}}
-    ansible-playbook playbooks/workstation.yml --tags {{tag}} -l {{host}}
+    @echo Tag: {{ tag }}
+    @echo Host: {{ host }}
+    ansible-playbook playbooks/workstation.yml --tags {{ tag }} -l {{ host }} -vvvv

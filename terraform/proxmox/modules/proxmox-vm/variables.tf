@@ -98,3 +98,8 @@ variable "ansible_inventory_path" {
   type    = string
   default = ""
 }
+
+variable "type" {
+  type        = string
+  description = "Type of vm to help create Ansible template"
+}

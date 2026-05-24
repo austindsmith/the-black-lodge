@@ -1,0 +1,16 @@
+all:
+  children:
+    k3s_cluster:
+      children:
+        server:
+          hosts:
+%{ for name, node in nodes ~}
+            ${name}:
+              ansible_host: ${split("/", node.ip)[0]}
+%{ endfor ~}
+        agent:
+          hosts: {}
+      vars:
+        ansible_port: 22
+        ansible_user: ansible
+        k3s_version: v1.31.12+k3s1

@@ -12,6 +12,8 @@ alsa-plugins
 alsa-utils
 android-tools
 android-udev
+ansible
+ansible-core
 appimagelauncher
 ark
 atuin
@@ -189,6 +191,7 @@ jfsutils
 just
 k9s
 kaizen-bin
+kanata
 kate
 kcalc
 kde-applications-meta
@@ -352,6 +355,7 @@ printrun
 procs
 proton-ge-custom-bin
 proton-mail-bin
+proton-pass-cli-bin
 proton-vpn-gtk-app
 protonmail-bridge
 protonup-qt
@@ -500,6 +504,7 @@ wlogout
 wofi
 wpa_supplicant
 wpgtk
+xclip
 xdg-desktop-portal
 xdg-desktop-portal-hyprland
 xdg-desktop-portal-kde
@@ -518,6 +523,7 @@ xournalpp
 xsettingsd
 yaak
 yadm
+yamlfmt
 youtube-tui
 youtui
 yq

@@ -1,0 +1,22 @@
+- name: Remove stale host entry before re-enrollment
+  community.general.ipa_host:
+    name: "{{ ipa_hostname }}"
+    state: absent
+    ipa_host: "{{ ipa_servers }}"
+    ipa_user: "{{ ipa_admin_user }}"
+    ipa_pass: "{{ ipa_admin_password }}"
+    validate_certs: true
+  delegate_to: localhost
+  ignore_errors: true
+
+- name: Flush SSSD cache
+  ansible.builtin.command: sss_cache -E
+  delegate_to: "{{ ipa_servers }}"
+  become: true
+  ignore_errors: true
+
+- name: Flush local SSSD cache
+  ansible.builtin.command: sss_cache -E
+  delegate_to: localhost
+  become: true
+  ignore_errors: true

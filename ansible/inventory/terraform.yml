@@ -1,0 +1,8 @@
+all:
+  children:
+    servers:
+      children:
+        freeipa_clients:
+            hosts:
+                freeipa-server-01:
+                    ansible_host: 192.168.100.25

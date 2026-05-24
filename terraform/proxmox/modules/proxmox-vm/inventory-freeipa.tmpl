@@ -1,0 +1,10 @@
+all:
+  children:
+    servers:
+      children:
+        freeipa_clients:
+            hosts:
+%{ for name, node in nodes ~}
+                ${name}:
+                    ansible_host: ${split("/", node.ip)[0]}
+%{ endfor ~}

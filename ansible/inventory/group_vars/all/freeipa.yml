@@ -1,0 +1,5 @@
+ipa_domain: theblacklodge.org
+ipa_realm: THEBLACKLODGE.ORG
+ipa_dns_servers: 192.168.1.5
+ipa_servers: ipa.theblacklodge.org
+ipa_hostname: "{{ inventory_hostname }}.theblacklodge.org"

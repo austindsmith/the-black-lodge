@@ -31,6 +31,7 @@ infisical
 input-remapper-bin
 intellij-idea-ultimate-edition
 kaizen-bin
+kanata
 keyb
 knime-desktop
 koreader-bin
@@ -53,6 +54,7 @@ playwright
 posting
 printrun
 proton-ge-custom-bin
+proton-pass-cli-bin
 pycharm
 python-pywalfox
 qbittorrent-enhanced

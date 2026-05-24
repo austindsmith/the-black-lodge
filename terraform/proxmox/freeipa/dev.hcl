@@ -5,13 +5,13 @@ inputs = {
   disk_size    = 10
   datastore_id = "local-lvm"
   interface    = "scsi0"
-  template_id  = 9000
+  template_id  = 9001
   description  = ""
-  pool_id      = "kubernetes"
-  type         = "kubernetes"
+  pool_id      = "infrastructure"
+  type         = "freeipa"
   vlan_id      = 5
   gateway      = "192.168.100.1"
-  dns_servers  = ["1.1.1.1"]
+  dns_servers  = ["192.168.1.5"]
   domain       = "theblacklodge.org"
 
   username = "ansible"
@@ -20,9 +20,9 @@ inputs = {
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJX0mh+BfWY7aSt9LccuFdMbJCXEebr6qbI/glX7A6V ansible@theblacklodge.org"
   ]
 
-  tags = ["packer", "proxmox", "gitops", "kubernetes"]
+  tags = ["packer", "proxmox", "gitops", "freeipa"]
 
   nodes = {
-    kubernetes-server-01 = { vm_id = 7000, ip = "192.168.100.15/24" }
+    freeipa-server-01 = { vm_id = 7000, ip = "192.168.100.25/24" }
   }
 }

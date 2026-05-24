@@ -2,17 +2,14 @@ include "root" {
   path = find_in_parent_folders("root.hcl")
 }
 
-terraform {
-  source = "../modules/proxmox-vm"
+locals {
+  inventory = read_terragrunt_config("${get_terragrunt_dir()}/dev.hcl")
+  nodes     = read_terragrunt_config("${get_terragrunt_dir()}/dev.hcl").inputs.nodes
+
 }
 
-inputs = {
-  name        = "freeipa-server-01.theblacklodge.org"
-  description = ""
-  tags        = ["gitops", "terraform", "packer"]
-  vm_id       = 1000
-  ram         = 4096
+inputs = local.inventory.inputs
 
-  ipv4_address = "192.168.100.254/24"
-
+terraform {
+  source = "${get_parent_terragrunt_dir()}/modules/proxmox-vm"
 }

@@ -6,8 +6,7 @@ iface lo inet loopback
 auto eth0
 iface eth0 inet dhcp
 "
-APKREPOSOPTS="-1 -c"
-PKGS="openssh sudo"
+
 DNSOPTS="-n 192.168.1.5"
 TIMEZONEOPTS="-z America/Denver"
 PROXYOPTS="none"
