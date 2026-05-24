@@ -1,0 +1,26 @@
+- name: Install GNU userland prereqs on Alpine
+  community.general.apk:
+    name:
+      - bash
+      - curl
+      - tar
+      - gzip
+      - ca-certificates
+
+- name: Install pip (Alpine)
+  ansible.builtin.package:
+    name: py3-pip
+    state: present
+  when: ansible_facts['os_family'] == 'Alpine'
+
+- name: Install open-iscsi
+  ansible.builtin.package:
+    name: open-iscsi
+    state: present
+
+- name: Install kubernetes Python library
+  ansible.builtin.pip:
+    name: kubernetes
+    state: present
+    extra_args: --break-system-packages
+  become: true

@@ -1,0 +1,9 @@
+- name: Configure global settings
+  hosts: all
+  become: true
+  tasks:
+    - name: Install SOPS
+      ansible.builtin.include_role:
+        name: community.sops.install
+      vars:
+        sops_version: latest

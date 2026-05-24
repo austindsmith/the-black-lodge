@@ -1,0 +1,66 @@
+- name: Install paru
+  kewlfft.aur.aur:
+    name: paru
+    use: makepkg
+    state: present
+  become: false
+
+- name: Force refresh and upgrade
+  kewlfft.aur.aur:
+    upgrade: true
+    update_cache: true
+    extra_args: "--refresh --noconfirm"
+    use: paru
+  become: false
+  ignore_errors: true
+
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: "~/.local/share/chezmoi/reports/{{ ansible_facts['hostname'] }}"
+    state: directory
+
+- name: Export official packages list
+  ansible.builtin.shell: pacman -Qqe > ~/.local/share/chezmoi/reports/{{ ansible_facts['hostname'] }}/official-packages.txt
+  changed_when: false
+
+- name: Export AUR packages list
+  ansible.builtin.shell: pacman -Qqem > ~/.local/share/chezmoi/reports/{{ ansible_facts['hostname'] }}/aur-packages.txt
+  changed_when: false
+
+- name: Install official packages
+  community.general.pacman:
+    name: "{{ packages.official }}"
+    state: present
+  become: false
+
+- name: Install utilities packages
+  kewlfft.aur.aur:
+    name: "{{ packages.utilities }}"
+    use: paru
+    state: present
+    extra_args: "--noconfirm"
+  become: false
+
+- name: Install applications packages
+  kewlfft.aur.aur:
+    name: "{{ packages.applications }}"
+    use: paru
+    state: present
+    extra_args: "--noconfirm"
+  become: false
+
+- name: Install programming packages
+  kewlfft.aur.aur:
+    name: "{{ packages.programming }}"
+    use: paru
+    state: present
+    extra_args: "--noconfirm"
+  become: false
+
+- name: Install devops packages
+  kewlfft.aur.aur:
+    name: "{{ packages.devops }}"
+    use: paru
+    state: present
+    extra_args: "--noconfirm"
+  become: false

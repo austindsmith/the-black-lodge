@@ -1,5 +1,5 @@
 resource "local_file" "ansible_inventory" {
-  content = templatefile("${path.module}/inventory-${var.type}.tmpl", {
+  content = templatefile("${path.module}/inventory-${var.ansible_template_type}.tmpl", {
     nodes = var.nodes
   })
   filename        = var.ansible_inventory_path

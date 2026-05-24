@@ -1,6 +1,0 @@
-- name: Refresh workstations
-  hosts:
-    - desktop
-    - laptop
-  roles:
-    - role: workstation

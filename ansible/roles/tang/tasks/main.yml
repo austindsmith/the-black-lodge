@@ -1,0 +1,11 @@
+- name: Install tang
+  ansible.builtin.apt:
+    name:
+      - tang
+    state: present
+
+- name: Enable tangd socket
+  ansible.builtin.service:
+    name: tangd.socket
+    state: started
+    enabled: true

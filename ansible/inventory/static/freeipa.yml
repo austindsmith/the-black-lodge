@@ -1,0 +1,9 @@
+freeipa_clients:
+  children:
+    workstations:
+      hosts:
+        tang:
+freeipa_servers:
+  children:
+    hosts:
+      ipa:

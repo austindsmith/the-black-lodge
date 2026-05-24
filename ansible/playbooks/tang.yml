@@ -1,0 +1,7 @@
+- name: Configure Tang NBDE servers
+  hosts: tang
+  become: true
+  roles:
+    - role: firewall
+    - role: cockpit
+    - role: tang

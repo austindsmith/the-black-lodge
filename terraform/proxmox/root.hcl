@@ -46,6 +46,7 @@ terraform {
       "/bin/bash", "-c",
       <<-EOT
         HOSTS=$(terraform output -json vm_names | jq -r '[.[]] | join(",")')
+        TEMPLATE_TYPE=$(terraform output -raw ansible_template_type)
         if [ -z "$HOSTS" ]; then
           echo "ansible hook: vm_names output was empty, skipping"
           exit 0
@@ -53,7 +54,7 @@ terraform {
         echo "ansible hook: running playbook against $HOSTS"
         cd ${get_repo_root()}/ansible && \
           ansible-playbook site.yml \
-            -i inventory/terraform.yml \
+            -i inventory/dynamic/$${TEMPLATE_TYPE}.yml \
             --limit "$HOSTS" \
             -v
       EOT
@@ -62,6 +63,6 @@ terraform {
   }
 }
 
-inputs = {
-  ansible_inventory_path = "${get_repo_root()}/ansible/inventory/terraform.yml"
-}
+#inputs = {
+#  ansible_inventory_path = "${get_repo_root()}/ansible/inventory/terraform.yml"
+#}

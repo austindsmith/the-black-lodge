@@ -1,0 +1,16 @@
+- name: Refresh service facts
+  ansible.builtin.service_facts:
+
+- name: Disable and stop ufw
+  ansible.builtin.systemd:
+    name: ufw
+    state: stopped
+    enabled: false
+  when: ansible_facts.services['ufw.service'] is defined
+
+- name: Disable and stop firewalld
+  ansible.builtin.systemd:
+    name: firewalld
+    state: stopped
+    enabled: false
+  when: ansible_facts.services['firewalld.service'] is defined

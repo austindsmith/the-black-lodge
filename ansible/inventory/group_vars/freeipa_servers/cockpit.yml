@@ -1,0 +1,5 @@
+cockpit_packages: default
+cockpit_port: 9090
+cockpit_enabled: true
+cockpit_started: true
+cockpit_transactional_update_reboot_ok: true

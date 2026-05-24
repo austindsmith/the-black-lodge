@@ -1,0 +1,4 @@
+- name: Refresh workstations
+  hosts: workstations
+  roles:
+    - role: workstations

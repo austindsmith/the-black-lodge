@@ -105,7 +105,7 @@ variable "ansible_inventory_path" {
   default = ""
 }
 
-variable "type" {
+variable "ansible_template_type" {
   type        = string
-  description = "Type of vm to help create Ansible template"
+  description = "Type of Ansible template to use"
 }

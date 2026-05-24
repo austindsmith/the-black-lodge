@@ -1,8 +1,0 @@
-artifacts/
-passes.yml
-vault.yml
-*.retry
-*.swp
-*.swo
-tests/roles/linux-system-roles.certificate/
-.tox/

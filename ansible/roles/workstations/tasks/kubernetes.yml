@@ -1,0 +1,66 @@
+#### docker
+
+- name: install docker packages
+  community.general.pacman:
+    name:
+      - docker
+      - docker-compose
+    state: present
+
+- name: enable and start docker
+  ansible.builtin.systemd:
+    name: docker
+    enabled: true
+    state: started
+
+- name: add user to docker group
+  ansible.builtin.user:
+    name: "austin"
+    groups: docker
+    append: true
+
+- name: use default docker context
+  command: docker context use default
+
+
+- name: check if k3d cluster exists
+  ansible.builtin.command: k3d cluster get local-machine-cluster
+  register: k3d_cluster_exists
+  failed_when: false
+  changed_when: false
+
+- name: copy k3d config
+  copy:
+    src: k3d_config.yaml # In files folder, sibling of tasks
+    dest: "/home/{{ workstation_user }}/tmp/k3d_config.yaml"
+  when: k3d_cluster_exists.rc != 0
+
+- name: configure k3d
+  command: k3d cluster create --config "/home/{{ workstation_user }}/tmp/k3d_config.yaml"
+  when: k3d_cluster_exists.rc != 0
+
+- name: start cluster
+  command: k3d cluster start local-machine-cluster
+
+#### flux
+
+- name: check if flux is installed
+  command: which flux
+  register: flux_installed
+  failed_when: false
+  changed_when: false
+
+- name: download flux cli
+  get_url:
+    url: https://fluxcd.io/install.sh
+    dest: /tmp/flux_install.sh
+    mode: "0755"
+  when: flux_installed.rc != 0
+
+- name: install flux
+  script: /tmp/flux_install.sh
+  when: flux_installed.rc != 0
+
+- name: bootstrap flux
+  script: flux_bootstrap.sh
+  when: 0 > 1

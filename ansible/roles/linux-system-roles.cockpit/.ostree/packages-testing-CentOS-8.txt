@@ -1,3 +1,0 @@
-libselinux-python3
-policycoreutils-python3
-policycoreutils-python-utils

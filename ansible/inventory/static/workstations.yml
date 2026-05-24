@@ -1,0 +1,12 @@
+workstations:
+  hosts:
+    desktop:
+      ansible_host: 192.168.1.235
+      ansible_user: "{{ workstation_user }}"
+      ansible_ssh_private_key_file: "{{ workstation_ssh_private_key_file }}"
+      ansible_become_password: "{{ workstation_password }}"
+    laptop:
+      ansible_host: 192.168.1.66
+      ansible_user: "{{ workstation_user }}"
+      ansible_ssh_private_key_file: "{{ workstation_ssh_private_key_file }}"
+      ansible_become_password: "{{ workstation_password }}"

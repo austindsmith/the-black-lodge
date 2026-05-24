@@ -1,49 +1,17 @@
-- name: Bootstrap all VMs
-  hosts: all
-  become: true
-  tasks:
-    - name: Install zsh
-      ansible.builtin.package:
-        name: zsh
-        state: present
+- name: Global configurations
+  ansible.builtin.import_playbook: playbooks/global.yml
 
-    - name: Ensure /etc/skel directory exists
-      ansible.builtin.file:
-        path: /etc/skel
-        state: directory
-        mode: '0755'
-        owner: root
-        group: root
+- name: Cockpit server management
+  ansible.builtin.import_playbook: playbooks/cockpit.yml
 
-    - name: Add default zshrc to skel
-      ansible.builtin.copy:
-        dest: /etc/skel/.zshrc
-        content: "# default zshrc\n"
-        mode: "0644"
+- name: FreeIPA servers and clients
+  ansible.builtin.import_playbook: playbooks/freeipa.yml
 
-# FreeIPA
-- name: FreeIPA client enrollment
-  hosts: freeipa_clients
-  become: true
-  roles:
-    - role: freeipa-client
-  tags:
-    - freeipa-client
+- name: Create Kubernetes cluster
+  ansible.builtin.import_playbook: playbooks/kubernetes.yml
 
-# Tang
-- name: Tang NBDE server
-  hosts: tang
-  become: true
-  roles:
-    - role: cockpit
-    - role: tang
+- name: Refresh workstations
+  ansible.builtin.import_playbook: playbooks/workstations.yml
 
-# Kubernetes
-- name: Create k3s cluster
-  ansible.builtin.import_playbook: k3s.orchestration.site
-
-- name: Configure k3s vms
-  hosts: k3s_cluster
-  become: true
-  roles:
-    - role: kubernetes
+- name: Create tang server
+  ansible.builtin.import_playbook: playbooks/tang.yml

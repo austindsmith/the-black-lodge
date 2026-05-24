@@ -12,3 +12,8 @@ output "vm_names" {
   description = "VM names as registered in Proxmox"
   value       = { for k, v in proxmox_virtual_environment_vm.vm : k => v.name }
 }
+
+output "ansible_template_type" {
+  value       = var.ansible_template_type
+  description = "Type of generated Ansible template"
+}

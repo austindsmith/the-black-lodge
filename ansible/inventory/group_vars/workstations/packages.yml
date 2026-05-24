@@ -1,0 +1,48 @@
+packages:
+  official:
+    - paru
+  utilities:
+    - btop
+    - bat
+    - zoxide
+    - direnv
+    - yq
+    - jq
+    - atuin
+    - fzf
+    - age-plugin-yubikey
+    - chezmoi
+    - ripgrep
+    - proton-pass-cli-bin
+    - sops
+    - age
+    - yubikey-manager
+  applications:
+    - brave
+    - zed
+    - vesktop
+    - neovim
+    - tmux
+    - zsh
+  programming:
+    - go
+    - rustup
+    - python
+    - uv
+    - mise # like uv for rust, python and go
+    - ruff
+    - yamlfmt
+    - lazygit
+    - github-cli
+    - glab
+  devops:
+    - helm
+    - k9s
+    - kubectl
+    - just
+    - terraform
+    - packer
+    - vagrant
+    - ansible-core
+    - ansible
+    - ansible-lint

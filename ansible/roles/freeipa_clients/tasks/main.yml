@@ -1,0 +1,55 @@
+- name: Check if already enrolled in FreeIPA
+  ansible.builtin.stat:
+    path: /etc/ipa/default.conf
+  register: ipa_enrolled
+
+- name: Cleanup and enroll
+  when: not ipa_enrolled.stat.exists
+  block:
+    - name: Cleanup stale FreeIPA entries
+      ansible.builtin.import_tasks: cleanup.yml
+
+    - name: Set nameserver before IPA enrollment
+      ansible.builtin.copy:
+        dest: /etc/resolv.conf
+        content: |
+          nameserver {{ ipa_dns_servers }}
+          search {{ ipa_domain }}
+        mode: "0644"
+
+    - name: Join FreeIPA domain
+      ansible.builtin.include_role:
+        name: freeipa.ansible_freeipa.ipaclient
+      vars:
+        ipaclient_domain: "{{ ipa_domain }}"
+        ipaclient_realm: "{{ ipa_realm }}"
+        ipaadmin_principal: "{{ ipa_admin_user }}"
+        ipaadmin_password: "{{ ipa_admin_password }}"
+        ipaclient_force_join: true
+        ipaclient_configure_dns_resolver: true
+        ipaclient_mkhomedir: true
+        ipaclient_dns_servers: "{{ ipa_dns_servers }}"
+        ipaclient_servers: "{{ ipa_servers }}"
+        ipaclient_hostname: "{{ ipa_hostname }}"
+        ipaclient_enable_dns_updates: true
+
+    - name: Register DNS A record
+      community.general.ipa_dnsrecord:
+        ipa_host: "{{ ipa_servers }}"
+        ipa_user: "{{ ipa_admin_user }}"
+        ipa_pass: "{{ ipa_admin_password }}"
+        zone_name: "{{ ipa_domain }}"
+        record_name: "{{ inventory_hostname }}"
+        record_type: A
+        record_value: "{{ ansible_host }}"
+        state: present
+
+- name: Configure sshd AuthorizedKeysCommand
+  ansible.builtin.blockinfile:
+    path: /etc/ssh/sshd_config.d/04-ipa.conf
+    create: true
+    validate: sshd -t -f %s
+    block: |
+      AuthorizedKeysCommand /usr/bin/sss_ssh_authorizedkeys %u
+      AuthorizedKeysCommandUser nobody
+  notify: Restart sshd

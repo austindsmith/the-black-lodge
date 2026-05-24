@@ -1,35 +1,19 @@
-- name: Refresh service facts
-  ansible.builtin.service_facts:
+- name: Preflight checks
+  ansible.builtin.import_tasks:
+    file: preflight.yml
 
-- name: Disable and stop ufw
-  ansible.builtin.systemd:
-    name: ufw
-    state: stopped
-    enabled: false
-  when: ansible_facts.services['ufw.service'] is defined
+- name: Install packages
+  ansible.builtin.import_tasks:
+    file: packages.yml
 
-- name: Disable and stop firewalld
-  ansible.builtin.systemd:
-    name: firewalld
-    state: stopped
-    enabled: false
-  when: ansible_facts.services['firewalld.service'] is defined
+#- name: Install scripts
+#  ansible.builtin.include_tasks: install_scripts.yml
+#  loop: "{{ install_scripts }}"
+#  loop_control:
+#    loop_var: install_script
 
-- name: Install pip (Debian)
-  ansible.builtin.package:
-    name: python3-pip
+- name: Apply Traefik CRDs
+  kubernetes.core.k8s:
     state: present
-  when: ansible_facts['os_family'] == 'Debian'
-
-- name: Install pip (Alpine)
-  ansible.builtin.package:
-    name: py3-pip
-    state: present
-  when: ansible_facts['os_family'] == 'Alpine'
-
-- name: Install kubernetes Python library
-  ansible.builtin.pip:
-    name: kubernetes
-    state: present
-    extra_args: --break-system-packages
-  become: true
+    src: "{{ traefik_crd_url }}"
+    kubeconfig: /etc/rancher/k3s/k3s.yaml

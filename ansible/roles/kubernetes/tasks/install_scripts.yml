@@ -1,0 +1,17 @@
+- name: Check if {{ install_script.name }} is installed
+  ansible.builtin.command: which {{ install_script.name }}
+  register: script_check
+  failed_when: false
+  changed_when: false
+
+- name: Download {{ install_script.name }} install script
+  ansible.builtin.get_url:
+    url: "{{ install_script.script_url }}"
+    dest: /tmp/{{ install_script.name }}_install.sh
+    mode: "0755"
+    #when: script_check.rc != 0
+
+- name: Install {{ install_script.name }}
+  ansible.builtin.command: /tmp/{{ install_script.name }}_install.sh
+  become: "{{ install_script.become | default(false) }}"
+  #when: script_check.rc != 0

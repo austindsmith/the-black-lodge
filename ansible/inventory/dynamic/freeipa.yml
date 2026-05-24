@@ -1,0 +1,4 @@
+freeipa_servers:
+  hosts:
+    freeipa-server-01:
+      ansible_host: 192.168.100.254

@@ -1,0 +1,11 @@
+- name: FreeIPA server setup
+  hosts: freeipa_servers
+  become: true
+  roles:
+    - role: freeipa_servers
+
+- name: FreeIPA client enrollment
+  hosts: freeipa_clients
+  become: true
+  roles:
+    - role: freeipa_clients
