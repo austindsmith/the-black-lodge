@@ -2,7 +2,7 @@ all:
   children:
     servers:
       children:
-        freeipa_clients:
+        freeipa_servers:
             hosts:
 %{ for name, node in nodes ~}
                 ${name}:

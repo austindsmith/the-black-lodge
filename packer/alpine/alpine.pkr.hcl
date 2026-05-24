@@ -98,8 +98,23 @@ build {
     inline = [
       "echo 'https://dl-cdn.alpinelinux.org/alpine/v3.20/community' >> /etc/apk/repositories",
       "apk update",
-      "apk add sudo python3 cloud-init e2fsprogs-extra py3-pyserial py3-netifaces",
+
+      "apk add sudo python3 cloud-init e2fsprogs-extra py3-pyserial py3-netifaces util-linux",
       "setup-cloud-init",
+
+      "mkdir -p /etc/modules-load.d",
+      "echo 'iso9660' > /etc/modules-load.d/iso9660.conf",
+
+      "rm -f /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg",
+      "find /etc/cloud/cloud.cfg.d/ -name '*disable*' -delete",
+      "find /etc/cloud/cloud.cfg.d/ -name '*network*' -delete",
+      "sed -i '/^datasource_list/d' /etc/cloud/cloud.cfg",
+      "echo 'datasource_list: [ NoCloud, ConfigDrive ]' >> /etc/cloud/cloud.cfg",
+      "mkdir -p /etc/cloud/cloud.cfg.d",
+      "echo 'datasource_list: [ NoCloud, ConfigDrive ]' > /etc/cloud/cloud.cfg.d/99_datasource.cfg",
+      "printf 'auto lo\niface lo inet loopback\n' > /etc/network/interfaces",
+      "cloud-init clean --logs",
+      "truncate -s 0 /etc/machine-id",
       "passwd -l root",
       "rm -f /root/.ash_history",
     ]

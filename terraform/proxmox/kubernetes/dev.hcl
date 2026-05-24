@@ -5,13 +5,13 @@ inputs = {
   disk_size    = 10
   datastore_id = "local-lvm"
   interface    = "scsi0"
-  template_id  = 9000
+  template_id  = 9002
   description  = ""
   pool_id      = "kubernetes"
   type         = "kubernetes"
   vlan_id      = 5
   gateway      = "192.168.100.1"
-  dns_servers  = ["1.1.1.1"]
+  dns_servers  = ["192.168.1.5"]
   domain       = "theblacklodge.org"
 
   username = "ansible"

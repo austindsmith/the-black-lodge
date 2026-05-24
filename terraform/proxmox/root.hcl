@@ -45,10 +45,17 @@ terraform {
     execute = [
       "/bin/bash", "-c",
       <<-EOT
-        HOSTS=$(terragrunt output -json vm_names 2>/dev/null | jq -r '[.[] ] | join(",")')
-        if [ -n "$HOSTS" ]; then
-          cd ${get_repo_root()}/ansible && ansible-playbook site.yml --limit "$HOSTS"
+        HOSTS=$(terraform output -json vm_names | jq -r '[.[]] | join(",")')
+        if [ -z "$HOSTS" ]; then
+          echo "ansible hook: vm_names output was empty, skipping"
+          exit 0
         fi
+        echo "ansible hook: running playbook against $HOSTS"
+        cd ${get_repo_root()}/ansible && \
+          ansible-playbook site.yml \
+            -i inventory/terraform.yml \
+            --limit "$HOSTS" \
+            -v
       EOT
     ]
     run_on_error = false

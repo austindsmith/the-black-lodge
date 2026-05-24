@@ -49,8 +49,10 @@ resource "proxmox_virtual_environment_vm" "vm" {
   }
 
   initialization {
+    datastore_id = var.datastore_id
     user_account {
       username = var.username
+      password = var.ssh_password
       keys     = var.ssh_public_keys
     }
     dns {

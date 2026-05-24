@@ -89,6 +89,12 @@ variable "username" {
   description = "Default user created via cloud-init"
 }
 
+# Can be removed if openssh PAM starts working
+variable "ssh_password" {
+  type        = string
+  description = "SSH password added to the cloud-init user, needed for Alpine"
+}
+
 variable "ssh_public_keys" {
   type        = list(string)
   description = "SSH public keys added to the cloud-init user"

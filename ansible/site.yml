@@ -6,12 +6,22 @@
       ansible.builtin.package:
         name: zsh
         state: present
+
+    - name: Ensure /etc/skel directory exists
+      ansible.builtin.file:
+        path: /etc/skel
+        state: directory
+        mode: '0755'
+        owner: root
+        group: root
+
     - name: Add default zshrc to skel
       ansible.builtin.copy:
         dest: /etc/skel/.zshrc
         content: "# default zshrc\n"
         mode: "0644"
 
+# FreeIPA
 - name: FreeIPA client enrollment
   hosts: freeipa_clients
   become: true
@@ -20,6 +30,7 @@
   tags:
     - freeipa-client
 
+# Tang
 - name: Tang NBDE server
   hosts: tang
   become: true
@@ -27,9 +38,12 @@
     - role: cockpit
     - role: tang
 
-- name: Kubernetes nodes
+# Kubernetes
+- name: Create k3s cluster
+  ansible.builtin.import_playbook: k3s.orchestration.site
+
+- name: Configure k3s vms
   hosts: k3s_cluster
   become: true
   roles:
-    - role: cockpit
     - role: kubernetes

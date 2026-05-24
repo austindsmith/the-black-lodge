@@ -15,6 +15,12 @@
   become: true
   ignore_errors: true
 
+- name: Remove stale host key before connecting
+  delegate_to: localhost
+  ansible.builtin.known_hosts:
+    name: "{{ ansible_host }}"
+    state: absent
+
 - name: Flush local SSSD cache
   ansible.builtin.command: sss_cache -E
   delegate_to: localhost
