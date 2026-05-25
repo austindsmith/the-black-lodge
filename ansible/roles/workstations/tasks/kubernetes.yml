@@ -1,3 +1,8 @@
+- name: Create a directory if it does not exist
+  ansible.builtin.file:
+    path: /home/{{ workstation_user }}/tmp
+    state: directory
+
 #### docker
 
 - name: install docker packages
@@ -6,18 +11,20 @@
       - docker
       - docker-compose
     state: present
+  become: true
 
 - name: enable and start docker
   ansible.builtin.systemd:
     name: docker
     enabled: true
     state: started
-
+  become: true
 - name: add user to docker group
   ansible.builtin.user:
     name: "austin"
     groups: docker
     append: true
+  become: true
 
 - name: use default docker context
   command: docker context use default

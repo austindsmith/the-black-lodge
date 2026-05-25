@@ -5,14 +5,14 @@
     state: present
   become: false
 
-- name: Force refresh and upgrade
-  kewlfft.aur.aur:
-    upgrade: true
-    update_cache: true
-    extra_args: "--refresh --noconfirm"
-    use: paru
-  become: false
-  ignore_errors: true
+#- name: Force refresh and upgrade
+#  kewlfft.aur.aur:
+#    upgrade: true
+#    update_cache: true
+#    extra_args: "--refresh --noconfirm"
+#    use: paru
+#  become: false
+#  ignore_errors: true
 
 - name: Create a directory if it does not exist
   ansible.builtin.file:

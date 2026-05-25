@@ -2,6 +2,7 @@ packages:
   official:
     - paru
   utilities:
+    - ufw
     - btop
     - bat
     - zoxide

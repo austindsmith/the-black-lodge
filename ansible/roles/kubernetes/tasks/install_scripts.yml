@@ -4,14 +4,19 @@
   failed_when: false
   changed_when: false
 
+- name: Remove stale {{ install_script.name }} binary if present
+  ansible.builtin.file:
+    path: "/home/ansible/{{ install_script.name }}"
+    state: absent
+
 - name: Download {{ install_script.name }} install script
   ansible.builtin.get_url:
     url: "{{ install_script.script_url }}"
-    dest: /tmp/{{ install_script.name }}_install.sh
+    dest: /tmp/{{ install_script.name }}.sh
     mode: "0755"
-    #when: script_check.rc != 0
+  when: script_check.rc != 0
 
 - name: Install {{ install_script.name }}
-  ansible.builtin.command: /tmp/{{ install_script.name }}_install.sh
+  ansible.builtin.command: /tmp/{{ install_script.name }}.sh
   become: "{{ install_script.become | default(false) }}"
-  #when: script_check.rc != 0
+  when: script_check.rc != 0
