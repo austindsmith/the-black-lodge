@@ -40,27 +40,6 @@ terraform {
     commands  = get_terraform_commands_that_need_vars()
     arguments = ["-var-file=${get_parent_terragrunt_dir()}/secrets.auto.tfvars"]
   }
-  after_hook "ansible" {
-    commands = ["apply"]
-    execute = [
-      "/bin/bash", "-c",
-      <<-EOT
-        HOSTS=$(terraform output -json vm_names | jq -r '[.[]] | join(",")')
-        TEMPLATE_TYPE=$(terraform output -raw ansible_template_type)
-        if [ -z "$HOSTS" ]; then
-          echo "ansible hook: vm_names output was empty, skipping"
-          exit 0
-        fi
-        echo "ansible hook: running playbook against $HOSTS"
-        cd ${get_repo_root()}/ansible && \
-          ansible-playbook site.yml \
-            -i inventory/dynamic/$${TEMPLATE_TYPE}.yml \
-            --limit "$HOSTS" \
-            -v
-      EOT
-    ]
-    run_on_error = false
-  }
 }
 
 #inputs = {

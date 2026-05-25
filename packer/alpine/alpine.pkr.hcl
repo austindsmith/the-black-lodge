@@ -105,6 +105,18 @@ build {
       "mkdir -p /etc/modules-load.d",
       "echo 'iso9660' > /etc/modules-load.d/iso9660.conf",
 
+      "apk add linux-lts",
+      "sed -i 's/^default_kernel_opts=.*/default_kernel_opts=\"quiet rootfstype=ext4\"/' /etc/update-extlinux.conf",
+      "sed -i 's/^default=.*/default=lts/' /etc/update-extlinux.conf",
+      "update-extlinux",
+      "apk upgrade apk-tools",
+      "apk update",
+      "apk upgrade",
+      "echo '#!/bin/sh' > /etc/local.d/rshared-root.start",
+      "echo 'mount --make-rshared /' >> /etc/local.d/rshared-root.start",
+      "chmod +x /etc/local.d/rshared-root.start",
+      "rc-update add local default",
+
       "rm -f /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg",
       "find /etc/cloud/cloud.cfg.d/ -name '*disable*' -delete",
       "find /etc/cloud/cloud.cfg.d/ -name '*network*' -delete",

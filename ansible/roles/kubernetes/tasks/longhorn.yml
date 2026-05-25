@@ -1,0 +1,16 @@
+- name: configure rshared root mount propagation for longhorn
+  copy:
+    dest: /etc/local.d/rshared-root.start
+    mode: '0755'
+    content: |
+      #!/bin/sh
+      mount --make-rshared /
+
+- name: enable local service for rshared script
+  service:
+    name: local
+    enabled: true
+
+- name: apply rshared propagation to current session
+  command: mount --make-rshared /
+  changed_when: false

@@ -1,4 +1,5 @@
 - name: Install GNU userland prereqs on Alpine
+  become: true
   community.general.apk:
     name:
       - bash
@@ -7,16 +8,36 @@
       - gzip
       - ca-certificates
 
+- name: Install open-iscsi
+  become: true
+  ansible.builtin.package:
+    name: open-iscsi
+    state: present
+
+- name: Install nfs-utils
+  become: true
+  ansible.builtin.package:
+    name: nfs-utils
+    state: present
+
+- name: Install cryptsetup
+  become: true
+  ansible.builtin.package:
+    name: cryptsetup
+    state: present
+
+- name: Install device-mapper
+  become: true
+  ansible.builtin.package:
+    name: device-mapper
+    state: present
+
 - name: Install pip (Alpine)
+  become: true
   ansible.builtin.package:
     name: py3-pip
     state: present
   when: ansible_facts['os_family'] == 'Alpine'
-
-- name: Install open-iscsi
-  ansible.builtin.package:
-    name: open-iscsi
-    state: present
 
 - name: Install kubernetes Python library
   ansible.builtin.pip:

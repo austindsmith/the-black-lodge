@@ -64,6 +64,11 @@ variable "datastore_id" {
   default     = "local-lvm"
 }
 
+variable "interface" {
+  type        = string
+  description = "Root disk interface"
+}
+
 variable "disk_size" {
   type        = number
   description = "Root disk size in GB"

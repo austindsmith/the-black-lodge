@@ -1,13 +1,14 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: longhorn
-  namespace: longhorn
+  name: longhorn-ingress
+  namespace: traefik
 spec:
   entryPoints:
     - web
   routes:
     - match: Host(`longhorn.theblacklodge.dev`)
+      kind: Rule
       services:
         - name: longhorn-frontend
-          #kind: TraefikService
+          port: 80
