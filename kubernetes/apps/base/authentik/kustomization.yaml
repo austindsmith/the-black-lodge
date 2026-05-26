@@ -7,13 +7,16 @@ resources:
   - ./namespace.yaml
   #- ./service.yaml
 
+generators:
+  - ./secret-generator.yaml
+
 helmCharts:
   - name: authentik
     repo: https://charts.goauthentik.io/
     version: 2026.5.0
     releaseName: authentik
     namespace: authentik
-    valuesFile: values-secret.yaml
+    valuesFile: values.yaml
     kubeVersion: v1.36.1
 
 

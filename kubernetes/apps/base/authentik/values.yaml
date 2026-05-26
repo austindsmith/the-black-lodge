@@ -1,0 +1,23 @@
+authentik:
+  error_reporting:
+    enabled: false
+    postgresql:
+      password: "TempPassword"
+
+postgresql:
+  enabled: true
+  auth:
+    existingSecret: authentik-secret
+    password: "TempPassword"
+
+global:
+  envFrom:
+    - secretRef:
+        name: authentik-secret
+
+server:
+  ingress:
+    ingressClassName: traefik
+    enabled: true
+    hosts:
+      - authentik.theblacklodge.dev

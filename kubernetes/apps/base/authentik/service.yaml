@@ -5,8 +5,8 @@ metadata:
   namespace: authentik
 spec:
   selector:
-    app: authentik
+    app: authentik-server
   ports:
     - name: http
-      port: 80
+      port: 9000
       targetPort: http
