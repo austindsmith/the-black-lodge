@@ -1,0 +1,14 @@
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: authentik-ingress
+  namespace: traefik
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`authentik.theblacklodge.dev`)
+      kind: Rule
+      services:
+        - name: authentik-server
+          port: 9000
