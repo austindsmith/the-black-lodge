@@ -8,30 +8,6 @@
       - gzip
       - ca-certificates
 
-- name: Install open-iscsi
-  become: true
-  ansible.builtin.package:
-    name: open-iscsi
-    state: present
-
-- name: Install nfs-utils
-  become: true
-  ansible.builtin.package:
-    name: nfs-utils
-    state: present
-
-- name: Install cryptsetup
-  become: true
-  ansible.builtin.package:
-    name: cryptsetup
-    state: present
-
-- name: Install device-mapper
-  become: true
-  ansible.builtin.package:
-    name: device-mapper
-    state: present
-
 - name: Install pip (Alpine)
   become: true
   ansible.builtin.package:

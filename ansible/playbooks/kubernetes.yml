@@ -9,7 +9,7 @@
 - name: Create k3s cluster
   ansible.builtin.import_playbook: k3s.orchestration.site
 
-- name: Apply cluster state
+- name: Apply cluster post-install
   hosts: k3s_cluster
   gather_facts: false
   tasks:
@@ -18,4 +18,18 @@
       kubernetes.core.k8s:
         state: present
         src: "{{ traefik_crd_url }}"
+        kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+    - name: Apply Marimo CRDs
+      become: true
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ marimo }}"
+        kubeconfig: /etc/rancher/k3s/k3s.yaml
+
+    - name: Apply CloudNative PG CRDs
+      become: true
+      kubernetes.core.k8s:
+        state: present
+        src: "{{ cloudnative_pg_crd_url }}"
         kubeconfig: /etc/rancher/k3s/k3s.yaml

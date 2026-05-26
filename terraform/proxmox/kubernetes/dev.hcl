@@ -1,7 +1,7 @@
 inputs = {
   cpu_type               = "host"
-  cores                  = 2
-  ram                    = 4096
+  cores                  = 4
+  ram                    = 16384
   disk_size              = 100
   datastore_id           = "local-lvm"
   interface              = "virtio0"
