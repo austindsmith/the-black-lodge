@@ -1,0 +1,12 @@
+# configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sabnzbd-config-seed
+  namespace: media
+  annotations:
+    argocd.argoproj.io/sync-wave: "-1"
+data:
+  sabnzbd.ini: |
+    [misc]
+    host_whitelist = sabnzbd.theblacklodge.dev,

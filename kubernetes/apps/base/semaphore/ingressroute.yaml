@@ -1,14 +1,14 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: gluetun-ingress
+  name: semaphore-ingress
   namespace: traefik
 spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`gluetun.theblacklodge.dev`)
+    - match: Host(`semaphore.theblacklodge.dev`)
       kind: Rule
       services:
-        - name: gluetun
-          port: 7878
+        - name: semaphore
+          port: 80

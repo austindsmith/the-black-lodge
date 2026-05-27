@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: qbittorrent
+  name: gluetun
   namespace: media
 spec:
   replicas: 1
@@ -16,10 +16,75 @@ spec:
         app: qbittorrent
     spec:
       securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: gluetun
+          image: qmcgaw/gluetun
+          restartPolicy: Always
+          securityContext:
+            capabilities:
+              add:
+                - NET_ADMIN
+          env:
+            - name: TZ
+              value: America/Denver
+            - name: VPN_SERVICE_PROVIDER
+              value: protonvpn
+            - name: VPN_TYPE
+              value: wireguard
+            - name: WIREGUARD_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: qbittorrent-creds
+                  key: vpn-private-key
+            - name: SERVER_COUNTRIES
+              value: United States
+            - name: DNS_ADDRESS
+              value: "1.1.1.1"
+          ports:
+            - name: http-proxy
+              containerPort: 8888
+            - name: control
+              containerPort: 8000
+          volumeMounts:
+            - name: config
+              mountPath: /gluetun
+          resources:
+            requests:
+              cpu: 100m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+        - name: wait-for-vpn
+          image: alpine
+          command:
+            - sh
+            - -c
+            - |
+              until wget -qO- https://checkip.amazonaws.com 2>/dev/null; do
+                sleep 2
+              done
+        - name: seed-qbittorrent-config
+          image: alpine
+          command:
+            - sh
+            - -c
+            - |
+              if [ ! -f /config/qBittorrent/qBittorrent.conf ]; then
+                mkdir -p /config/qBittorrent
+                cat > /config/qBittorrent/qBittorrent.conf <<EOF
+              [Preferences]
+              WebUI\Username=$(cat /creds/qbittorrent-username)
+              WebUI\Password_PBKDF2="$(cat /creds/qbittorrent-password-hash)"
+              WebUI\LocalHostAuth=false
+              EOF
+              fi
+          volumeMounts:
+            - name: qbittorrent-config
+              mountPath: /config
+            - name: creds
+              mountPath: /creds
       containers:
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:latest
@@ -32,11 +97,13 @@ spec:
               value: "002"
             - name: TZ
               value: America/Denver
+            - name: WEBUI_PORT
+              value: "8080"
           ports:
             - name: http
               containerPort: 8080
           volumeMounts:
-            - name: config
+            - name: qbittorrent-config
               mountPath: /config
             - name: data
               mountPath: /data
@@ -49,7 +116,13 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
+            claimName: gluetun-config
+        - name: qbittorrent-config
+          persistentVolumeClaim:
             claimName: qbittorrent-config
         - name: data
           persistentVolumeClaim:
             claimName: media
+        - name: creds
+          secret:
+            secretName: qbittorrent-creds

@@ -16,3 +16,10 @@ server action:
       --enable-exec \
     | kubectl {{ action }} \
     -f -
+
+delete:
+    kustomize build {{ invocation_directory() }} \
+      --enable-helm \
+      --enable-alpha-plugins \
+      --enable-exec \
+    | kubectl delete -f -
