@@ -3,3 +3,4 @@ resources:
   - traefik
   - longhorn
   - pgadmin4
+  - cloudnative-pg
