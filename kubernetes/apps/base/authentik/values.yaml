@@ -1,19 +1,11 @@
 authentik:
+  secret_key: "PleaseGenerateASecureKey"
+  # This sends anonymous usage-data, stack traces on errors and
+  # performance data to sentry.io, and is fully opt-in
   error_reporting:
-    enabled: false
-    postgresql:
-      password: "TempPassword"
-
-postgresql:
-  enabled: true
-  auth:
-    existingSecret: authentik-secret
-    password: "TempPassword"
-
-global:
-  envFrom:
-    - secretRef:
-        name: authentik-secret
+    enabled: true
+  postgresql:
+    password: "ThisIsNotASecurePassword"
 
 server:
   ingress:
@@ -21,3 +13,8 @@ server:
     enabled: true
     hosts:
       - authentik.theblacklodge.dev
+
+postgresql:
+  enabled: true
+  auth:
+    password: "ThisIsNotASecurePassword"

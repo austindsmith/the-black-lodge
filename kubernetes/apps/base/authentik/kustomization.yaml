@@ -5,7 +5,7 @@ namespace: authentik
 resources:
   - ./ingressroute.yaml
   - ./namespace.yaml
-  #- ./service.yaml
+  - ./service.yaml
 
 generators:
   - ./secret-generator.yaml
@@ -18,12 +18,3 @@ helmCharts:
     namespace: authentik
     valuesFile: values.yaml
     kubeVersion: v1.36.1
-
-
-#patches:
-#  - target:
-#      kind: (ServiceAccount|Role|RoleBinding|ConfigMap|Secret|Service|Deployment|DaemonSet|StatefulSet|Job|PersistentVolumeClaim|PodDisruptionBudget|NetworkPolicy|HorizontalPodAutoscaler)
-#    patch: |
-#      - op: add
-#        path: /metadata/namespace
-#        value: jupyterhub
