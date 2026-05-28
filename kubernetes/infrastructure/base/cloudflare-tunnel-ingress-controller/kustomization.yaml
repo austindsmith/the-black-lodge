@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: cloudflare-tunnel
 
 resources:
-  - ./namespace.yaml
+  #- ./namespace.yaml
   - ./helmrelease.yaml
   - ./helmrepository.yaml
   - ./secret.yaml

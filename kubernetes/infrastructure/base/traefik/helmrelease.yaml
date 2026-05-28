@@ -6,6 +6,7 @@ metadata:
   spec:
     interval: 1h
     install:
+      createNamespace: true
       crds: Create
     upgrade:
       crds: CreateReplace

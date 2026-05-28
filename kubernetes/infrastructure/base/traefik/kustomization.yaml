@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: traefik
 
 resources:
-  - ./namespace.yaml
+  #- ./namespace.yaml
   - ./helmrepository.yaml
   - ./helmrelease.yaml
   - ./dashboard-ingress.yaml

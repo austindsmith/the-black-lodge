@@ -1,0 +1,28 @@
+fstab_mounts:
+  - device: UUID=A192-6DB0
+    path: /boot/efi
+    fstype: vfat
+    opts: fmask=0137,dmask=0027
+    dump: 0
+    passno: 2
+
+  - device: /dev/mapper/luks-7aeee02b-26d2-4e91-8807-58b77d06d1f3
+    path: /
+    fstype: ext4
+    opts: noatime
+    dump: 0
+    passno: 1
+
+  - device: /dev/mapper/luks-5f106252-fc24-466a-b68d-ae77496180b2
+    path: swap
+    fstype: swap
+    opts: defaults
+    dump: 0
+    passno: 0
+
+  - device: tmpfs
+    path: /tmp
+    fstype: tmpfs
+    opts: defaults,noatime,mode=1777
+    dump: 0
+    passno: 0

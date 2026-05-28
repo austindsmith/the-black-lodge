@@ -15,3 +15,7 @@
 - name: Configure firewall
   ansible.builtin.include_tasks:
     file: firewall.yml
+
+#- name: Update fstab
+#  ansible.builtin.include_tasks:
+#    file: fstab.yml

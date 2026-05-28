@@ -4,6 +4,8 @@ metadata:
   name: cloudflare-tunnel-ingress-controller
   namespace: cloudflare-tunnel
 spec:
+  install:
+    createNamespace: true
   interval: 1h
   chart:
     spec:
