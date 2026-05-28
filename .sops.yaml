@@ -1,19 +1,17 @@
 creation_rules:
+  - encrypted_regex: '^(data|stringData)$'
+    age: age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n
   # Ansible
   - path_regex: .*.ya?ml$
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
     # Packer
-  - path_regex: .*\.pkrvars\.hcl$
+  - path_regex: .*.hcl$
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
     # Terraform
-  - path_regex: terraform/.*\.tfvars$
+  - path_regex: .*.tf$
+    age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
+  - path_regex: .*.tfvars$
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
     # Environment variable files
   - path_regex: .*.env
-    age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
-    # Infisical secret
-  - path_regex: .*infisical.yaml
-    age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
-    # Dev kubernetes secrets
-  - path_regex: .*kubernetes/.*secret.ya?ml
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
