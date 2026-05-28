@@ -1,0 +1,19 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/datreeio/CRDs-catalog/main/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: postgres-cluster
+  namespace: postgres
+spec:
+  instances: 3
+  storage:
+    size: 20Gi
+  managed:
+    databases:
+      - name: vaultwarden
+        owner: vaultwarden
+    roles:
+      - name: vaultwarden
+        passwordSecret:
+          name: vaultwarden-db-secret
+        login: true

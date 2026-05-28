@@ -1,6 +1,6 @@
 resources:
   - cloudflare-tunnel-ingress-controller
   - traefik
-  - longhorn
-  - pgadmin4
-  - cloudnative-pg
+  #- longhorn
+  #- pgadmin4
+  #- cloudnative-pg

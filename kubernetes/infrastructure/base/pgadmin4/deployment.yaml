@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gluetun
+  namespace: media
+
+spec:
+  env:
+    - name: PGADMIN_DEFAULT_EMAIL
+      value: admin@local.home
+    - name: PGADMIN_DEFAULT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: pgadmin-admin
+          key: password
+    - name: PGADMIN_SERVER_JSON_FILE
+      value: /pgadmin4/servers.json
+  volumeMounts:
+    - name: servers-config
+      mountPath: /pgadmin4/servers.json
+      subPath: servers.json
+      readOnly: true
+    - name: pgpass
+      mountPath: /pgpassfile
+      subPath: pgpassfile
+      readOnly: true
+  volumes:
+    - name: servers-config
+      configMap:
+        name: pgadmin-servers
+    - name: pgpass
+      secret:
+        secretName: pgadmin-pgpass
+        defaultMode: 0600

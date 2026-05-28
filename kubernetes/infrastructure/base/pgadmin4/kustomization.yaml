@@ -6,6 +6,9 @@ resources:
   - ./ingressroute.yaml
   - ./namespace.yaml
 
+generators:
+  - ./secret-generator.yaml
+
 helmCharts:
   - name: pgadmin4
     repo: https://helm.runix.net/
