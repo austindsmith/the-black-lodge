@@ -14,7 +14,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cloudflare-tunnel-ingress-controller
-        namespace: cloudflare-tunnel
+        #namespace: cloudflare-tunnel
   values:
     cloudflare:
     secretRef:
