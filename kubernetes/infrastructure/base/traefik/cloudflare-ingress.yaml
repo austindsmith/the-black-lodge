@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: traefik-tunnel
-  #namespace: traefik
 spec:
   ingressClassName: cloudflare-tunnel
   rules:
