@@ -13,4 +13,4 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  path: .kubernetes/infrastructure/base
+  path: ./kubernetes/infrastructure/base

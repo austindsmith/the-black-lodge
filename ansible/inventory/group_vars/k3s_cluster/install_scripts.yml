@@ -6,5 +6,3 @@ install_scripts:
     become: true
   - name: flux
     script_url: https://fluxcd.io/install.sh
-  - name: longhornctl
-    script_url: https://github.com/longhorn/cli/releases/download/v1.10.1/longhornctl-linux-amd64

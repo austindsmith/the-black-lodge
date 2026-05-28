@@ -4,8 +4,13 @@ metadata:
   name: apps
   namespace: flux-system
 spec:
+  interval: 10m
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
   decryption:
     provider: sops
     secretRef:
       name: sops-age
-  path: ../../apps/base
+  path: ./kubernetes/apps/base
