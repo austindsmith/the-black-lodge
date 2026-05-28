@@ -3,18 +3,18 @@ kind: HelmRelease
 metadata:
   name: traefik
   namespace: traefik
-  spec:
-    interval: 1h
-    install:
-      createNamespace: true
-      crds: Create
-    upgrade:
-      crds: CreateReplace
-    chart:
-      spec:
-        chart: traefik
-        version: 39.0.8
-        sourceRef:
-          kind: HelmRepository
-          name: traefik
-          namespace: traefik
+spec:
+  interval: 1h
+  install:
+    createNamespace: true
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  chart:
+    spec:
+      chart: traefik
+      version: 39.0.8
+      sourceRef:
+        kind: HelmRepository
+        name: traefik
+        namespace: traefik
