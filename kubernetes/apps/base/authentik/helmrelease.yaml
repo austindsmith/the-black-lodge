@@ -29,7 +29,7 @@ spec:
   values:
     authentik:
       error_reporting:
-        enabled: true
+        enabled: false
     server:
       ingress:
         ingressClassName: traefik
