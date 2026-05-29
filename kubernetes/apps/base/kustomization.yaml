@@ -1,6 +1,6 @@
 resources:
   - authentik
-  - media
+  #- media
   #- jupyterhub
   #- dagster
   #- coder
