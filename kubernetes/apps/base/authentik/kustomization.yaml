@@ -3,18 +3,7 @@ kind: Kustomization
 namespace: authentik
 
 resources:
-  - ./ingressroute.yaml
   - ./namespace.yaml
-  - ./service.yaml
-
-generators:
-  - ./secret-generator.yaml
-
-helmCharts:
-  - name: authentik
-    repo: https://charts.goauthentik.io/
-    version: 2026.5.0
-    releaseName: authentik
-    namespace: authentik
-    valuesFile: values.yaml
-    kubeVersion: v1.36.1
+  - ./helmrelease.yaml
+  - ./helmrepository.yaml
+  - ./secret.yaml
