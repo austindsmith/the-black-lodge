@@ -1,8 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gluetun
-  namespace: media
+  name: pgadmin4
 
 spec:
   env:

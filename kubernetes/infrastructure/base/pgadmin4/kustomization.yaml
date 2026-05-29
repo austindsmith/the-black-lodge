@@ -3,16 +3,7 @@ kind: Kustomization
 namespace: pgadmin4
 
 resources:
-  - ./ingressroute.yaml
   - ./namespace.yaml
-
-generators:
-  - ./secret-generator.yaml
-
-helmCharts:
-  - name: pgadmin4
-    repo: https://helm.runix.net/
-    version: 1.62.0
-    releaseName: pgadmin4
-    namespace: pgadmin4
-    valuesFile: values.yaml
+  - ./helmrelease.yaml
+  - ./helmrepository.yaml
+  - ./ingressroute.yaml
