@@ -13,8 +13,9 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: headlamp
-  config:
-    pluginsDir: /build/plugins
+  values:
+    config:
+      pluginsDir: /build/plugins
     initContainers:
       - command:
           - /bin/sh
