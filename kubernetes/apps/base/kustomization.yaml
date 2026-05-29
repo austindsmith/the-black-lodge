@@ -1,5 +1,6 @@
 resources:
   - authentik
+  - headlamp
   #- media
   #- jupyterhub
   #- dagster
