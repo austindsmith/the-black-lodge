@@ -36,5 +36,8 @@ spec:
         enabled: true
         hosts:
           - authentik.theblacklodge.dev
+        tls:
+            hosts:
+            - authentik.theblacklodge.dev
     postgresql:
       enabled: true
