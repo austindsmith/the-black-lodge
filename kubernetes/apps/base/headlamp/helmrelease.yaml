@@ -15,6 +15,7 @@ spec:
         name: headlamp
   values:
     config:
+      unsafeUseServiceAccountToken: false
       pluginsDir: /build/plugins
     initContainers:
       - command:
