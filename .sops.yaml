@@ -2,12 +2,14 @@ creation_rules:
   # JSON
   - path_regex: .*.json
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
-  - encrypted_regex: '^(data|stringData)$'
-    age: age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n
-  # Ansible
+  # Kubernetes
+  - path_regex: kubernetes/.*ya?ml$
+    encrypted_regex: '^(data|stringData)$'
+    age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
+  # General yaml
   - path_regex: .*.ya?ml$
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
-    # Packer
+  # Packer
   - path_regex: .*.hcl$
     age: "age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n"
     # Terraform

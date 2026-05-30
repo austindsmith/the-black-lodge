@@ -16,3 +16,6 @@ kubernetes/dev/platform/external-secrets/Secret.yaml
 **charts/
 **downloaded*iso**
 .ansible
+
+# Temporary for Authentik until secrets are migrated
+exported.yaml

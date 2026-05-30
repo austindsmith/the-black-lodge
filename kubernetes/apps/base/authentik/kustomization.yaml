@@ -8,4 +8,4 @@ resources:
   - ./helmrepository.yaml
   - ./ingressroute.yaml
   - ./secret.yaml
-  - ./blueprints/
+  - ./blueprints/custom/

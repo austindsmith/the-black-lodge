@@ -46,6 +46,9 @@ spec:
     postgresql:
       enabled: true
     server:
+      extraEnvFrom:
+        - secretRef:
+            name: authentik
       ingress:
         enabled: false
       volumes:
@@ -56,6 +59,9 @@ spec:
         - name: custom-blueprints
           mountPath: /blueprints/custom
     worker:
+      extraEnvFrom:
+        - secretRef:
+            name: authentik-custom-blueprints
       volumes:
         - name: custom-blueprints
           configMap:
