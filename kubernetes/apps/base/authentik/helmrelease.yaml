@@ -45,21 +45,21 @@ spec:
       default_user_change_name: true
     postgresql:
       enabled: true
-    worker:
-      extraVolumes:
-        - name: blueprints-site
-          configMap:
-            name: authentik-blueprints-site
-      extraVolumeMounts:
-        - name: blueprints-site
-          mountPath: /blueprints/site
     server:
       ingress:
         enabled: false
-      extraVolumes:
+      volumes:
         - name: blueprints-site
           configMap:
             name: authentik-blueprints-site
-      extraVolumeMounts:
+      volumeMounts:
+        - name: blueprints-site
+          mountPath: /blueprints/site
+    worker:
+      volumes:
+        - name: blueprints-site
+          configMap:
+            name: authentik-blueprints-site
+      volumeMounts:
         - name: blueprints-site
           mountPath: /blueprints/site
