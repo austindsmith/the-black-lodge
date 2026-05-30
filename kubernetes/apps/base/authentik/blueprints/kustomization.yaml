@@ -6,6 +6,6 @@ namespace: authentik
 configMapGenerator:
   - name: authentik-blueprints-site
     files:
-      - site/exported.yaml
+      - site/initial.yaml
     options:
       disableNameSuffixHash: true
