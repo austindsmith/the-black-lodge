@@ -9,5 +9,5 @@ spec:
     - match: Host(`authentik.theblacklodge.dev`)
       kind: Rule
       services:
-        - name: authentik
-          port: 9000
+        - name: authentik-server
+          port: 80

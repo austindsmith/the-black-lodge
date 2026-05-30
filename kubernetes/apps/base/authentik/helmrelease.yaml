@@ -34,8 +34,5 @@ spec:
     server:
       ingress:
         enabled: false
-      env:
-        - name: AUTHENTIK_DEFAULT_HTTP_PROTOCOL
-          value: https
     postgresql:
       enabled: true

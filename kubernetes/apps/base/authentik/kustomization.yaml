@@ -7,5 +7,5 @@ resources:
   - ./helmrelease.yaml
   - ./helmrepository.yaml
   - ./ingressroute.yaml
-  - ./service.yaml
+  #- ./service.yaml
   - ./secret.yaml
