@@ -26,6 +26,18 @@ spec:
       name: authentik
       valuesKey: postgresql_password
       targetPath: postgresql.auth.password
+    - kind: Secret
+      name: authentik
+      valuesKey: bootstrap_password
+      targetPath: authentik.bootstrap_password
+    - kind: Secret
+      name: authentik
+      valuesKey: bootstrap_token
+      targetPath: authentik.bootstrap_token
+    - kind: Secret
+      name: authentik
+      valuesKey: bootstrap_email
+      targetPath: authentik.bootstrap_email
   values:
     authentik:
       error_reporting:
