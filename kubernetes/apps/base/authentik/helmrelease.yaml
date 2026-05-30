@@ -48,7 +48,7 @@ spec:
     server:
       extraEnvFrom:
         - secretRef:
-            name: authentik
+            name: authentik-custom-blueprints
       ingress:
         enabled: false
       volumes:
