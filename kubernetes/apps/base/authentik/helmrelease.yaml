@@ -48,9 +48,9 @@ spec:
     global:
       envFrom:
         - secretRef:
-          name: authentik
+            name: authentik
         - secretRef:
-          name: authentik-custom-blueprints
+            name: authentik-custom-blueprints
     server:
       ingress:
         enabled: false
