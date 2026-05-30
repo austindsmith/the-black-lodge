@@ -11,7 +11,7 @@ entries:
       name: Provider for Pangolin
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
       invalidation_flow: !Find [authentik_flows.flow, [slug, default-provider-invalidation-flow]]
-      client_id: !Env pangolin_id
+      client_id: !Env pangolin_client_id
       client_secret: !Env pangolin_client_secret
       client_type: confidential
       access_code_validity: minutes=1
@@ -33,12 +33,3 @@ entries:
       redirect_uris:
         - matching_mode: regex
           url: https://pangolin.theblacklodge.dev/auth/idp/1/oidc/callback
-
-  - model: authentik_core.application
-    identifiers:
-      pk: 4fc871a0-c3a6-4bdc-b35e-06897d32b97c
-    attrs:
-      name: Pangolin
-      slug: pangolin
-      provider: 2
-      policy_engine_mode: any
