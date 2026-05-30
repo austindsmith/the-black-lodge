@@ -30,14 +30,12 @@ spec:
     authentik:
       error_reporting:
         enabled: true
+      default_user_change_name: true
     server:
       ingress:
-        ingressClassName: traefik
-        enabled: true
-        hosts:
-          - authentik.theblacklodge.dev
-        tls:
-          hosts:
-          - authentik.theblacklodge.dev
+        enabled: false
+      env:
+        - name: AUTHENTIK_DEFAULT_HTTP_PROTOCOL
+          value: https
     postgresql:
       enabled: true

@@ -4,7 +4,7 @@ metadata:
   name: authentik
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`authentik.theblacklodge.dev`)
       kind: Rule
