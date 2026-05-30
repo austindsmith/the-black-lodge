@@ -8,4 +8,12 @@ resources:
   - ./helmrepository.yaml
   - ./ingressroute.yaml
   - ./secret.yaml
-  - ./blueprints/custom/
+  - ./blueprints/secret.yaml
+
+configMapGenerator:
+  - name: authentik-custom-blueprints
+    files:
+      - blueprints/applications.yaml
+      - blueprints/providers.yaml
+    options:
+      disableNameSuffixHash: true

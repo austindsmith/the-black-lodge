@@ -1,0 +1,14 @@
+version: 1
+metadata:
+  name: applications
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+entries:
+  - model: authentik_core.application
+    identifiers:
+      pk: 4fc871a0-c3a6-4bdc-b35e-06897d32b97c
+    attrs:
+      name: Pangolin
+      slug: pangolin
+      provider: 2
+      policy_engine_mode: any
