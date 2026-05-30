@@ -1,0 +1,48 @@
+context: {}
+entries:
+- attrs:
+    authentication: require_authenticated
+    denied_action: message_continue
+    designation: stage_configuration
+    layout: stacked
+    name: default-authenticator-webauthn-setup
+    policy_engine_mode: any
+    title: Setup WebAuthn
+  conditions: []
+  identifiers:
+    pk: ebeba7d9-490f-4101-953a-a9254794d51e
+    slug: default-authenticator-webauthn-setup
+  model: authentik_flows.flow
+  permissions: []
+  state: present
+- attrs:
+    configure_flow: ebeba7d9-490f-4101-953a-a9254794d51e
+    friendly_name: WebAuthn device
+    max_attempts: 0
+    resident_key_requirement: preferred
+    user_verification: preferred
+  conditions: []
+  identifiers:
+    name: default-authenticator-webauthn-setup
+    pk: e806f94f-c917-4fa0-b487-e23df5f82d07
+  model: authentik_stages_authenticator_webauthn.authenticatorwebauthnstage
+  permissions: []
+  state: present
+- attrs:
+    invalid_response_action: retry
+    policy_engine_mode: any
+    re_evaluate_policies: true
+  conditions: []
+  identifiers:
+    order: 0
+    pk: 97ec04b3-9575-4540-908c-0f5d79307b64
+    stage: e806f94f-c917-4fa0-b487-e23df5f82d07
+    target: ebeba7d9-490f-4101-953a-a9254794d51e
+  model: authentik_flows.flowstagebinding
+  permissions: []
+  state: present
+metadata:
+  labels:
+    blueprints.goauthentik.io/generated: 'true'
+  name: authentik Export - 2026-05-30 18:24:32.431905+00:00
+version: 1

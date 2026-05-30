@@ -1,0 +1,22 @@
+context: {}
+entries:
+- attrs:
+    authentication: require_authenticated
+    denied_action: message_continue
+    designation: authorization
+    layout: stacked
+    name: Authorize Application
+    policy_engine_mode: any
+    title: Redirecting to %(app)s
+  conditions: []
+  identifiers:
+    pk: 7053ea61-7160-4d61-bfa3-eeb5b64fb5b4
+    slug: default-provider-authorization-implicit-consent
+  model: authentik_flows.flow
+  permissions: []
+  state: present
+metadata:
+  labels:
+    blueprints.goauthentik.io/generated: 'true'
+  name: authentik Export - 2026-05-30 18:23:50.178367+00:00
+version: 1

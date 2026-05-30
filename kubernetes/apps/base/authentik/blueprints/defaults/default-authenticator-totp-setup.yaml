@@ -1,0 +1,46 @@
+context: {}
+entries:
+- attrs:
+    authentication: require_authenticated
+    denied_action: message_continue
+    designation: stage_configuration
+    layout: stacked
+    name: default-authenticator-totp-setup
+    policy_engine_mode: any
+    title: Set up Two-Factor authentication
+  conditions: []
+  identifiers:
+    pk: 6af3c168-9335-4446-bd94-18709d0fb33b
+    slug: default-authenticator-totp-setup
+  model: authentik_flows.flow
+  permissions: []
+  state: present
+- attrs:
+    configure_flow: 6af3c168-9335-4446-bd94-18709d0fb33b
+    digits: '6'
+    friendly_name: TOTP Device
+  conditions: []
+  identifiers:
+    name: default-authenticator-totp-setup
+    pk: 829f516a-3abd-44f7-9f03-2e926b97e789
+  model: authentik_stages_authenticator_totp.authenticatortotpstage
+  permissions: []
+  state: present
+- attrs:
+    invalid_response_action: retry
+    policy_engine_mode: any
+    re_evaluate_policies: true
+  conditions: []
+  identifiers:
+    order: 0
+    pk: e23b8c36-cf05-44c1-abb0-6830ef37037d
+    stage: 829f516a-3abd-44f7-9f03-2e926b97e789
+    target: 6af3c168-9335-4446-bd94-18709d0fb33b
+  model: authentik_flows.flowstagebinding
+  permissions: []
+  state: present
+metadata:
+  labels:
+    blueprints.goauthentik.io/generated: 'true'
+  name: authentik Export - 2026-05-30 18:24:23.664050+00:00
+version: 1

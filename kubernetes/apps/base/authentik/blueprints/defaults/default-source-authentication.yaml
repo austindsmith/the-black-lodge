@@ -1,0 +1,73 @@
+context: {}
+entries:
+- attrs:
+    authentication: require_unauthenticated
+    denied_action: message_continue
+    designation: authentication
+    layout: stacked
+    name: Welcome to authentik!
+    policy_engine_mode: any
+    title: Welcome to authentik!
+  conditions: []
+  identifiers:
+    pk: bc114b61-e96c-4b3b-b209-73a38e958d89
+    slug: default-source-authentication
+  model: authentik_flows.flow
+  permissions: []
+  state: present
+- attrs:
+    expression: '# This policy ensures that this flow can only be used when the user
+
+      # is in a SSO Flow (meaning they come from an external IdP)
+
+      return ak_is_sso_flow'
+    name: default-source-authentication-if-sso
+  conditions: []
+  identifiers:
+    pk: 9018e6c4-55a4-47b3-a32a-45415b26f3fa
+  model: authentik_policies_expression.expressionpolicy
+  permissions: []
+  state: present
+- attrs:
+    geoip_binding: no_binding
+    network_binding: no_binding
+    remember_device: days=30
+    remember_me_offset: seconds=0
+    session_duration: seconds=0
+  conditions: []
+  identifiers:
+    name: default-source-authentication-login
+    pk: 355c81ba-12bc-4dbc-94fe-fbff691474ff
+  model: authentik_stages_user_login.userloginstage
+  permissions: []
+  state: present
+- attrs:
+    invalid_response_action: retry
+    policy_engine_mode: any
+    re_evaluate_policies: true
+  conditions: []
+  identifiers:
+    order: 0
+    pk: db708eab-fefa-470a-9f29-43b4bbfdddba
+    stage: 355c81ba-12bc-4dbc-94fe-fbff691474ff
+    target: bc114b61-e96c-4b3b-b209-73a38e958d89
+  model: authentik_flows.flowstagebinding
+  permissions: []
+  state: present
+- attrs:
+    enabled: true
+    timeout: 30
+  conditions: []
+  identifiers:
+    order: 0
+    pk: f90ffb9b-5444-43f7-8838-1b0e18566305
+    policy: 9018e6c4-55a4-47b3-a32a-45415b26f3fa
+    target: bc114b61-e96c-4b3b-b209-73a38e958d89
+  model: authentik_policies.policybinding
+  permissions: []
+  state: present
+metadata:
+  labels:
+    blueprints.goauthentik.io/generated: 'true'
+  name: authentik Export - 2026-05-30 18:23:39.488328+00:00
+version: 1

@@ -43,8 +43,23 @@ spec:
       error_reporting:
         enabled: true
       default_user_change_name: true
+    postgresql:
+      enabled: true
+    worker:
+      extraVolumes:
+        - name: blueprints-site
+          configMap:
+            name: authentik-blueprints-site
+      extraVolumeMounts:
+        - name: blueprints-site
+          mountPath: /blueprints/site
     server:
       ingress:
         enabled: false
-    postgresql:
-      enabled: true
+      extraVolumes:
+        - name: blueprints-site
+          configMap:
+            name: authentik-blueprints-site
+      extraVolumeMounts:
+        - name: blueprints-site
+          mountPath: /blueprints/site
