@@ -49,17 +49,17 @@ spec:
       ingress:
         enabled: false
       volumes:
-        - name: blueprints-site
+        - name: custom-blueprints
           configMap:
-            name: authentik-blueprints-site
+            name: authentik-custom-blueprints
       volumeMounts:
-        - name: blueprints-site
-          mountPath: /blueprints/site
+        - name: custom-blueprints
+          mountPath: /blueprints/custom
     worker:
       volumes:
-        - name: blueprints-site
+        - name: custom-blueprints
           configMap:
-            name: authentik-blueprints-site
+            name: authentik-custom-blueprints
       volumeMounts:
-        - name: blueprints-site
-          mountPath: /blueprints/site
+        - name: custom-blueprints
+          mountPath: /blueprints/custom
