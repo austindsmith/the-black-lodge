@@ -45,10 +45,13 @@ spec:
       default_user_change_name: true
     postgresql:
       enabled: true
-    server:
-      extraEnvFrom:
+    global:
+      envFrom:
         - secretRef:
-            name: authentik-custom-blueprints
+          name: authentik
+        - secretRef:
+          name: authentik-custom-blueprints
+    server:
       ingress:
         enabled: false
       volumes:
@@ -59,9 +62,6 @@ spec:
         - name: custom-blueprints
           mountPath: /blueprints/custom
     worker:
-      extraEnvFrom:
-        - secretRef:
-            name: authentik-custom-blueprints
       volumes:
         - name: custom-blueprints
           configMap:
