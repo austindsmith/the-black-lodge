@@ -11,7 +11,7 @@ entries:
     attrs:
       name: Headlamp
       slug: headlamp
-      provider: 1
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Headlamp]]
       policy_engine_mode: any
 
   - model: authentik_core.application
@@ -20,5 +20,5 @@ entries:
     attrs:
       name: Pangolin
       slug: pangolin
-      provider: 2
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Pangolin]]
       policy_engine_mode: any
