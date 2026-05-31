@@ -6,7 +6,7 @@ metadata:
 entries:
   - model: authentik_providers_oauth2.oauth2provider
     identifiers:
-      pk: 2
+      name: Provider for Pangolin
     attrs:
       name: Provider for Pangolin
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
@@ -36,7 +36,7 @@ entries:
 
   - model: authentik_providers_oauth2.oauth2provider
     identifiers:
-      pk: 2
+      name: Provider for Headlamp
     attrs:
       name: Provider for Headlamp
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
