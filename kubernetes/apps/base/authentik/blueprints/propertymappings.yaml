@@ -1,0 +1,17 @@
+version: 1
+metadata:
+  name: property-mappings
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+entries:
+  - model: authentik_providers_oauth2.scopemapping
+    identifiers:
+      name: Custom email scope with verified
+    attrs:
+      name: Custom email scope with verified
+      scope_name: email
+      expression: |
+        return {
+            "email": request.user.email,
+            "email_verified": True,
+        }

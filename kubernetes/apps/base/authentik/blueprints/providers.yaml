@@ -6,7 +6,7 @@ metadata:
 entries:
   - model: authentik_providers_oauth2.oauth2provider
     identifiers:
-      name: Provider for Pangolin
+      pk: 680eb332-0436-55e9-bef8-2a2b7fb494aa
     attrs:
       name: Provider for Pangolin
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
@@ -27,7 +27,7 @@ entries:
         - refresh_token
       signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
       property_mappings:
-        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-email]]
+        - !Find [authentik_providers_oauth2.scopemapping, [name, Custom email scope with verified]]
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-openid]]
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-profile]]
       redirect_uris:
@@ -36,7 +36,7 @@ entries:
 
   - model: authentik_providers_oauth2.oauth2provider
     identifiers:
-      name: Provider for Headlamp
+      pk: 22acca9a-01cf-5e36-bf30-3ec104384e08
     attrs:
       name: Provider for Headlamp
       authorization_flow: !Find [authentik_flows.flow, [slug, default-provider-authorization-implicit-consent]]
@@ -57,7 +57,7 @@ entries:
         - refresh_token
       signing_key: !Find [authentik_crypto.certificatekeypair, [name, authentik Self-signed Certificate]]
       property_mappings:
-        - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-email]]
+        - !Find [authentik_providers_oauth2.scopemapping, [name, Custom email scope with verified]]
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-openid]]
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-profile]]
       redirect_uris:

@@ -11,14 +11,14 @@ entries:
     attrs:
       name: Headlamp
       slug: headlamp
-      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Headlamp]]
+      provider: 22acca9a-01cf-5e36-bf30-3ec104384e08
       policy_engine_mode: any
 
   - model: authentik_core.application
     identifiers:
-      pk: 4fc871a0-c3a6-4bdc-b35e-06897d32b97c
+      pk: 25b83442-3c34-50c5-8619-89c0ded6ed91
     attrs:
       name: Pangolin
       slug: pangolin
-      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Pangolin]]
+      provider: 680eb332-0436-55e9-bef8-2a2b7fb494aa
       policy_engine_mode: any
