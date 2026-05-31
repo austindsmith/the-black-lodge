@@ -1,8 +1,11 @@
 install_scripts:
   - name: kustomize
     script_url: https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh
+    become: true
+    chdir: /tmp
   - name: ksops
     script_url: https://raw.githubusercontent.com/viaduct-ai/kustomize-sops/master/scripts/install-ksops-archive.sh
     become: true
   - name: flux
     script_url: https://fluxcd.io/install.sh
+    become: true

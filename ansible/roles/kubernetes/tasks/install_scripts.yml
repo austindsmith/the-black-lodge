@@ -1,19 +1,29 @@
 - name: Remove stale {{ install_script.name }} binary if present
+  delegate_to: localhost
+  connection: local
   ansible.builtin.file:
-    path: "/home/ansible/{{ install_script.name }}"
+    path: "/tmp/{{ install_script.name }}"
     state: absent
 
 - name: Remove stale {{ install_script.name }} tmp file if present
+  delegate_to: localhost
+  connection: local
   ansible.builtin.file:
     path: "/tmp/{{ install_script.name }}.sh"
     state: absent
 
 - name: Download {{ install_script.name }} install script
+  delegate_to: localhost
+  connection: local
   ansible.builtin.get_url:
     url: "{{ install_script.script_url }}"
     dest: /tmp/{{ install_script.name }}.sh
     mode: "0755"
 
 - name: Install {{ install_script.name }}
-  ansible.builtin.command: /tmp/{{ install_script.name }}.sh
+  delegate_to: localhost
+  connection: local
+  ansible.builtin.command:
+    cmd: "/tmp/{{ install_script.name }}.sh"
+    chdir: "{{ install_script.chdir | default('/tmp') }}"
   become: "{{ install_script.become | default(false) }}"
