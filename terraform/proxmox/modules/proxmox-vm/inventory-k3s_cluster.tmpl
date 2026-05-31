@@ -18,10 +18,10 @@ all:
         extra_server_args: >-
             --disable=traefik
             --disable=servicelb
-            --kube-apiserver-arg=oidc-issuer-url=https://authentik.theblacklodge.dev/application/o/headlamp/
-            --kube-apiserver-arg=oidc-client-id={{ oidc_client_id }}
-            --kube-apiserver-arg=oidc-username-claim=email
-            --kube-apiserver-arg=oidc-groups-claim=groups
-            --kube-apiserver-arg=oidc-username-prefix=oidc:
-            --kube-apiserver-arg=oidc-groups-prefix=oidc:
+            --kube-apiserver-arg=oidc-issuer-url="https://authentik.theblacklodge.dev/application/o/headlamp/"
+            --kube-apiserver-arg=oidc-client-id="{{ oidc_client_id }}"
+            --kube-apiserver-arg=oidc-username-claim="email"
+            --kube-apiserver-arg=oidc-groups-claim="groups"
+            --kube-apiserver-arg=oidc-username-prefix="oidc:"
+            --kube-apiserver-arg=oidc-groups-prefix="oidc:"
         cluster_context: k3s-ansible

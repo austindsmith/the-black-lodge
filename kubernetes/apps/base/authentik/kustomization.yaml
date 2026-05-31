@@ -13,7 +13,8 @@ resources:
 configMapGenerator:
   - name: authentik-custom-blueprints
     files:
-      - blueprints/applications.yaml
       - blueprints/providers.yaml
+      - blueprints/applications.yaml
+      - blueprints/users.yaml
     options:
       disableNameSuffixHash: true

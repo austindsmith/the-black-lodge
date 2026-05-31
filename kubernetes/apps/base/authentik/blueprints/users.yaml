@@ -1,0 +1,11 @@
+version: 1
+metadata:
+  name: users
+  labels:
+    blueprints.goauthentik.io/instantiate: "true"
+entries:
+  - model: authentik_core.user
+    identifiers:
+      username: austin
+    attrs:
+      email_verified: true
