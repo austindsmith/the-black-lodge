@@ -14,8 +14,6 @@ configMapGenerator:
   - name: authentik-custom-blueprints
     files:
       - blueprints/propertymappings.yaml
-      - blueprints/providers.yaml
-      - blueprints/applications.yaml
-      - blueprints/users.yaml
+      - blueprints/headlamp.yaml
     options:
       disableNameSuffixHash: true
