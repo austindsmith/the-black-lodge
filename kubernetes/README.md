@@ -1,19 +1,23 @@
 # Kubernetes
 
+## Notes
+
+- Consider switching to RKE2, it's like k3s with better security defaults.
+
 ## Apps to download
 
 - [ ] Gluetun/arr stack
-- [ ] Pangolin
+- [x] Pangolin
 - [ ] Rancher
-- [ ] Longhorn
+- [x] Longhorn
 - [ ] Postgres
 - [ ] Airflow
-- [ ] Dagster
+- [x] Dagster
 - [ ] n8n
 - [ ] node-red/rabbitmq
 - [ ] Semaphore
 - [ ] Grafana/monitoring stack
-- [ ] Authentik
+- [x] Authentik
 - [ ] Crowdsec
 - [ ] Immich
 - [ ] Nextcloud
