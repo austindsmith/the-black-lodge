@@ -4,6 +4,16 @@ metadata:
   labels:
     blueprints.goauthentik.io/instantiate: "true"
 entries:
+
+  - model: authentik_core.application
+    identifiers:
+      pk: 96b95f2b-2eb9-5bf0-be8c-ee5f9d66b9f8
+    attrs:
+      name: Headlamp
+      slug: headlamp
+      provider: 1
+      policy_engine_mode: any
+
   - model: authentik_core.application
     identifiers:
       pk: 4fc871a0-c3a6-4bdc-b35e-06897d32b97c

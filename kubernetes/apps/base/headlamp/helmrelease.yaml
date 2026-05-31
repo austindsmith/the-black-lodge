@@ -15,7 +15,9 @@ spec:
         name: headlamp
   values:
     config:
-      unsafeUseServiceAccountToken: true
+      oidc:
+        issuerURL: "https://authentik.theblacklodge.dev/application/o/headlamp/"
+        scopes: "openid email profile groups"
       pluginsDir: /build/plugins
     initContainers:
       - command:
@@ -45,3 +47,12 @@ spec:
       - name: headlamp-plugins
         persistentVolumeClaim:
           claimName: headlamp
+  valuesFrom:
+    - kind: Secret
+      name: headlamp
+      valuesKey: client_id
+      targetPath: config.oidc.clientID
+    - kind: Secret
+      name: headlamp
+      valuesKey: client_secret
+      targetPath: config.oidc.clientSecret
