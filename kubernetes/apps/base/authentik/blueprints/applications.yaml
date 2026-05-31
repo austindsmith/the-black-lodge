@@ -5,6 +5,8 @@ metadata:
     blueprints.goauthentik.io/instantiate: "true"
 entries:
   - model: authentik_blueprints.metaapplyblueprint
+    identifiers:
+      name: providers
     attrs:
       identifiers:
         name: providers
