@@ -1,0 +1,49 @@
+download_dir = "${get_repo_root()}/.terragrunt-cache"
+
+remote_state {
+  backend = "local"
+  config = {
+    path = "${get_repo_root()}/.tfstate/${path_relative_to_include()}/terraform.tfstate"
+  }
+  generate = {
+    path      = "backend.tf"
+    if_exists = "overwrite"
+  }
+}
+
+locals {
+  secrets = yamldecode(sops_decrypt_file("${get_terragrunt_dir()}/secret.yaml"))
+}
+
+generate "provider" {
+  path      = "provider.tf"
+  if_exists = "overwrite_terragrunt"
+  contents  = <<-EOF
+    terraform {
+      required_providers {
+        cloudflare = {
+          source  = "cloudflare/cloudflare"
+          version = "~> 4.0"
+        }
+      }
+    }
+    provider "cloudflare" {
+      api_token = var.cloudflare_api_token
+    }
+  EOF
+}
+
+generate "secrets" {
+  path      = "secrets.auto.tfvars"
+  if_exists = "overwrite"
+  contents  = <<-EOT
+    cloudflare_api_token  = "${local.secrets.cloudflare_api_token}"
+    cloudflare_account_id = "${local.secrets.cloudflare_account_id}"
+  EOT
+}
+
+generate "common_vars" {
+  path      = "common_variables.tf"
+  if_exists = "overwrite"
+  contents  = file("${get_terragrunt_dir()}/common/variables.tf")
+}

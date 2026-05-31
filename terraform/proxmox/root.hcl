@@ -35,11 +35,18 @@ provider "proxmox" {
 EOF
 }
 
-terraform {
-  extra_arguments "secrets" {
-    commands  = get_terraform_commands_that_need_vars()
-    arguments = ["-var-file=${get_parent_terragrunt_dir()}/secrets.auto.tfvars"]
-  }
+locals {
+  secrets = yamldecode(sops_decrypt_file("${get_parent_terragrunt_dir()}/secret.yaml"))
+}
+
+generate "secrets" {
+  path      = "secrets.auto.tfvars"
+  if_exists = "overwrite"
+  contents  = <<-EOT
+    proxmox_url   = "${local.secrets.proxmox_url}"
+    proxmox_token = "${local.secrets.proxmox_token}"
+    ssh_password  = "${local.secrets.ssh_password}"
+  EOT
 }
 
 #inputs = {

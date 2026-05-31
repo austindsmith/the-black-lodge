@@ -5,6 +5,5 @@ default:
 # Runs a Packer build, taking `os` as a parameter
 build os:
     cd {{ os }} && \
-    packer build \
-    -var-file={{ justfile_directory() }}/secrets.pkrvars.hcl \
-    .
+    sops exec-env {{ justfile_directory() }}/secret.yaml \
+    'packer build .'

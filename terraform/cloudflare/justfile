@@ -1,0 +1,5 @@
+generate:
+    cd {{ invocation_directory() }} && \
+    CLOUDFLARE_DOMAIN=`basename {{ invocation_directory() }}` \
+    CLOUDFLARE_SECRETS=`sops -d {{ justfile_directory() }}/secret.yaml` \
+    {{ justfile_directory() }}/scripts/generate-cf-resources.sh

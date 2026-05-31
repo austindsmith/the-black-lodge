@@ -1,12 +1,9 @@
-secrets.auto.pkrvars.hcl
-secrets.pkrvars.hcl
-secrets.hcl
-secrets.auto.tfvars
-.terraform
 .packer
+.terragrunt-cache
+.terraform
 .terraform.lock.hcl
 *tfstate*
-*cache*
+terraform/staging/
 .venv
 .vault_pass
 *.env
@@ -16,6 +13,5 @@ kubernetes/dev/platform/external-secrets/Secret.yaml
 **charts/
 **downloaded*iso**
 .ansible
-
 # Temporary for Authentik until secrets are migrated
 exported.yaml
