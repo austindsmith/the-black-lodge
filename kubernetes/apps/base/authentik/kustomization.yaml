@@ -15,7 +15,5 @@ configMapGenerator:
     files:
       - blueprints/theblacklodge.yaml
       - blueprints/users.yaml
-      - blueprints/providers.yaml
-      - blueprints/applications.yaml
     options:
       disableNameSuffixHash: true
