@@ -12,6 +12,10 @@ variable "domain" {
   type = string
 }
 
+variable "email_address" {
+  type = string
+}
+
 variable "authentik_client_id" {
   type      = string
   sensitive = true

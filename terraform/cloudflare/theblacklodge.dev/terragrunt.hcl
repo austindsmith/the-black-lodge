@@ -19,3 +19,9 @@ generate "secrets" {
     for k, v in local.merged_secrets : "${k} = \"${v}\""
   ])
 }
+
+generate "variables" {
+  path      = "variables.tf"
+  if_exists = "overwrite"
+  contents  = file("${get_repo_root()}/terraform/cloudflare/common/variables.tf")
+}

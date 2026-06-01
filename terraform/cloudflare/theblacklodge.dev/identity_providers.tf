@@ -8,8 +8,8 @@ resource "cloudflare_zero_trust_access_identity_provider" "authentik" {
     client_id     = var.authentik_client_id
     client_secret = var.authentik_client_secret
 
-    auth_url  = "https://authentik.${var.domain}/application/o/cloudflare/authorize/"
-    token_url = "https://authentik.${var.domain}/application/o/cloudflare/token/"
+    auth_url  = "https://authentik.${var.domain}/application/o/authorize/"
+    token_url = "https://authentik.${var.domain}/application/o/token/"
     certs_url = "https://authentik.${var.domain}/application/o/cloudflare/jwks/"
 
     scopes = ["openid", "email", "profile"]

@@ -12,7 +12,7 @@ remote_state {
 }
 
 locals {
-  secrets = yamldecode(sops_decrypt_file("${get_terragrunt_dir()}/secret.yaml"))
+  secrets = yamldecode(sops_decrypt_file("${get_repo_root()}/terraform/cloudflare/secret.yaml"))
 }
 
 generate "provider" {
@@ -31,10 +31,4 @@ generate "provider" {
       api_token = var.cloudflare_api_token
     }
   EOF
-}
-
-generate "common_vars" {
-  path      = "variables.tf"
-  if_exists = "overwrite"
-  contents  = file("common/variables.tf")
 }
