@@ -141,7 +141,7 @@ entries:
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-profile]]
       redirect_uris:
         - matching_mode: strict
-          url: https://proxmox.theblacklodge.dev:8006
+          url: https://proxmox.theblacklodge.dev
 
   - model: authentik_core.application
     ###################################################
@@ -177,7 +177,7 @@ entries:
     identifiers:
       pk: e9c0a071-c210-59f0-bc93-cda70613fcab
     attrs:
-      name: proxmox
+      name: Proxmox
       slug: proxmox
       provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Proxmox]]
       policy_engine_mode: any
