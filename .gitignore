@@ -4,6 +4,7 @@
 .terraform.lock.hcl
 *tfstate*
 terraform/staging/
+*auto.tfvars*
 .venv
 .vault_pass
 *.env

@@ -1,7 +1,5 @@
-
-
 include "root" {
-  path   = find_in_parent_folders()
+  path   = find_in_parent_folders("root.hcl")
   expose = true
 }
 
@@ -12,6 +10,7 @@ locals {
 }
 
 inputs = local.configuration.inputs
+
 
 generate "secrets" {
   path      = "secrets.auto.tfvars"
