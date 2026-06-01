@@ -15,7 +15,8 @@ configMapGenerator:
     files:
       - blueprints/propertymappings.yaml
       - blueprints/users.yaml
+      - blueprints/providers.yaml
       - blueprints/headlamp.yaml
-      - blueprints/pangolin.yaml
+      #- blueprints/pangolin.yaml
     options:
       disableNameSuffixHash: true
