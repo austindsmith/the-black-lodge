@@ -9,3 +9,11 @@ spec:
   ports:
     - port: 8006
       targetPort: 8006
+---
+apiVersion: traefik.io/v1alpha1
+kind: ServersTransport
+metadata:
+  name: proxmox-transport
+  namespace: traefik
+spec:
+  insecureSkipVerify: true

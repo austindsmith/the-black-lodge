@@ -1,15 +1,9 @@
 apiVersion: traefik.io/v1alpha1
-kind: ServersTransport
+kind: Middleware
 metadata:
-  name: proxmox-transport
+  name: proxmox-headers
   namespace: traefik
 spec:
-  insecureSkipVerify: true
----
-apiVersion: traefik.io/v1alpha1
-kind: ServersTransport
-metadata:
-  name: proxmox-transport
-  namespace: traefik
-spec:
-  insecureSkipVerify: true
+  headers:
+    customRequestHeaders:
+      Host: "proxmox.theblacklodge.org"
