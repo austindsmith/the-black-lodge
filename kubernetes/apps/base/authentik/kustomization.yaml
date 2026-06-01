@@ -13,7 +13,7 @@ resources:
 configMapGenerator:
   - name: authentik-custom-blueprints
     files:
-      - blueprints/propertymappings.yaml
+      - blueprints/theblacklodge.yaml
       - blueprints/users.yaml
       - blueprints/providers.yaml
       - blueprints/applications.yaml

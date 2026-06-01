@@ -4,7 +4,25 @@ metadata:
   labels:
     blueprints.goauthentik.io/instantiate: "true"
 entries:
+  - model: authentik_providers_oauth2.scopemapping
+    ###################################################
+    #                Property mappings                #
+    ###################################################
+    identifiers:
+      name: Custom email scope with verified
+    attrs:
+      name: Custom email scope with verified
+      scope_name: email
+      expression: |
+        return {
+            "email": request.user.email,
+            "email_verified": True,
+        }
+
   - model: authentik_providers_oauth2.oauth2provider
+    ###################################################
+    #                    Providers                    #
+    ###################################################
     identifiers:
       name: Provider for Headlamp
     attrs:
@@ -95,6 +113,9 @@ entries:
           url: https://theblacklodge.cloudflareaccess.com/cdn-cgi/access/callback
 
   - model: authentik_core.application
+    ###################################################
+    #                  Applications                   #
+    ###################################################
     identifiers:
       pk: 96b95f2b-2eb9-5bf0-be8c-ee5f9d66b9f8
     attrs:
