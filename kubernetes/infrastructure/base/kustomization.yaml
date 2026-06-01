@@ -2,5 +2,6 @@ resources:
   - cloudflare-tunnel
   - traefik
   - longhorn
+  - proxmox
   #- pgadmin4
   #- cloudnative-pg
