@@ -1,6 +1,6 @@
 version: 1
 metadata:
-  name: headlamp
+  name: pangolin
   labels:
     blueprints.goauthentik.io/instantiate: "true"
 entries:

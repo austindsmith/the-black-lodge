@@ -1,10 +1,10 @@
 version: 1
 metadata:
-  name: headlamp
+  name: providers
   labels:
     blueprints.goauthentik.io/instantiate: "true"
   depends_on:
-    - providers
+    - property-mappings
 entries:
   - model: authentik_providers_oauth2.oauth2provider
     identifiers:
@@ -35,12 +35,3 @@ entries:
       redirect_uris:
         - matching_mode: regex
           url: https://headlamp.theblacklodge.dev/oidc-callback
-
-  - model: authentik_core.application
-    identifiers:
-      pk: 96b95f2b-2eb9-5bf0-be8c-ee5f9d66b9f8
-    attrs:
-      name: Headlamp
-      slug: headlamp
-      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Headlamp]]
-      policy_engine_mode: any
