@@ -3,3 +3,8 @@ generate:
     CLOUDFLARE_DOMAIN=`basename {{ invocation_directory() }}` \
     CLOUDFLARE_SECRETS=`sops -d {{ justfile_directory() }}/secret.yaml` \
     {{ justfile_directory() }}/scripts/generate-cf-resources.sh
+
+tf action domain:
+    cd {{ domain }} && \
+    TF_DATA_DIR={{ justfile_directory() }}/.terraform/{{ domain }} \
+    terragrunt {{ action }} #-auto-approve

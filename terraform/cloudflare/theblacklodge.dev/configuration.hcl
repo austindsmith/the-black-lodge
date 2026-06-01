@@ -1,0 +1,3 @@
+inputs = {
+  domain = "theblacklodge.dev"
+}

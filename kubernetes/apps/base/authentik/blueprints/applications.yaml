@@ -44,3 +44,21 @@ entries:
       slug: headlamp
       provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Headlamp]]
       policy_engine_mode: any
+
+  - model: authentik_core.application
+    identifiers:
+      pk: 4fc871a0-c3a6-4bdc-b35e-06897d32b97c
+    attrs:
+      name: Pangolin
+      slug: pangolin
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Pangolin]]
+      policy_engine_mode: any
+
+  - model: authentik_core.application
+    identifiers:
+      pk: d63dad65-9d46-55cf-b4da-fe8c86662d44
+    attrs:
+      name: Cloudflare
+      slug: cloudflare
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Cloudflare]]
+      policy_engine_mode: any

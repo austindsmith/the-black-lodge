@@ -23,7 +23,7 @@ generate "provider" {
       required_providers {
         cloudflare = {
           source  = "cloudflare/cloudflare"
-          version = "~> 4.0"
+          version = "~> 5.0"
         }
       }
     }
@@ -33,17 +33,20 @@ generate "provider" {
   EOF
 }
 
+locals {
+  secrets = yamldecode(sops_decrypt_file("${get_terragrunt_dir()}/secret.yaml"))
+}
+
 generate "secrets" {
   path      = "secrets.auto.tfvars"
   if_exists = "overwrite"
-  contents  = <<-EOT
-    cloudflare_api_token  = "${local.secrets.cloudflare_api_token}"
-    cloudflare_account_id = "${local.secrets.cloudflare_account_id}"
-  EOT
+  contents = join("\n", [
+    for k, v in local.secrets : "${k} = \"${v}\""
+  ])
 }
 
 generate "common_vars" {
-  path      = "common_variables.tf"
+  path      = "variables.tf"
   if_exists = "overwrite"
   contents  = file("${get_terragrunt_dir()}/common/variables.tf")
 }
