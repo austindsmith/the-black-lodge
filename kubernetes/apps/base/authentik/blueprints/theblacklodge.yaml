@@ -181,3 +181,256 @@ entries:
       slug: proxmox
       provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Proxmox]]
       policy_engine_mode: any
+
+
+
+  - attrs:
+      ###################################################
+      #                      LDAP                       #
+      ###################################################
+
+      additional_group_dn: !Env ldap_group_dn
+
+      additional_user_dn: !Env ldap_user_dn
+      base_dn: !Env ldap_base_dn
+      bind_cn: !Env ldap_bind_cn
+      delete_not_found_objects: true
+      enabled: true
+      group_membership_field: member
+      group_object_filter: (objectClass=groupofnames)
+      group_property_mappings:
+        - e8948893-2c12-4175-912f-51f0de5e6434
+        - 16849d81-b36b-4dbd-be7a-36316d95083a
+        - 7b29f17d-1fc4-4c0e-8702-31439af8c721
+        - 78e4c327-7d21-4cd2-a975-b731101615b5
+        - 2ce5edea-5590-4542-8625-bd26941a1490
+        - 2e1bfc05-50ad-496f-a68e-c07305b6c27b
+        - 707737a3-030e-4ce5-a625-fdef8b32bdf7
+        - 0d902f20-6e78-45c8-94e4-d423e76a9da9
+        - d5346a0b-a2a4-4846-abec-51c657c46d76
+      name: FreeIPA
+      object_uniqueness_field: ipaUniqueID
+      policy_engine_mode: any
+      server_uri: !Env ldap_server_uri
+      slug: freeipa
+      sync_groups: true
+      sync_outgoing_trigger_mode: deferred_end
+      sync_users: true
+      sync_users_password: true
+      user_matching_mode: identifier
+      user_membership_attribute: memberOf
+      user_object_filter: (objectClass=person)
+      user_path_template: goauthentik.io/sources/%(slug)s
+      user_property_mappings:
+        - e8948893-2c12-4175-912f-51f0de5e6434
+        - 16849d81-b36b-4dbd-be7a-36316d95083a
+        - 7b29f17d-1fc4-4c0e-8702-31439af8c721
+        - 78e4c327-7d21-4cd2-a975-b731101615b5
+        - 2ce5edea-5590-4542-8625-bd26941a1490
+        - 2e1bfc05-50ad-496f-a68e-c07305b6c27b
+        - 707737a3-030e-4ce5-a625-fdef8b32bdf7
+        - 0d902f20-6e78-45c8-94e4-d423e76a9da9
+        - d5346a0b-a2a4-4846-abec-51c657c46d76
+    conditions: []
+    identifiers:
+      pk: e8f166bc-1685-4d84-8a81-bab67cf8b5d2
+    model: authentik_sources_ldap.ldapsource
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        path_elements = []
+        for pair in dn.split(","):
+            attr, _, value = pair.partition("=")
+            if attr.lower() in ["cn", "dc"]:
+                continue
+            path_elements.append(value)
+        path_elements.reverse()
+
+        path = source.get_user_path()
+        if len(path_elements) > 0:
+            path = f"{path}/{'/'.join(path_elements)}"
+        return {
+            "path": path
+        }
+      managed: goauthentik.io/sources/ldap/default-dn-path
+      name: 'authentik default LDAP Mapping: DN to User Path'
+    conditions: []
+    identifiers:
+      pk: 0d902f20-6e78-45c8-94e4-d423e76a9da9
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        return {
+            "name": ldap.get("name"),
+        }
+      managed: goauthentik.io/sources/ldap/default-name
+      name: 'authentik default LDAP Mapping: Name'
+    conditions: []
+    identifiers:
+      pk: d5346a0b-a2a4-4846-abec-51c657c46d76
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        return {
+            "email": ldap.get("mail"),
+        }
+      managed: goauthentik.io/sources/ldap/default-mail
+      name: 'authentik default LDAP Mapping: mail'
+    conditions: []
+    identifiers:
+      pk: 707737a3-030e-4ce5-a625-fdef8b32bdf7
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        return {
+            "username": ldap.get("sAMAccountName"),
+        }
+      managed: goauthentik.io/sources/ldap/ms-samaccountname
+      name: 'authentik default Active Directory Mapping: sAMAccountName'
+    conditions: []
+    identifiers:
+      pk: e8948893-2c12-4175-912f-51f0de5e6434
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        return {
+            "attributes": {
+                "upn": list_flatten(ldap.get("userPrincipalName")),
+            },
+        }
+      managed: goauthentik.io/sources/ldap/ms-userprincipalname
+      name: 'authentik default Active Directory Mapping: userPrincipalName'
+    conditions: []
+    identifiers:
+      pk: 16849d81-b36b-4dbd-be7a-36316d95083a
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        return {
+            "attributes": {
+                "givenName": list_flatten(ldap.get("givenName")),
+            },
+        }
+      managed: goauthentik.io/sources/ldap/ms-givenName
+      name: 'authentik default Active Directory Mapping: givenName'
+    conditions: []
+    identifiers:
+      pk: 7b29f17d-1fc4-4c0e-8702-31439af8c721
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        return {
+            "attributes": {
+                "sn": list_flatten(ldap.get("sn")),
+            },
+        }
+      managed: goauthentik.io/sources/ldap/ms-sn
+      name: 'authentik default Active Directory Mapping: sn'
+    conditions: []
+    identifiers:
+      pk: 78e4c327-7d21-4cd2-a975-b731101615b5
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        return {
+            "username": ldap.get("uid"),
+        }
+      managed: goauthentik.io/sources/ldap/openldap-uid
+      name: 'authentik default OpenLDAP Mapping: uid'
+    conditions: []
+    identifiers:
+      pk: 2ce5edea-5590-4542-8625-bd26941a1490
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - attrs:
+      expression: |-
+        return {
+            "name": ldap.get("cn"),
+        }
+      managed: goauthentik.io/sources/ldap/openldap-cn
+      name: 'authentik default OpenLDAP Mapping: cn'
+    conditions: []
+    identifiers:
+      pk: 2e1bfc05-50ad-496f-a68e-c07305b6c27b
+    model: authentik_sources_ldap.ldapsourcepropertymapping
+    permissions: []
+    state: present
+
+  - model: authentik_stages_authenticator_totp.authenticatorTOTPStage
+    ###################################################
+    #                       MFA                       #
+    ###################################################
+
+    state: present
+    identifiers:
+      name: mfa-totp-setup
+    attrs:
+      name: mfa-totp-setup
+      digits: "6"
+      friendly_name: TOTP Authenticator
+
+  - model: authentik_stages_authenticator_webauthn.authenticatorWebAuthnStage
+    state: present
+    identifiers:
+      name: mfa-webauthn-setup
+    attrs:
+      name: mfa-webauthn-setup
+      friendly_name: WebAuthn
+      user_verification: preferred
+      resident_key_requirement: preferred
+      authenticator_attachment: null
+
+  - model: authentik_stages_authenticator_validate.authenticatorValidateStage
+    state: present
+    identifiers:
+      name: mfa-validation
+    attrs:
+      name: mfa-validation
+      device_classes:
+        - totp
+        - webauthn
+        - static
+      not_configured_action: configure
+      webauthn_user_verification: preferred
+      configuration_stages:
+        - !Find [authentik_stages_authenticator_totp.authenticatorTOTPStage, [name, mfa-totp-setup]]
+        - !Find [authentik_stages_authenticator_webauthn.authenticatorWebAuthnStage, [name, mfa-webauthn-setup]]
+
+  - model: authentik_flows.flowstagebinding
+    state: present
+    identifiers:
+      target: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      stage: !Find [authentik_stages_authenticator_validate.authenticatorValidateStage, [name, mfa-validation]]
+      order: 30
+    attrs:
+      target: !Find [authentik_flows.flow, [slug, default-authentication-flow]]
+      stage: !Find [authentik_stages_authenticator_validate.authenticatorValidateStage, [name, mfa-validation]]
+      order: 30
+      invalid_response_action: retry
+      policy_engine_mode: any
+      re_evaluate_policies: false
