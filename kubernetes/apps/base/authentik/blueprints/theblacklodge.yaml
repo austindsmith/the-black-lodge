@@ -234,3 +234,43 @@ entries:
     model: authentik_sources_ldap.ldapsource
     permissions: []
     state: present
+
+  - model: authentik_stages_authenticator_totp.authenticatorTOTPStage
+    ###################################################
+    #                       MFA                       #
+    ###################################################
+
+    state: present
+    identifiers:
+      name: mfa-totp-setup
+      attrs:
+        name: mfa-totp-setup
+        digits: "6"
+        friendly_name: TOTP Authenticator
+
+  - model: authentik_stages_authenticator_webauthn.authenticatorWebAuthnStage
+    state: present
+    identifiers:
+      name: mfa-webauthn-setup
+    attrs:
+      name: mfa-webauthn-setup
+      friendly_name: WebAuthn
+      user_verification: preferred
+      resident_key_requirement: preferred
+      authenticator_attachment: null
+
+  - model: authentik_stages_authenticator_validate.authenticatorValidateStage
+    state: present
+    identifiers:
+      name: default-authentication-mfa-validation
+    attrs:
+      name: default-authentication-mfa-validation
+      device_classes:
+        - totp
+        - webauthn
+        - static
+      not_configured_action: configure
+      webauthn_user_verification: preferred
+      configuration_stages:
+        - !Find [authentik_stages_authenticator_totp.authenticatorTOTPStage, [name, mfa-totp-setup]]
+        - !Find [authentik_stages_authenticator_webauthn.authenticatorWebAuthnStage, [name, mfa-webauthn-setup]]
