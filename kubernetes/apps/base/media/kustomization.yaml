@@ -3,4 +3,4 @@ resources:
   - storage
   - arr
   #- plex
-  #- downloads
+  - downloads

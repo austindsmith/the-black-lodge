@@ -20,6 +20,21 @@ spec:
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: seed-config
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - |
+              if [ ! -f /config/config.xml ]; then
+                cp /seed/config.xml /config/config.xml
+              fi
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: radarr-config-seed
+              mountPath: /seed
       containers:
         - name: radarr
           image: lscr.io/linuxserver/radarr:latest
@@ -53,3 +68,6 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: media
+        - name: radarr-config-seed
+          secret:
+            secretName: radarr-config
