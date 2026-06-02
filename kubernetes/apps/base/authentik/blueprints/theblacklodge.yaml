@@ -243,10 +243,10 @@ entries:
     state: present
     identifiers:
       name: mfa-totp-setup
-      attrs:
-        name: mfa-totp-setup
-        digits: "6"
-        friendly_name: TOTP Authenticator
+    attrs:
+      name: mfa-totp-setup
+      digits: "6"
+      friendly_name: TOTP Authenticator
 
   - model: authentik_stages_authenticator_webauthn.authenticatorWebAuthnStage
     state: present

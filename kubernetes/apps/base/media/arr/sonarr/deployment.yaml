@@ -4,6 +4,24 @@ metadata:
   name: sonarr
   namespace: media
 spec:
+  initContainers:
+    - name: seed-config
+      image: busybox:latest
+      command:
+        - sh
+        - -c
+        - |
+          if [ ! -f /config/config.xml ]; then
+            cp /seed/config.xml /config/config.xml
+            echo "seeded config.xml"
+          else
+            echo "config.xml already exists, skipping"
+          fi
+      volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: sonarr-config-seed
+          mountPath: /seed
   replicas: 1
   strategy:
     type: Recreate
@@ -53,3 +71,6 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: media
+        - name: sonarr-config-seed
+          secret:
+            secretName: sonarr-config
