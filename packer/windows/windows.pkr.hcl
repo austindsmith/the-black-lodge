@@ -62,7 +62,7 @@ source "proxmox-iso" "windows-2025-amd64" {
     type             = "ide"
     iso_storage_pool = "local"
     iso_url          = "https://go.microsoft.com/fwlink/p/?LinkID=2195280&clcid=0x409&culture=en-us&country=US"
-    iso_checksum     = "sha256:3b4b36e28f18f07af0a4efad78f8b5dbfc6dddec4673d8bbc74c1e43ac1f5a24"
+    iso_checksum     = "sha256:3e4fa6d8507b554856fc9ca6079cc402df11a8b79344871669f0251535255325"
     #iso_download_pve = true
     unmount = true
   }

@@ -274,3 +274,21 @@ entries:
       configuration_stages:
         - !Find [authentik_stages_authenticator_totp.authenticatorTOTPStage, [name, mfa-totp-setup]]
         - !Find [authentik_stages_authenticator_webauthn.authenticatorWebAuthnStage, [name, mfa-webauthn-setup]]
+
+  - model: authentik_core.user
+    ###################################################
+    #                      Users                      #
+    ###################################################
+
+    state: present
+    identifiers:
+      username: austin
+    attrs:
+      is_superuser: true
+
+  - model: authentik_core.user
+    state: present
+    identifiers:
+      username: akadmin
+    attrs:
+      is_active: false
