@@ -1,6 +1,6 @@
 version: 1
 metadata:
-  name: users
+  name: Users
   labels:
     blueprints.goauthentik.io/instantiate: "true"
 entries:
@@ -9,3 +9,4 @@ entries:
       username: austin
     attrs:
       email_verified: true
+      is_superuser: true
