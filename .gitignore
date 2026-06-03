@@ -16,3 +16,15 @@ kubernetes/dev/platform/external-secrets/Secret.yaml
 .ansible
 # Temporary for Authentik until secrets are migrated
 exported.yaml
+*.box
+*.box.json
+output*/
+.vagrant/
+packer_cache/
+drivers/
+isos/
+tmp/
+*.log
+*.old
+*.iso
+secrets*
