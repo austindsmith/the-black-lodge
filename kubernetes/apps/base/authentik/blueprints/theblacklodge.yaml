@@ -284,6 +284,7 @@ entries:
     identifiers:
       username: austin
     attrs:
+      name: Austin Smith
       is_superuser: true
 
   - model: authentik_core.user
@@ -291,4 +292,5 @@ entries:
     identifiers:
       username: akadmin
     attrs:
-      is_active: false
+      name: akadmin
+      #is_active: false

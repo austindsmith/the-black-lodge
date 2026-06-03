@@ -12,8 +12,20 @@ spec:
     databases:
       - name: vaultwarden
         owner: vaultwarden
+      - name: authentik
+        owner: authentik
+      - name: terraform_state
+        owner: terraform
     roles:
       - name: vaultwarden
         passwordSecret:
           name: vaultwarden-db-secret
+        login: true
+      - name: authentik
+        passwordSecret:
+          name: authentik-db-secret
+        login: true
+      - name: terraform
+        passwordSecret:
+          name: terraform-db-secret
         login: true
