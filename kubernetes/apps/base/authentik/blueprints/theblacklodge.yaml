@@ -286,6 +286,7 @@ entries:
     attrs:
       name: Austin Smith
       is_superuser: true
+      email_verified: true
 
   - model: authentik_core.user
     state: present
