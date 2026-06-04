@@ -18,6 +18,9 @@ resource "azuread_application" "generate" {
       id_token_issuance_enabled = true
     }
   }
+  single_page_application {
+    redirect_uris = ["https://${var.ingress_host}/"]
+  }
 
   app_role {
     allowed_member_types = ["User"]
