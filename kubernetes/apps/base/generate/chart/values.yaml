@@ -51,6 +51,7 @@ database:
     ods: ODS
     staging: Staging
     rds: RDS
+    hangfire: Generate
 
 mssql:
   enabled: true

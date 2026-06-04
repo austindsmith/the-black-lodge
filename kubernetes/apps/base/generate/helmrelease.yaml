@@ -43,15 +43,18 @@ spec:
     ingress:
       enabled: false
     app:
-      userStoreType: OAUTH
-    azureAd:
-      fromSecret: true
+      userStoreType: EMBEDDED
+    embedded:
+      adminUserName: Admin
+      reviewerUserName: Reviewer
+      secretKeys:
+        adminPassword: embedded_admin_password
+        reviewerPassword: embedded_reviewer_password
     frontend:
       config:
-        enabled: true
-        #clientId: your-client-id
-        #tenantId: your-tenant-id
-        redirectUri: https://generate.theblacklodge.dev/
+        enabled: false
+    database:
+      passwordSecretKey: db_password
     mssql:
       storage:
         className: longhorn
