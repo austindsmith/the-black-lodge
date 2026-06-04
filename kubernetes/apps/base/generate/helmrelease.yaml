@@ -54,7 +54,7 @@ spec:
       config:
         enabled: true
         authType: OAUTH
-        redirectUri: https://generate.austinsmith.org/
+        redirectUri: https://generate.theblacklodge.dev
     database:
       passwordSecretKey: db_password
     mssql:
