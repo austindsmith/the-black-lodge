@@ -13,7 +13,7 @@ spec:
       chart: ./kubernetes/infrastructure/base/generate/chart
       sourceRef:
         kind: GitRepository
-        name: the-black-lodge
+        name: flux-system
         namespace: flux-system
   valuesFrom:
     - kind: Secret
