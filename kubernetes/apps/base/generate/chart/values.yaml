@@ -4,11 +4,11 @@ fullnameOverride: "generate"
 image:
   web:
     repository: ciididea/generate-web
-    tag: "13.2"
+    tag: latest
     pullPolicy: IfNotPresent
   background:
     repository: ciididea/generate-background
-    tag: "13.2"
+    tag: latest
     pullPolicy: IfNotPresent
 
 app:
