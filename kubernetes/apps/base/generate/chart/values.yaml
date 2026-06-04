@@ -76,7 +76,7 @@ mssql:
 
 initDatabases:
   enabled: true
-  image: mcr.microsoft.com/mssql-tools18:latest
+  image: mcr.microsoft.com/mssql/server:2022-latest
 
 secret:
   create: false
