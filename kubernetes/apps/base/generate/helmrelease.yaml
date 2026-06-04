@@ -17,15 +17,15 @@ spec:
         namespace: flux-system
   valuesFrom:
     - kind: Secret
-      name: generate
+      name: generate-secrets
       valuesKey: azure_domain
       targetPath: azureAd.domain
     - kind: Secret
-      name: generate
+      name: generate-secrets
       valuesKey: azure_tenant_id
       targetPath: azureAd.tenantId
     - kind: Secret
-      name: generate
+      name: generate-secrets
       valuesKey: azure_client_id
       targetPath: azureAd.clientId
   values:
