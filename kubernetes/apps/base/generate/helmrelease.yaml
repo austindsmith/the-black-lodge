@@ -44,6 +44,7 @@ spec:
       enabled: false
     app:
       userStoreType: OAUTH
+      provisionJobs: true
     embedded:
       adminUserName: Admin
       reviewerUserName: Reviewer

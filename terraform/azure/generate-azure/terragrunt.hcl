@@ -4,7 +4,7 @@ include "root" {
 }
 
 locals {
-  env = read_terragrunt_config("${get_terragrunt_dir()}/dev.hcl")
+  env = read_terragrunt_config("${get_terragrunt_dir()}/prod.hcl")
 }
 
 inputs = local.env.inputs
