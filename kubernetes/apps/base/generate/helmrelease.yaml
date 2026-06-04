@@ -2,27 +2,38 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: generate
+  namespace: flux-system
 spec:
   install:
     createNamespace: true
+  targetNamespace: generate
   interval: 1h
   chart:
     spec:
-      chart: ./generate/chart
+      chart: ./kubernetes/infrastructure/base/generate/chart
       sourceRef:
         kind: GitRepository
-        name: flux-system
+        name: the-black-lodge
         namespace: flux-system
+  valuesFrom:
+    - kind: Secret
+      name: generate
+      valuesKey: azure_domain
+      targetPath: azureAd.domain
+    - kind: Secret
+      name: generate
+      valuesKey: azure_tenant_id
+      targetPath: azureAd.tenantId
+    - kind: Secret
+      name: generate
+      valuesKey: azure_client_id
+      targetPath: azureAd.clientId
   values:
     fullnameOverride: generate
     externalSecret:
       enabled: false
     ingress:
       enabled: false
-    azureAd:
-      domain: yourdomain.com
-      tenantId: your-tenant-id
-      clientId: your-client-id
     mssql:
       storage:
         className: longhorn

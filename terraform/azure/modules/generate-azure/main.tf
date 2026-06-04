@@ -48,8 +48,8 @@ resource "azuread_application_password" "generate" {
 }
 
 resource "azuread_app_role_assignment" "admin" {
-  count               = var.admin_user_id == "" ? 0 : 1
+  count               = var.azure_user_id == "" ? 0 : 1
   app_role_id         = random_uuid.administrator.result
-  principal_object_id = var.admin_user_id
+  principal_object_id = var.azure_user_id
   resource_object_id  = azuread_service_principal.generate.object_id
 }

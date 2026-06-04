@@ -24,7 +24,7 @@ azureAd:
   clientId: ""
   clientSecret:
     enabled: false
-    secretKey: GENERATE_AAD_CLIENT_SECRET
+    secretKey: generate_aad_client_secret
 
 database:
   host: generate-mssql
@@ -32,7 +32,7 @@ database:
   user: sa
   encrypt: true
   trustServerCertificate: true
-  passwordSecretKey: GENERATE_DB_PASSWORD
+  passwordSecretKey: generate_db_password
   names:
     app: Generate
     ods: ODS
@@ -68,8 +68,8 @@ externalSecret:
     name: infisical
     kind: ClusterSecretStore
   remoteKeys:
-    dbPassword: GENERATE_DB_PASSWORD
-    aadClientSecret: GENERATE_AAD_CLIENT_SECRET
+    dbPassword: generate_db_password
+    aadClientSecret: generate_aad_client_secret
 
 web:
   replicas: 1

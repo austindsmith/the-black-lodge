@@ -1,5 +1,4 @@
 inputs = {
-  display_name  = "Generate (dev)"
-  ingress_host  = "generate.theblacklodge.dev"
-  admin_user_id = ""
+  display_name = "Generate (dev)"
+  ingress_host = "generate.theblacklodge.dev"
 }

@@ -9,7 +9,7 @@ variable "ingress_host" {
   description = "Public hostname for Generate; used to build the OIDC redirect URI"
 }
 
-variable "admin_user_id" {
+variable "azure_user_id" {
   type        = string
   description = "Optional Entra user object ID to pre-assign the Administrator role"
   default     = ""
