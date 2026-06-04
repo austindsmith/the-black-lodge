@@ -1,6 +1,19 @@
 nameOverride: ""
 fullnameOverride: "generate"
 
+frontend:
+  config:
+    enabled: false
+    mountPath: /app/wwwroot/assets/config/config.prod.json
+    subPath: config.prod.json
+    clientId: ""
+    tenantId: ""
+    redirectUri: ""
+    pageSize: 10
+    timeoutInSeconds: 1200
+    callService: true
+    authType: OAUTH
+
 image:
   web:
     repository: ciididea/generate-web

@@ -28,12 +28,30 @@ spec:
       name: generate-secrets
       valuesKey: azure_client_id
       targetPath: azureAd.clientId
+    - kind: Secret
+      name: generate-secrets
+      valuesKey: azure_tenant_id
+      targetPath: frontend.config.tenantId
+    - kind: Secret
+      name: generate-secrets
+      valuesKey: azure_client_id
+      targetPath: frontend.config.clientId
   values:
     fullnameOverride: generate
     externalSecret:
       enabled: false
     ingress:
       enabled: false
+    app:
+      userStoreType: OAUTH
+    azureAd:
+      fromSecret: true
+    frontend:
+      config:
+        enabled: true
+        #clientId: your-client-id
+        #tenantId: your-tenant-id
+        redirectUri: https://generate.theblacklodge.dev/
     mssql:
       storage:
         className: longhorn
