@@ -30,13 +30,6 @@ app:
   provisionJobs: false
   forwardedHeaders: true
 
-embedded:
-  adminUserName: Admin
-  reviewerUserName: Reviewer
-  secretKeys:
-    adminPassword: embedded_admin_password
-    reviewerPassword: embedded_reviewer_password
-
 azureAd:
   instance: "https://login.microsoftonline.com/"
   domain: ""

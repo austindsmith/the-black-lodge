@@ -40,8 +40,6 @@ Server={{ $root.Values.database.host }},{{ $root.Values.database.port }};Databas
   value: {{ .Values.app.environment | quote }}
 - name: AppSettings__ProvisionJobs
   value: {{ .Values.app.provisionJobs | quote }}
-- name: AppSettings__BackgroundUrl
-  value: {{ printf "http://%s-background:%v" (include "generate.fullname" .) .Values.background.service.port | quote }}
 - name: Data__AppDbContextConnection
   value: {{ include "generate.connectionString" (list .Values.database.names.app .) | quote }}
 - name: Data__ODSDbContextConnection
@@ -50,8 +48,6 @@ Server={{ $root.Values.database.host }},{{ $root.Values.database.port }};Databas
   value: {{ include "generate.connectionString" (list .Values.database.names.staging .) | quote }}
 - name: Data__RDSDbContextConnection
   value: {{ include "generate.connectionString" (list .Values.database.names.rds .) | quote }}
-- name: Data__HangfireConnection
-  value: {{ include "generate.connectionString" (list .Values.database.names.hangfire .) | quote }}
 - name: AzureAd__Instance
   value: {{ .Values.azureAd.instance | quote }}
 - name: AzureAd__Domain
@@ -66,22 +62,6 @@ Server={{ $root.Values.database.host }},{{ $root.Values.database.port }};Databas
     secretKeyRef:
       name: {{ include "generate.secretName" . }}
       key: {{ .Values.azureAd.clientSecret.secretKey }}
-{{- end }}
-{{- if eq .Values.app.userStoreType "EMBEDDED" }}
-- name: AppSettings__EmbeddedAdminUserName
-  value: {{ .Values.embedded.adminUserName | quote }}
-- name: AppSettings__EmbeddedReviewerUserName
-  value: {{ .Values.embedded.reviewerUserName | quote }}
-- name: AppSettings__EmbeddedAdminPassword
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "generate.secretName" . }}
-      key: {{ .Values.embedded.secretKeys.adminPassword }}
-- name: AppSettings__EmbeddedReviewerPassword
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "generate.secretName" . }}
-      key: {{ .Values.embedded.secretKeys.reviewerPassword }}
 {{- end }}
 {{- if .Values.app.forwardedHeaders }}
 - name: ASPNETCORE_FORWARDEDHEADERS_ENABLED

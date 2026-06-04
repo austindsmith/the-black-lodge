@@ -43,7 +43,7 @@ spec:
     ingress:
       enabled: false
     app:
-      userStoreType: EMBEDDED
+      userStoreType: OAUTH
     embedded:
       adminUserName: Admin
       reviewerUserName: Reviewer
@@ -52,7 +52,9 @@ spec:
         reviewerPassword: embedded_reviewer_password
     frontend:
       config:
-        enabled: false
+        enabled: true
+        authType: OAUTH
+        redirectUri: https://generate.austinsmith.org/
     database:
       passwordSecretKey: db_password
     mssql:
