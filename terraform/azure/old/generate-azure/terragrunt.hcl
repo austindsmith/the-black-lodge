@@ -4,10 +4,13 @@ include "root" {
 }
 
 locals {
-  env = read_terragrunt_config("${get_terragrunt_dir()}/dev.hcl")
+  env  = read_terragrunt_config("${get_terragrunt_dir()}/prod.hcl")
+  root = read_terragrunt_config(find_in_parent_folders("root.hcl"))
 }
 
-inputs = local.env.inputs
+inputs = merge(local.env.inputs, {
+  azure_admin_id = local.root.locals.secrets.azure_admin_id
+})
 
 terraform {
   source = "${get_parent_terragrunt_dir()}/modules/generate-azure"
@@ -16,7 +19,7 @@ terraform {
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite_terragrunt"
-  contents  = <<PROVIDER
+  contents  = <<EOF
 terraform {
   required_providers {
     azuread = {
@@ -31,5 +34,11 @@ terraform {
 }
 
 provider "azuread" {}
-PROVIDER
+EOF
+}
+
+generate "secrets" {
+  path      = "secrets.auto.tfvars"
+  if_exists = "overwrite"
+  contents  = ""
 }

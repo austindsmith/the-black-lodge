@@ -12,3 +12,9 @@ output "domain" {
   description = "Initial tenant domain for azureAd.domain"
   value       = data.azuread_domains.initial.domains[0].domain_name
 }
+
+output "client_secret" {
+  description = "Client secret value; store as GENERATE_AAD_CLIENT_SECRET"
+  value       = azuread_application_password.generate.value
+  sensitive   = true
+}

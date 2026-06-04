@@ -6,11 +6,17 @@ variable "display_name" {
 
 variable "ingress_host" {
   type        = string
-  description = "Public hostname for Generate; used to build the OIDC redirect URI"
+  description = "Public hostname for Generate; used to build the SPA redirect URI"
 }
 
-variable "azure_user_id" {
-  type        = string
-  description = "Optional Entra user object ID to pre-assign the Administrator role"
-  default     = ""
+variable "administrator_object_ids" {
+  type        = list(string)
+  description = "Entra user object IDs to assign the Administrator app role"
+  default     = []
+}
+
+variable "reviewer_object_ids" {
+  type        = list(string)
+  description = "Entra user object IDs to assign the Reviewer app role"
+  default     = []
 }

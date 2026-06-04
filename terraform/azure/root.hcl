@@ -12,5 +12,5 @@ remote_state {
 }
 
 locals {
-  secrets = yamldecode(sops_decrypt_file("${get_repo_root()}/terraform/cloudflare/secret.yaml"))
+  secrets = yamldecode(sops_decrypt_file("${get_repo_root()}/terraform/azure/secret.yaml"))
 }

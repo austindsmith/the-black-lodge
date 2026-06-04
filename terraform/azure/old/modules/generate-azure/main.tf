@@ -18,7 +18,6 @@ resource "azuread_application" "generate" {
 
   required_resource_access {
     resource_app_id = "00000003-0000-0000-c000-000000000000"
-
     resource_access {
       id   = "e1fe6dd8-ba31-4d61-89e7-88639da4683d"
       type = "Scope"
@@ -48,16 +47,14 @@ resource "azuread_service_principal" "generate" {
   client_id = azuread_application.generate.client_id
 }
 
-resource "azuread_app_role_assignment" "administrators" {
-  for_each            = toset(var.administrator_object_ids)
-  app_role_id         = random_uuid.administrator.result
-  principal_object_id = each.value
-  resource_object_id  = azuread_service_principal.generate.object_id
+resource "azuread_application_password" "generate" {
+  application_id = azuread_application.generate.id
+  display_name   = "generate-helm"
 }
 
-resource "azuread_app_role_assignment" "reviewers" {
-  for_each            = toset(var.reviewer_object_ids)
-  app_role_id         = random_uuid.reviewer.result
-  principal_object_id = each.value
+resource "azuread_app_role_assignment" "admin" {
+  count               = var.azure_admin_id == "" ? 0 : 1
+  app_role_id         = random_uuid.administrator.result
+  principal_object_id = var.azure_admin_id
   resource_object_id  = azuread_service_principal.generate.object_id
 }

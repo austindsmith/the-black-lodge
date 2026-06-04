@@ -4,28 +4,10 @@ metadata:
   name: generate
 spec:
   entryPoints:
-    - websecure
-  routes:
-    - match: Host(`generate.austinsmith.org`)
-      kind: Rule
-      services:
-        - name: generate-web
-          port: 80
-  tls:
-    secretName: generate-tls
----
-apiVersion: traefik.io/v1alpha1
-kind: IngressRoute
-metadata:
-  name: generate-redirect
-spec:
-  entryPoints:
     - web
   routes:
     - match: Host(`generate.austinsmith.org`)
       kind: Rule
-      middlewares:
-        - name: generate-https-redirect
       services:
         - name: generate-web
           port: 80
