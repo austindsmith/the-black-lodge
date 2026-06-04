@@ -10,7 +10,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      chart: ./kubernetes/infrastructure/base/generate/chart
+      chart: ./kubernetes/apps/base/generate/chart
       sourceRef:
         kind: GitRepository
         name: flux-system
