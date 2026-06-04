@@ -1,0 +1,104 @@
+- name: Ensure target directories
+  ansible.windows.win_file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ generate_web_path }}"
+    - "{{ generate_background_path }}"
+
+- name: Install build toolchain
+  chocolatey.chocolatey.win_chocolatey:
+    name:
+      - git
+      - "{{ generate_dotnet_sdk_package }}"
+    state: present
+  when: generate_build_from_source
+
+- name: Clone Generate source
+  ansible.windows.win_command: >-
+    git clone --depth 1 --branch {{ generate_repo_ref }}
+    {{ generate_repo_url }} {{ generate_build_root }}
+  args:
+    creates: "{{ generate_build_root }}"
+  when: generate_build_from_source
+
+- name: Publish web project
+  ansible.windows.win_command: >-
+    dotnet publish generate.web -c Release -o {{ generate_web_path }}
+  args:
+    chdir: "{{ generate_build_root }}"
+  when: generate_build_from_source
+
+- name: Publish background project
+  ansible.windows.win_command: >-
+    dotnet publish generate.background -c Release -o {{ generate_background_path }}
+  args:
+    chdir: "{{ generate_build_root }}"
+  when: generate_build_from_source
+
+- name: Copy web artifact
+  ansible.windows.win_copy:
+    src: "{{ generate_web_artifact }}"
+    dest: "{{ generate_web_path }}\\"
+  when: not generate_build_from_source and generate_web_artifact | length > 0
+
+- name: Copy background artifact
+  ansible.windows.win_copy:
+    src: "{{ generate_background_artifact }}"
+    dest: "{{ generate_background_path }}\\"
+  when: not generate_build_from_source and generate_background_artifact | length > 0
+
+- name: Render web appsettings
+  ansible.windows.win_template:
+    src: appsettings.Production.json.j2
+    dest: "{{ generate_web_path }}\\appsettings.Production.json"
+  notify: restart iis
+
+- name: Render background appsettings
+  ansible.windows.win_template:
+    src: appsettings.Production.json.j2
+    dest: "{{ generate_background_path }}\\appsettings.Production.json"
+  notify: restart background
+
+- name: Create application pool
+  community.windows.win_iis_webapppool:
+    name: "{{ generate_app_pool }}"
+    state: started
+    attributes:
+      managedRuntimeVersion: ""
+      startMode: AlwaysRunning
+
+- name: Create website
+  community.windows.win_iis_website:
+    name: "{{ generate_site_name }}"
+    state: started
+    port: "{{ generate_http_port }}"
+    application_pool: "{{ generate_app_pool }}"
+    physical_path: "{{ generate_web_path }}"
+    hostname: "{{ generate_hosts[0] }}"
+
+- name: Bind additional hostnames
+  community.windows.win_iis_webbinding:
+    name: "{{ generate_site_name }}"
+    host_header: "{{ item }}"
+    port: "{{ generate_http_port }}"
+    state: present
+  loop: "{{ generate_hosts[1:] }}"
+
+- name: Install background worker service
+  ansible.windows.win_service:
+    name: "{{ generate_background_service_name }}"
+    display_name: Generate Background
+    path: "{{ generate_background_path }}\\generate.background.exe"
+    start_mode: auto
+    state: started
+
+- name: Open HTTP firewall port
+  community.windows.win_firewall_rule:
+    name: "Generate HTTP"
+    localport: "{{ generate_http_port }}"
+    protocol: tcp
+    direction: in
+    action: allow
+    state: present
+    enabled: true

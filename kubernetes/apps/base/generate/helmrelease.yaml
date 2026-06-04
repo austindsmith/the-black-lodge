@@ -1,0 +1,29 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: generate
+spec:
+  install:
+    createNamespace: true
+  interval: 1h
+  chart:
+    spec:
+      chart: ./generate/chart
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+  values:
+    fullnameOverride: generate
+    externalSecret:
+      enabled: false
+    ingress:
+      enabled: false
+    azureAd:
+      domain: yourdomain.com
+      tenantId: your-tenant-id
+      clientId: your-client-id
+    mssql:
+      storage:
+        className: longhorn
+        size: 20Gi

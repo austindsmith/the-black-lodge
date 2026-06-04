@@ -1,0 +1,17 @@
+- name: Download .NET hosting bundle
+  ansible.windows.win_get_url:
+    url: "{{ dotnet_hosting_bundle_url }}"
+    dest: "C:\\Windows\\Temp\\dotnet-hosting-bundle.exe"
+
+- name: Install .NET hosting bundle
+  ansible.windows.win_package:
+    path: "C:\\Windows\\Temp\\dotnet-hosting-bundle.exe"
+    arguments: "/quiet /norestart"
+    product_id: "Microsoft ASP.NET Core Module - {{ dotnet_hosting_bundle_version }}"
+    state: present
+  register: hosting_bundle
+  notify: restart iis
+
+- name: Reboot if required by hosting bundle
+  ansible.windows.win_reboot:
+  when: hosting_bundle.reboot_required | default(false)

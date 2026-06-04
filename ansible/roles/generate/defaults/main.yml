@@ -1,0 +1,45 @@
+dotnet_hosting_bundle_version: "8.0.11"
+dotnet_hosting_bundle_url: "https://builds.dotnet.microsoft.com/dotnet/aspnetcore/Runtime/{{ dotnet_hosting_bundle_version }}/dotnet-hosting-{{ dotnet_hosting_bundle_version }}-win.exe"
+
+sql_instance_name: "SQLEXPRESS"
+sql_server: "localhost\\{{ sql_instance_name }}"
+sql_sa_password: "ChangeMe_Strong1!"
+sql_chocolatey_package: "sql-server-express"
+sql_chocolatey_params: "/SECURITYMODE=SQL /SAPWD={{ sql_sa_password }} /INSTANCENAME={{ sql_instance_name }}"
+
+generate_databases:
+  - Generate
+  - ODS
+  - Staging
+  - RDS
+
+generate_build_from_source: false
+generate_repo_url: "https://github.com/CEDS-Collaborative-Exchange/Generate.git"
+generate_repo_ref: "13.1"
+generate_dotnet_sdk_package: "dotnet-sdk"
+
+generate_web_artifact: ""
+generate_background_artifact: ""
+
+generate_web_path: "C:\\inetpub\\generate-web"
+generate_background_path: "C:\\generate\\background"
+generate_build_root: "C:\\generate\\src"
+
+generate_site_name: "generate"
+generate_app_pool: "generate"
+generate_http_port: 80
+generate_hosts:
+  - generate.theblacklodge.dev
+  - generate.austinsmith.org
+
+generate_background_service_name: "generate-background"
+
+app_environment: "Production"
+app_user_store_type: "OAUTH"
+app_provision_jobs: false
+
+azure_ad_instance: "https://login.microsoftonline.com/"
+azure_ad_domain: ""
+azure_ad_tenant_id: ""
+azure_ad_client_id: ""
+azure_ad_client_secret: ""

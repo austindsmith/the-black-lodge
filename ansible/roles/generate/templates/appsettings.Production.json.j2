@@ -1,0 +1,21 @@
+{
+  "AppSettings": {
+    "UserStoreType": "{{ app_user_store_type }}",
+    "Environment": "{{ app_environment }}",
+    "ProvisionJobs": {{ app_provision_jobs | lower }}
+  },
+  "Data": {
+    "AppDbContextConnection": "Server={{ sql_server | replace('\\', '\\\\') }};Database=Generate;User Id=sa;Password={{ sql_sa_password }};TrustServerCertificate=True;",
+    "ODSDbContextConnection": "Server={{ sql_server | replace('\\', '\\\\') }};Database=ODS;User Id=sa;Password={{ sql_sa_password }};TrustServerCertificate=True;",
+    "StagingDbContextConnection": "Server={{ sql_server | replace('\\', '\\\\') }};Database=Staging;User Id=sa;Password={{ sql_sa_password }};TrustServerCertificate=True;",
+    "RDSDbContextConnection": "Server={{ sql_server | replace('\\', '\\\\') }};Database=RDS;User Id=sa;Password={{ sql_sa_password }};TrustServerCertificate=True;"
+  },
+  "AzureAd": {
+    "Instance": "{{ azure_ad_instance }}",
+    "Domain": "{{ azure_ad_domain }}",
+    "TenantId": "{{ azure_ad_tenant_id }}",
+    "ClientId": "{{ azure_ad_client_id }}"{% if azure_ad_client_secret | length > 0 %},
+    "ClientSecret": "{{ azure_ad_client_secret }}"{% endif %}
+
+  }
+}

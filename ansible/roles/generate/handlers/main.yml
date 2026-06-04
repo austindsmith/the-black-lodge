@@ -1,0 +1,7 @@
+- name: restart iis
+  ansible.windows.win_command: iisreset /restart
+
+- name: restart background
+  ansible.windows.win_service:
+    name: "{{ generate_background_service_name }}"
+    state: restarted

@@ -1,0 +1,11 @@
+- name: Configure IIS
+  ansible.builtin.import_tasks: iis.yml
+
+- name: Install .NET hosting bundle
+  ansible.builtin.import_tasks: dotnet.yml
+
+- name: Install and configure SQL Server
+  ansible.builtin.import_tasks: sql.yml
+
+- name: Deploy Generate
+  ansible.builtin.import_tasks: app.yml

@@ -1,0 +1,18 @@
+proxmox_endpoint     = "https://pve.theblacklodge.dev:8006/"
+proxmox_api_token    = "terraform@pve!provider=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+proxmox_insecure     = false
+proxmox_node_name    = "pve"
+proxmox_node_address = "10.0.0.10"
+
+prefix           = "generate"
+windows_template = "windows-2025-uefi"
+
+username            = "vagrant"
+password            = "ChangeMe_Strong1!"
+ssh_public_key_path = "~/.ssh/id_ed25519.pub"
+
+cores        = 4
+memory_mb    = 8192
+os_disk_gb   = 80
+data_disk_gb = 64
+network_bridge = "vmbr0"

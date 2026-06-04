@@ -1,0 +1,25 @@
+- name: Install SQL Server Express
+  chocolatey.chocolatey.win_chocolatey:
+    name: "{{ sql_chocolatey_package }}"
+    state: present
+    package_params: "{{ sql_chocolatey_params }}"
+
+- name: Install SqlServer PowerShell module
+  community.windows.win_psmodule:
+    name: SqlServer
+    state: present
+    accept_license: true
+
+- name: Create Generate databases
+  ansible.windows.win_powershell:
+    parameters:
+      Server: "{{ sql_server }}"
+      SaPassword: "{{ sql_sa_password }}"
+    script: |
+      param($Server, $SaPassword)
+      $databases = @({{ generate_databases | map('regex_replace', '^(.*)$', "'\\1'") | join(', ') }})
+      foreach ($db in $databases) {
+        $query = "IF DB_ID('$db') IS NULL CREATE DATABASE [$db];"
+        Invoke-Sqlcmd -ServerInstance $Server -Username 'sa' -Password $SaPassword -TrustServerCertificate -Query $query
+      }
+  no_log: true
