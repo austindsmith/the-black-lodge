@@ -122,8 +122,8 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
   hosts:
-    - generate.theblacklodge.dev
-    #- generate.austinsmith.org
+    #- generate.theblacklodge.dev
+    - generate.austinsmith.org
   tls:
     enabled: true
     secretName: generate-tls

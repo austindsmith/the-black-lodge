@@ -6,7 +6,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`generate.theblacklodge.dev`)
+    - match: Host(`generate.austinsmith.org`)
       kind: Rule
       services:
         - name: generate-web
