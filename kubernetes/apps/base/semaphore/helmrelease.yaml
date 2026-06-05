@@ -8,7 +8,7 @@ spec:
   interval: 1h
   chart:
     spec:
-      chart: https://semaphoreui.github.io/charts/
+      chart: semaphore
       version: 16.2.2
       sourceRef:
         kind: HelmRepository
