@@ -270,7 +270,7 @@ entries:
       name: akadmin
 
   - model: authentik_core.user
-    state: present
+    state: must_created
     identifiers:
       username: austin
     attrs:
