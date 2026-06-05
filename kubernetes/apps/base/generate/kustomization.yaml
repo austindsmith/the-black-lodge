@@ -7,3 +7,9 @@ resources:
   - ./helmrelease.yaml
   - ./ingressroute.yaml
   - ./secret.yaml
+  - ./seed-cronjob.yaml
+
+configMapGenerator:
+  - name: generate-staging-seed-script
+    files:
+      - seed_generate_staging.py
