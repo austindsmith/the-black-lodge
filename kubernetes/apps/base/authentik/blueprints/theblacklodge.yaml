@@ -305,11 +305,3 @@ entries:
       username: akadmin
     attrs:
       name: akadmin
-
-  - model: authentik_core.user
-    state: must_created
-    identifiers:
-      username: austin
-    attrs:
-      name: austin
-      is_superuser: true
