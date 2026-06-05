@@ -3,29 +3,58 @@ apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
   name: postgres-cluster
-  namespace: postgres
 spec:
   instances: 3
   storage:
     size: 20Gi
   managed:
     databases:
-      - name: vaultwarden
-        owner: vaultwarden
       - name: authentik
         owner: authentik
+      - name: immich
+        owner: immich
+      - name: n8n
+        owner: n8n
+      - name: nextcloud
+        owner: nextcloud
+      - name: mealie
+        owner: mealie
+      - name: paperless-ngx
+        owner: paperless-ngx
+      - name: semaphore
+        owner: semaphore
       - name: terraform_state
         owner: terraform
     roles:
-      - name: vaultwarden
-        passwordSecret:
-          name: vaultwarden-db-secret
-        login: true
       - name: authentik
         passwordSecret:
-          name: authentik-db-secret
+          name: authentik_db_secret
+        login: true
+      - name: immich
+        passwordSecret:
+          name: immich_db_secret
+        login: true
+      - name: n8n
+        passwordSecret:
+          name: n8n_db_secret
+        login: true
+      - name: nextcloud
+        passwordSecret:
+          name: nextcloud_db_secret
+        login: true
+      - name: mealie
+        passwordSecret:
+          name: mealie_db_secret
+        login: true
+      - name: paperless-ngx
+        passwordSecret:
+          name: paperless_ngx_db_secret
+        login: true
+      - name: semaphore
+        passwordSecret:
+          name: semaphore_db_secret
         login: true
       - name: terraform
         passwordSecret:
-          name: terraform-db-secret
+          name: terraform_db_secret
         login: true
