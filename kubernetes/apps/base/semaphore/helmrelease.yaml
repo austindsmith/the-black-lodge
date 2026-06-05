@@ -33,3 +33,7 @@ spec:
           username_claim: preferred_username
           name_claim: preferred_username
           email_claim: email
+          scopes:
+            - openid
+            - profile
+            - email
