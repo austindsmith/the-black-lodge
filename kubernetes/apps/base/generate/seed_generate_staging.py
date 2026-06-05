@@ -8,19 +8,63 @@ import pymssql
 
 try:
     from faker import Faker
+
     _faker = Faker("en_US")
 except ImportError:
     _faker = None
 
 _FALLBACK_FIRST = [
-    "Liam", "Olivia", "Noah", "Emma", "Mateo", "Sophia", "Amir", "Ava", "Diego",
-    "Isabella", "Kai", "Mia", "Ethan", "Aaliyah", "Lucas", "Harper", "Elijah",
-    "Camila", "James", "Luna", "Benjamin", "Layla", "Henry", "Zoe", "Owen", "Maya",
+    "Liam",
+    "Olivia",
+    "Noah",
+    "Emma",
+    "Mateo",
+    "Sophia",
+    "Amir",
+    "Ava",
+    "Diego",
+    "Isabella",
+    "Kai",
+    "Mia",
+    "Ethan",
+    "Aaliyah",
+    "Lucas",
+    "Harper",
+    "Elijah",
+    "Camila",
+    "James",
+    "Luna",
+    "Benjamin",
+    "Layla",
+    "Henry",
+    "Zoe",
+    "Owen",
+    "Maya",
 ]
 _FALLBACK_LAST = [
-    "Garcia", "Smith", "Johnson", "Martinez", "Nguyen", "Brown", "Lee", "Begay",
-    "Lopez", "Davis", "Yazzie", "Wilson", "Anderson", "Thomas", "Chavez", "Romero",
-    "Sandoval", "Tsosie", "Patel", "Williams", "Vigil", "Trujillo", "Montoya",
+    "Garcia",
+    "Smith",
+    "Johnson",
+    "Martinez",
+    "Nguyen",
+    "Brown",
+    "Lee",
+    "Begay",
+    "Lopez",
+    "Davis",
+    "Yazzie",
+    "Wilson",
+    "Anderson",
+    "Thomas",
+    "Chavez",
+    "Romero",
+    "Sandoval",
+    "Tsosie",
+    "Patel",
+    "Williams",
+    "Vigil",
+    "Trujillo",
+    "Montoya",
 ]
 
 
@@ -107,8 +151,20 @@ EXIT_WITHDRAWAL = [
     ("01927", 7),
 ]
 
-SCHOOL_TYPE = [("Regular", 78), ("Alternative", 10), ("CareerAndTechnical", 7), ("Special", 5)]
-NSLP_STATUS = [("NSLPWOPRO", 25), ("NSLPPRO1", 15), ("NSLPPRO2", 15), ("NSLPPRO3", 15), ("NSLPCEO", 15), ("NSLPNO", 15)]
+SCHOOL_TYPE = [
+    ("Regular", 78),
+    ("Alternative", 10),
+    ("CareerAndTechnical", 7),
+    ("Special", 5),
+]
+NSLP_STATUS = [
+    ("NSLPWOPRO", 25),
+    ("NSLPPRO1", 15),
+    ("NSLPPRO2", 15),
+    ("NSLPPRO3", 15),
+    ("NSLPCEO", 15),
+    ("NSLPNO", 15),
+]
 POVERTY = [("Neither", 60), ("LowQuartile", 20), ("HighQuartile", 20)]
 
 
@@ -173,16 +229,37 @@ def build_organizations(lea_count, school_count, school_year, run_dt):
             school_nces = lea_nces + str(school_seq).zfill(5)
             band = random.choice(["Elementary", "Middle", "High", "Academy"])
             school_name = f"{last_name()} {band} School"
-            rows.append((
-                lea_state_id, lea_nces, lea_state_id, lea_name,
-                f"https://lea{lea_index + 1}.k12.example.us", "Open", effective_date,
-                "NOTCHR", 0, "RegularNotInSupervisoryUnion",
-                school_state_id, school_nces, school_name,
-                f"https://sch{school_seq}.k12.example.us", "Open", effective_date,
-                weighted(SCHOOL_TYPE), "None", "No", "NotVirtual",
-                weighted(NSLP_STATUS), "No", 0, weighted(POVERTY), 0.0,
-                str(school_year), run_dt,
-            ))
+            rows.append(
+                (
+                    lea_state_id,
+                    lea_nces,
+                    lea_state_id,
+                    lea_name,
+                    f"https://lea{lea_index + 1}.k12.example.us",
+                    "Open",
+                    effective_date,
+                    "NOTCHR",
+                    0,
+                    "RegularNotInSupervisoryUnion",
+                    school_state_id,
+                    school_nces,
+                    school_name,
+                    f"https://sch{school_seq}.k12.example.us",
+                    "Open",
+                    effective_date,
+                    weighted(SCHOOL_TYPE),
+                    "None",
+                    "No",
+                    "NotVirtual",
+                    weighted(NSLP_STATUS),
+                    "No",
+                    0,
+                    weighted(POVERTY),
+                    0.0,
+                    str(school_year),
+                    run_dt,
+                )
+            )
     return rows
 
 
@@ -209,46 +286,90 @@ def build_students(student_count, organizations, school_year, idea_rate, run_dt)
         sex = weighted(SEX_IDEA if is_idea else SEX)
         hispanic = weighted(HISPANIC)
 
-        entry = random_date_between(date(school_year - 1, 8, 1), date(school_year - 1, 9, 15))
+        entry = random_date_between(
+            date(school_year - 1, 8, 1), date(school_year - 1, 9, 15)
+        )
         exited = random.random() < 0.12
-        exit_date = random_date_between(entry + timedelta(days=20), base_exit) if exited else None
+        exit_date = (
+            random_date_between(entry + timedelta(days=20), base_exit)
+            if exited
+            else None
+        )
         exit_type = weighted(EXIT_WITHDRAWAL) if exited else None
 
         school_days = 180
         days_absent = round(random.uniform(0, 25), 2)
         attendance = round((school_days - days_absent) / school_days, 4)
 
-        enrollments.append((
-            student_id, lea_state, school_state,
-            first_name(), last_name(), middle_initial(),
-            birthdate, sex, int(hispanic),
-            entry, exit_date, exit_type, grade,
-            str(school_year), school_days, days_absent, attendance, run_dt,
-        ))
+        enrollments.append(
+            (
+                student_id,
+                lea_state,
+                school_state,
+                first_name(),
+                last_name(),
+                middle_initial(),
+                birthdate,
+                sex,
+                int(hispanic),
+                entry,
+                exit_date,
+                exit_type,
+                grade,
+                str(school_year),
+                school_days,
+                days_absent,
+                attendance,
+                run_dt,
+            )
+        )
 
         for race in distinct_weighted(RACE, weighted(RACE_COUNT)):
-            races.append((student_id, lea_state, school_state, race, datetime.combine(entry, datetime.min.time()), run_dt))
+            races.append(
+                (
+                    student_id,
+                    lea_state,
+                    school_state,
+                    race,
+                    datetime.combine(entry, datetime.min.time()),
+                    run_dt,
+                )
+            )
 
         if is_idea:
             dis_start = random_date_between(entry, exit_date or base_exit)
             sped_exits = random.random() < 0.15
-            dis_end = random_date_between(dis_start, exit_date or base_exit) if sped_exits else None
-            disabilities.append((
-                student_id, weighted(DISABILITY),
-                datetime.combine(dis_start, datetime.min.time()),
-                datetime.combine(dis_end, datetime.min.time()) if dis_end else None,
-                run_dt,
-            ))
+            dis_end = (
+                random_date_between(dis_start, exit_date or base_exit)
+                if sped_exits
+                else None
+            )
+            disabilities.append(
+                (
+                    student_id,
+                    weighted(DISABILITY),
+                    datetime.combine(dis_start, datetime.min.time()),
+                    datetime.combine(dis_end, datetime.min.time()) if dis_end else None,
+                    run_dt,
+                )
+            )
             if age > 5 or (age == 5 and grade not in ("PK",)):
                 ec_env, sa_env = None, weighted(ENV_SCHOOL_AGE)
             else:
                 ec_env, sa_env = weighted(ENV_EARLY_CHILDHOOD), None
-            sped.append((
-                student_id, lea_state, school_state,
-                dis_start, dis_end,
-                weighted(SPED_EXIT_REASON) if dis_end else None,
-                ec_env, sa_env, run_dt,
-            ))
+            sped.append(
+                (
+                    student_id,
+                    lea_state,
+                    school_state,
+                    dis_start,
+                    dis_end,
+                    weighted(SPED_EXIT_REASON) if dis_end else None,
+                    ec_env,
+                    sa_env,
+                    run_dt,
+                )
+            )
 
     return enrollments, races, disabilities, sped
 
@@ -269,16 +390,23 @@ def insert_many(cursor, schema, table, columns, rows):
 
 def connect(args, database):
     return pymssql.connect(
-        server=args.host, port=str(args.port), user=args.user,
-        password=args.password, database=database, autocommit=False,
+        server=args.host,
+        port=str(args.port),
+        user=args.user,
+        password=args.password,
+        database=database,
+        autocommit=False,
     )
 
 
 def find_staging_location(args, candidates):
+    report = []
+    found = (None, None)
     for database in candidates:
         try:
             probe = connect(args, database)
-        except pymssql.Error:
+        except pymssql.Error as exc:
+            report.append((database, f"connect failed: {str(exc).strip()[:120]}"))
             continue
         try:
             cur = probe.cursor()
@@ -289,10 +417,58 @@ def find_staging_location(args, candidates):
             row = cur.fetchone()
             cur.close()
             if row:
-                return database, row[0]
+                report.append((database, f"found in schema [{row[0]}]"))
+                if found == (None, None):
+                    found = (database, row[0])
+            else:
+                report.append((database, "connected, no K12Enrollment table"))
         finally:
             probe.close()
-    return None, None
+    return found[0], found[1], report
+
+
+def diagnose_server(args):
+    lines = []
+    try:
+        probe = connect(args, "master")
+    except pymssql.Error as exc:
+        return [
+            f"Cannot connect to server {args.host}:{args.port} as {args.user}: {str(exc).strip()[:200]}"
+        ]
+    try:
+        cur = probe.cursor()
+        cur.execute("SELECT name FROM sys.databases ORDER BY name")
+        databases = [r[0] for r in cur.fetchall()]
+        cur.close()
+        lines.append(f"Server reachable. Databases present: {', '.join(databases)}")
+    finally:
+        probe.close()
+
+    for database in databases:
+        if database in ("master", "tempdb", "model", "msdb"):
+            continue
+        try:
+            probe = connect(args, database)
+        except pymssql.Error as exc:
+            lines.append(f"  [{database}] connect failed: {str(exc).strip()[:120]}")
+            continue
+        try:
+            cur = probe.cursor()
+            cur.execute(
+                "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'"
+            )
+            table_count = cur.fetchone()[0]
+            cur.execute(
+                "SELECT TABLE_SCHEMA, TABLE_NAME FROM INFORMATION_SCHEMA.TABLES "
+                "WHERE TABLE_NAME = 'K12Enrollment'"
+            )
+            hit = cur.fetchall()
+            cur.close()
+            where = ", ".join(f"[{s}].[{t}]" for s, t in hit) if hit else "not present"
+            lines.append(f"  [{database}] {table_count} tables; K12Enrollment: {where}")
+        finally:
+            probe.close()
+    return lines
 
 
 def staging_row_count(args, database, schema):
@@ -308,12 +484,25 @@ def staging_row_count(args, database, schema):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Seed CIID Generate staging tables with synthetic IDEA data.")
-    parser.add_argument("--host", default=os.environ.get("MSSQL_HOST", "generate-mssql"))
-    parser.add_argument("--port", type=int, default=int(os.environ.get("MSSQL_PORT", "1433")))
+    parser = argparse.ArgumentParser(
+        description="Seed CIID Generate staging tables with synthetic IDEA data."
+    )
+    parser.add_argument(
+        "--host", default=os.environ.get("MSSQL_HOST", "generate-mssql")
+    )
+    parser.add_argument(
+        "--port", type=int, default=int(os.environ.get("MSSQL_PORT", "1433"))
+    )
     parser.add_argument("--user", default=os.environ.get("MSSQL_USER", "sa"))
-    parser.add_argument("--password", default=os.environ.get("MSSQL_SA_PASSWORD", os.environ.get("MSSQL_PASSWORD", "")))
-    parser.add_argument("--database", default=os.environ.get("MSSQL_DATABASE", "Generate"))
+    parser.add_argument(
+        "--password",
+        default=os.environ.get(
+            "MSSQL_SA_PASSWORD", os.environ.get("MSSQL_PASSWORD", "")
+        ),
+    )
+    parser.add_argument(
+        "--database", default=os.environ.get("MSSQL_DATABASE", "Generate")
+    )
     parser.add_argument("--schema", default="Staging")
     parser.add_argument("--school-year", type=int, default=2025)
     parser.add_argument("--leas", type=int, default=5)
@@ -329,7 +518,10 @@ def main():
     args = parser.parse_args()
 
     if not args.password:
-        print("No SA password provided. Set MSSQL_SA_PASSWORD or pass --password.", file=sys.stderr)
+        print(
+            "No SA password provided. Set MSSQL_SA_PASSWORD or pass --password.",
+            file=sys.stderr,
+        )
         sys.exit(2)
     if args.seed is not None:
         random.seed(args.seed)
@@ -341,19 +533,31 @@ def main():
     database, schema = args.database, args.schema
     if args.autodiscover:
         candidates = [c.strip() for c in args.candidate_dbs.split(",") if c.strip()]
-        database, schema = find_staging_location(args, candidates)
+        database, schema, report = find_staging_location(args, candidates)
+        for db, status in report:
+            print(f"  candidate [{db}]: {status}")
         if not database:
-            print(f"Could not locate Staging.K12Enrollment in any of: {candidates}", file=sys.stderr)
+            print(
+                f"Could not locate Staging.K12Enrollment in any of: {candidates}",
+                file=sys.stderr,
+            )
+            print("Server diagnosis:", file=sys.stderr)
+            for line in diagnose_server(args):
+                print(line, file=sys.stderr)
             sys.exit(3)
         print(f"Discovered staging tables in [{database}].[{schema}]")
 
     if args.skip_if_populated:
         existing = staging_row_count(args, database, schema)
         if existing > 0:
-            print(f"{schema}.K12Enrollment already has {existing} rows in [{database}]; nothing to do.")
+            print(
+                f"{schema}.K12Enrollment already has {existing} rows in [{database}]; nothing to do."
+            )
             return
 
-    organizations = build_organizations(args.leas, args.schools, args.school_year, run_dt)
+    organizations = build_organizations(
+        args.leas, args.schools, args.school_year, run_dt
+    )
     enrollments, races, disabilities, sped = build_students(
         args.students, organizations, args.school_year, args.idea_rate, run_dt
     )
@@ -361,7 +565,13 @@ def main():
     conn = connect(args, database)
     cursor = conn.cursor()
 
-    target_tables = ["Organization", "K12Enrollment", "PersonRace", "PrimaryDisability", "ProgramParticipationSpecialEducation"]
+    target_tables = [
+        "Organization",
+        "K12Enrollment",
+        "PersonRace",
+        "PrimaryDisability",
+        "ProgramParticipationSpecialEducation",
+    ]
     if args.with_courses:
         target_tables.append("StudentCourse")
 
@@ -372,49 +582,107 @@ def main():
 
         counts = {}
         counts["Organization"] = insert_many(
-            cursor, schema, "Organization",
+            cursor,
+            schema,
+            "Organization",
             [
-                "LEA_Identifier_State", "LEA_Identifier_NCES", "LEA_SupervisoryUnionIdentificationNumber",
-                "LEA_Name", "LEA_WebSiteAddress", "LEA_OperationalStatus",
-                "LEA_UpdatedOperationalStatusEffectiveDate", "LEA_CharterLeaStatus",
-                "LEA_CharterSchoolIndicator", "LEA_Type",
-                "School_Identifier_State", "School_Identifier_NCES", "School_Name",
-                "School_WebSiteAddress", "School_OperationalStatus",
-                "School_UpdatedOperationalStatusEffectiveDate", "School_Type",
-                "School_MagnetOrSpecialProgramEmphasisSchool", "School_SharedTimeIndicator",
-                "School_VirtualSchoolStatus", "School_NationalSchoolLunchProgramStatus",
-                "School_ReconstitutedStatus", "School_CharterSchoolIndicator",
-                "School_StatePovertyDesignation", "SchoolImprovementAllocation",
-                "SchoolYear", "RunDateTime",
+                "LEA_Identifier_State",
+                "LEA_Identifier_NCES",
+                "LEA_SupervisoryUnionIdentificationNumber",
+                "LEA_Name",
+                "LEA_WebSiteAddress",
+                "LEA_OperationalStatus",
+                "LEA_UpdatedOperationalStatusEffectiveDate",
+                "LEA_CharterLeaStatus",
+                "LEA_CharterSchoolIndicator",
+                "LEA_Type",
+                "School_Identifier_State",
+                "School_Identifier_NCES",
+                "School_Name",
+                "School_WebSiteAddress",
+                "School_OperationalStatus",
+                "School_UpdatedOperationalStatusEffectiveDate",
+                "School_Type",
+                "School_MagnetOrSpecialProgramEmphasisSchool",
+                "School_SharedTimeIndicator",
+                "School_VirtualSchoolStatus",
+                "School_NationalSchoolLunchProgramStatus",
+                "School_ReconstitutedStatus",
+                "School_CharterSchoolIndicator",
+                "School_StatePovertyDesignation",
+                "SchoolImprovementAllocation",
+                "SchoolYear",
+                "RunDateTime",
             ],
             organizations,
         )
         counts["K12Enrollment"] = insert_many(
-            cursor, schema, "K12Enrollment",
+            cursor,
+            schema,
+            "K12Enrollment",
             [
-                "Student_Identifier_State", "LEA_Identifier_State", "School_Identifier_State",
-                "FirstName", "LastName", "MiddleName", "Birthdate", "Sex", "HispanicLatinoEthnicity",
-                "EnrollmentEntryDate", "EnrollmentExitDate", "ExitOrWithdrawalType", "GradeLevel",
-                "SchoolYear", "NumberOfSchoolDays", "NumberOfDaysAbsent", "AttendanceRate", "RunDateTime",
+                "Student_Identifier_State",
+                "LEA_Identifier_State",
+                "School_Identifier_State",
+                "FirstName",
+                "LastName",
+                "MiddleName",
+                "Birthdate",
+                "Sex",
+                "HispanicLatinoEthnicity",
+                "EnrollmentEntryDate",
+                "EnrollmentExitDate",
+                "ExitOrWithdrawalType",
+                "GradeLevel",
+                "SchoolYear",
+                "NumberOfSchoolDays",
+                "NumberOfDaysAbsent",
+                "AttendanceRate",
+                "RunDateTime",
             ],
             enrollments,
         )
         counts["PersonRace"] = insert_many(
-            cursor, schema, "PersonRace",
-            ["Student_Identifier_State", "Lea_Identifier_State", "School_Identifier_State", "RaceType", "RecordStartDateTime", "RunDateTime"],
+            cursor,
+            schema,
+            "PersonRace",
+            [
+                "Student_Identifier_State",
+                "Lea_Identifier_State",
+                "School_Identifier_State",
+                "RaceType",
+                "RecordStartDateTime",
+                "RunDateTime",
+            ],
             races,
         )
         counts["PrimaryDisability"] = insert_many(
-            cursor, schema, "PrimaryDisability",
-            ["Student_Identifier_State", "DisabilityType", "RecordStartDateTime", "RecordEndDateTime", "RunDateTime"],
+            cursor,
+            schema,
+            "PrimaryDisability",
+            [
+                "Student_Identifier_State",
+                "DisabilityType",
+                "RecordStartDateTime",
+                "RecordEndDateTime",
+                "RunDateTime",
+            ],
             disabilities,
         )
         counts["ProgramParticipationSpecialEducation"] = insert_many(
-            cursor, schema, "ProgramParticipationSpecialEducation",
+            cursor,
+            schema,
+            "ProgramParticipationSpecialEducation",
             [
-                "Student_Identifier_State", "LEA_Identifier_State", "School_Identifier_State",
-                "ProgramParticipationBeginDate", "ProgramParticipationEndDate", "SpecialEducationExitReason",
-                "IDEAEducationalEnvironmentForEarlyChildhood", "IDEAEducationalEnvironmentForSchoolAge", "RunDateTime",
+                "Student_Identifier_State",
+                "LEA_Identifier_State",
+                "School_Identifier_State",
+                "ProgramParticipationBeginDate",
+                "ProgramParticipationEndDate",
+                "SpecialEducationExitReason",
+                "IDEAEducationalEnvironmentForEarlyChildhood",
+                "IDEAEducationalEnvironmentForSchoolAge",
+                "RunDateTime",
             ],
             sped,
         )
@@ -424,10 +692,30 @@ def main():
             subjects = ["MATH101", "ENG101", "SCI101", "HIST101", "PE101", "ART101"]
             for enr in enrollments:
                 for course in random.sample(subjects, random.randint(2, 4)):
-                    courses.append((enr[0], enr[1], enr[2], args.school_year, course, enr[12], run_dt))
+                    courses.append(
+                        (
+                            enr[0],
+                            enr[1],
+                            enr[2],
+                            args.school_year,
+                            course,
+                            enr[12],
+                            run_dt,
+                        )
+                    )
             counts["StudentCourse"] = insert_many(
-                cursor, schema, "StudentCourse",
-                ["Student_Identifier_State", "LEA_Identifier_State", "School_Identifier_State", "SchoolYear", "CourseCode", "CourseGradeLevel", "RunDateTime"],
+                cursor,
+                schema,
+                "StudentCourse",
+                [
+                    "Student_Identifier_State",
+                    "LEA_Identifier_State",
+                    "School_Identifier_State",
+                    "SchoolYear",
+                    "CourseCode",
+                    "CourseGradeLevel",
+                    "RunDateTime",
+                ],
                 courses,
             )
 
