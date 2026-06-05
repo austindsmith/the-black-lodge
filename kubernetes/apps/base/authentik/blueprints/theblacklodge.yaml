@@ -208,7 +208,7 @@ entries:
     attrs:
       name: PGAdmin4
       slug: pgadmin
-      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Proxmox]]
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for PGAdmin4]]
       policy_engine_mode: any
 
   - model: authentik_sources_ldap.ldapsourcepropertymapping
