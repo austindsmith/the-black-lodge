@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: plex
-  namespace: media
 spec:
   replicas: 1
   strategy:
@@ -15,11 +14,6 @@ spec:
       labels:
         app: plex
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: plex
           image: lscr.io/linuxserver/plex:latest
