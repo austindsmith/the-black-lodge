@@ -4,4 +4,4 @@ resources:
   - longhorn
   - proxmox
   #- pgadmin4
-  - cloudnative-pg
+  #- cloudnative-pg
