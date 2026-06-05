@@ -1,7 +1,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name:
+  name: semaphore
 spec:
   interval: 24h
-  url:
+  url: https://semaphoreui.github.io/charts/
