@@ -14,6 +14,5 @@ configMapGenerator:
   - name: authentik-custom-blueprints
     files:
       - blueprints/theblacklodge.yaml
-      - blueprints/users.yaml
     options:
       disableNameSuffixHash: true

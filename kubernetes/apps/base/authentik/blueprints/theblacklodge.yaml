@@ -305,3 +305,24 @@ entries:
       username: akadmin
     attrs:
       name: akadmin
+  - attrs:
+      attributes:
+        distinguishedName: !Env ldap_primary_user_dn
+        givenName: !Env ldap_primary_user_given_name
+        ldap_uniq: !Env ldap_primary_user_uniq
+        sn: !Env ldap_primary_user_surname
+        upn: null
+      email: !Env ldap_primary_user_email
+      groups:
+        - !Find [authentik_core.group, [name, authentik Admins]]
+      is_active: true
+      name: !Env ldap_primary_user
+      path: !Env ldap_primary_user_path
+      type: internal
+      username: !Env ldap_primary_username
+    conditions: []
+    #identifiers:
+    #  pk: 8
+    model: authentik_core.user
+    permissions: []
+    state: present
