@@ -1,0 +1,24 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "the-black-lodge",
+      "Group": "Servers",
+      "Host": "postgres-cluster-rw.postgres.svc.cluster.local",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "PassFile": "/pgpassfile",
+      "SSLMode": "prefer"
+    },
+    "2": {
+      "Name": "warehouse",
+      "Group": "Servers",
+      "Host": "warehouse-cluster-rw.postgres.svc.cluster.local",
+      "Port": 5432,
+      "MaintenanceDB": "postgres",
+      "Username": "postgres",
+      "PassFile": "/pgpassfile",
+      "SSLMode": "prefer"
+    }
+  }
+}
