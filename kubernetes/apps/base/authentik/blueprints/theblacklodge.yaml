@@ -338,12 +338,6 @@ entries:
         - !Find [authentik_stages_authenticator_totp.authenticatorTOTPStage, [name, mfa-totp-setup]]
         - !Find [authentik_stages_authenticator_webauthn.authenticatorWebAuthnStage, [name, mfa-webauthn-setup]]
 
-  - model: authentik_core.user
-    state: present
-    identifiers:
-      username: akadmin
-    attrs:
-      name: akadmin
   - attrs:
       attributes:
         distinguishedName: !Env ldap_primary_user_dn
@@ -365,3 +359,11 @@ entries:
     model: authentik_core.user
     permissions: []
     state: present
+
+  - model: authentik_core.user
+    state: present
+    identifiers:
+      username: akadmin
+    attrs:
+      enabled: false
+      name: akadmin
