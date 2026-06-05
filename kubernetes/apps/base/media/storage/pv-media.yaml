@@ -16,4 +16,4 @@ spec:
     - nconnect=4
   nfs:
     server: 192.168.1.131
-    path: /volume1/development/media
+    path: /volume1/media
