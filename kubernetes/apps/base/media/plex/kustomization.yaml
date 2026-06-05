@@ -3,16 +3,9 @@ kind: Kustomization
 namespace: media
 
 resources:
+  - ./helmrelease.yaml
+  - ./helmrepository.yaml
   - ./pvc-config.yaml
   - ./ingressroute.yaml
   - ./deployment.yaml
   - ./service.yaml
-
-helmCharts:
-  - name: plex
-    repo: https://utkuozdemir.org/helm-charts
-    version: 2.1.1
-    releaseName: plex
-    namespace: media
-    valuesFile: values.yaml
-    kubeVersion: v1.36.1
