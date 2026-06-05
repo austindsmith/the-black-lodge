@@ -27,7 +27,7 @@ spec:
       enable: true
       providers:
         authentik:
-          display_name: Semaphore
+          display_name: Authentik
           provider_url: https://authentik.theblacklodge.dev/application/o/authorize/
           redirect_url: https://semaphore.theblacklodge.dev/api/auth/oidc/authentik/redirect
           username_claim: preferred_username

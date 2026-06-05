@@ -3,5 +3,5 @@ resources:
   - traefik
   - longhorn
   - proxmox
-  #- pgadmin4
-  #- cloudnative-pg
+  - pgadmin4
+  - cloudnative-pg
