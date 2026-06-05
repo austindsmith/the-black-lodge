@@ -22,6 +22,10 @@ spec:
       name: semaphore
       valuesKey: client_secret
       targetPath: oidc.providers.authentik.client_secret
+      #- kind: Secret
+      #  name: semaphore
+      #  valuesKey: email_address
+      #  targetPath: global.rootUser.email
   values:
     oidc:
       enable: true

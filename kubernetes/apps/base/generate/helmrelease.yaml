@@ -45,6 +45,14 @@ spec:
     app:
       userStoreType: OAUTH
       provisionJobs: true
+    database:
+      names:
+        app: Generate
+        ods: Generate
+        staging: Generate
+        rds: Generate
+        hangfire: Generate
+      passwordSecretKey: db_password
     embedded:
       adminUserName: Admin
       reviewerUserName: Reviewer
@@ -56,8 +64,6 @@ spec:
         enabled: true
         authType: OAUTH
         redirectUri: https://generate.austinsmith.org
-    database:
-      passwordSecretKey: db_password
     mssql:
       storage:
         className: longhorn
