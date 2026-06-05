@@ -28,7 +28,7 @@ spec:
       providers:
         authentik:
           display_name: Authentik
-          provider_url: https://authentik.theblacklodge.dev/application/o/authorize/
+          provider_url: https://authentik.theblacklodge.dev/application/o/semaphore/
           redirect_url: https://semaphore.theblacklodge.dev/api/auth/oidc/authentik/redirect
           username_claim: preferred_username
           name_claim: preferred_username
