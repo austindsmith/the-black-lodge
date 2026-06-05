@@ -217,11 +217,9 @@ entries:
       name: FreeIPA group is_superuser
     attrs:
       name: FreeIPA group is_superuser
-      expression: |
-        if ldap.get("cn") == ["admins"]:
-            return True
-        return False
       object_field: is_superuser
+      expression: |
+        return any("cn=admins" in str(m) for m in ldap.get("memberOf", []))
 
   - attrs:
       additional_group_dn: !Env ldap_group_dn
@@ -239,7 +237,7 @@ entries:
         - !Find [authentik_sources_ldap.ldapsourcepropertymapping, [managed, goauthentik.io/sources/ldap/openldap-cn]]
         - !Find [authentik_sources_ldap.ldapsourcepropertymapping, [managed, goauthentik.io/sources/ldap/default-mail]]
         - !Find [authentik_sources_ldap.ldapsourcepropertymapping, [managed, goauthentik.io/sources/ldap/default-name]]
-      lookup_groups_from_user_attribute: true
+      lookup_groups_from_user: true
       name: FreeIPA
       object_uniqueness_field: ipaUniqueID
       policy_engine_mode: any
