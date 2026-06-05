@@ -3,6 +3,7 @@ resources:
   - headlamp
   - media
   - generate
+  - semaphore
   #- jupyterhub
   #- dagster
   #- coder
