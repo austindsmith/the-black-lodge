@@ -4,16 +4,11 @@ metadata:
   name: pgadmin4
 
 spec:
+  envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
   env:
-    - name: PGADMIN_DEFAULT_EMAIL
-      value: admin@local.home
-    - name: PGADMIN_DEFAULT_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: pgadmin-admin
-          key: password
     - name: PGADMIN_SERVER_JSON_FILE
       value: /pgadmin4/servers.json
+
   volumeMounts:
     - name: servers-config
       mountPath: /pgadmin4/servers.json

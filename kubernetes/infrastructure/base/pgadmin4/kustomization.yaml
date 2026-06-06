@@ -7,6 +7,6 @@ resources:
   - ./helmrelease.yaml
   - ./helmrepository.yaml
   - ./ingressroute.yaml
-  - ./deployment.yaml
+  #- ./deployment.yaml
   - ./secret.yaml
   - ./configmap.yaml
