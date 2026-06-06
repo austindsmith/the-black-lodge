@@ -17,7 +17,7 @@ spec:
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     extraConfigmapMounts:
       - name: servers-config
-        configMap: pgadmin-servers
+        configMap: pgadmin4
         mountPath: /pgadmin4/servers.json
         subPath: servers.json
         readOnly: true
