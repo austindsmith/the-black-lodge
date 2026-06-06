@@ -5,6 +5,12 @@ metadata:
   name: cloudnative-pg
 spec:
   instances: 3
+  bootstrap:
+    initdb:
+      database: appdb
+      owner: postgres
+      secret:
+        name: cloudnative-pg-admin
   storage:
     size: 20Gi
   managed:
