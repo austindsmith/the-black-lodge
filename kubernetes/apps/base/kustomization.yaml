@@ -2,8 +2,8 @@ resources:
   - authentik
   - headlamp
   - media
-  - generate
   - semaphore
+  #- generate
   #- jupyterhub
   #- dagster
   #- coder
