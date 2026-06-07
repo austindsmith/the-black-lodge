@@ -9,7 +9,7 @@ data:
         "1": {
           "Name": "cloudnative-pg",
           "Group": "Servers",
-          "Host": "postgres-cluster-rw.postgres.svc.cluster.local",
+          "Host": "cloudnative-pg-rw.cloudnative-pg.svc.cluster.local",
           "Port": 5432,
           "MaintenanceDB": "postgres",
           "Username": "postgres",

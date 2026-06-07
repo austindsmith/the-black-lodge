@@ -1,28 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: radarr
-  namespace: media
+  name: prowlarr
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: radarr
+      app: prowlarr
   template:
     metadata:
       labels:
-        app: radarr
+        app: prowlarr
     spec:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
       containers:
-        - name: radarr
-          image: lscr.io/linuxserver/radarr:latest
+        - name: prowlarr
+          image: lscr.io/linuxserver/prowlarr:latest
           env:
             - name: PUID
               value: "1000"
@@ -32,9 +26,6 @@ spec:
               value: "002"
             - name: TZ
               value: America/Denver
-          ports:
-            - name: http
-              containerPort: 7878
           volumeMounts:
             - name: config
               mountPath: /config
@@ -49,7 +40,7 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: radarr-config
+            claimName: prowlarr-config
         - name: data
           persistentVolumeClaim:
             claimName: media
