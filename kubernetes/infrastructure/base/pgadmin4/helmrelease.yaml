@@ -19,8 +19,8 @@ spec:
     #  resourceType: ConfigMap
     #  existingConfigmap: "pgadmin4"
     env:
-      pgpassfile: /var/lib/pgadmin/storage/pgadmin/file.pgpass
-      #contextPath: /pgadmin4
+    #pgpassfile: /var/lib/pgadmin/storage/pgadmin/file.pgpass
+    #contextPath: /pgadmin4
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     #extraConfigmapMounts:
     #  - name: servers-config
