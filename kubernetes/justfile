@@ -27,6 +27,13 @@ delete:
       --enable-exec \
     | kubectl delete -f -
 
+apply:
+    kustomize build {{ invocation_directory() }} \
+      --enable-helm \
+      --enable-alpha-plugins \
+      --enable-exec \
+    | kubectl apply -f -
+
 flux:
     /home/austin/.local/share/scripts/flux_bootstrap.sh  && \
     /home/austin/.local/share/scripts/flux_secret.sh
