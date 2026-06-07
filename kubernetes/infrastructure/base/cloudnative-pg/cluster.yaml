@@ -13,54 +13,59 @@ spec:
         name: cloudnative-pg
   storage:
     size: 20Gi
-  managed:
-    databases:
-      - name: authentik
-        owner: authentik
-      - name: immich
-        owner: immich
-      - name: n8n
-        owner: n8n
-      - name: nextcloud
-        owner: nextcloud
-      - name: mealie
-        owner: mealie
-      - name: paperless-ngx
-        owner: paperless-ngx
-      - name: semaphore
-        owner: semaphore
-      - name: terraform_state
-        owner: terraform
-    roles:
-      - name: authentik
-        passwordSecret:
-          name: authentik_db_secret
-        login: true
-      - name: immich
-        passwordSecret:
-          name: immich_db_secret
-        login: true
-      - name: n8n
-        passwordSecret:
-          name: n8n_db_secret
-        login: true
-      - name: nextcloud
-        passwordSecret:
-          name: nextcloud_db_secret
-        login: true
-      - name: mealie
-        passwordSecret:
-          name: mealie_db_secret
-        login: true
-      - name: paperless-ngx
-        passwordSecret:
-          name: paperless_ngx_db_secret
-        login: true
-      - name: semaphore
-        passwordSecret:
-          name: semaphore_db_secret
-        login: true
-      - name: terraform
-        passwordSecret:
-          name: terraform_db_secret
-        login: true
+  monitoring:
+    enablePodMonitor: true
+    customQueriesConfigMap:
+      - name: cnpg-default-monitoring
+        key: queries
+#  managed:
+#    databases:
+#      - name: authentik
+#        owner: authentik
+#      - name: immich
+#        owner: immich
+#      - name: n8n
+#        owner: n8n
+#      - name: nextcloud
+#        owner: nextcloud
+#      - name: mealie
+#        owner: mealie
+#      - name: paperless-ngx
+#        owner: paperless-ngx
+#      - name: semaphore
+#        owner: semaphore
+#      - name: terraform_state
+#        owner: terraform
+#    roles:
+#      - name: authentik
+#        passwordSecret:
+#          name: authentik_db_secret
+#        login: true
+#      - name: immich
+#        passwordSecret:
+#          name: immich_db_secret
+#        login: true
+#      - name: n8n
+#        passwordSecret:
+#          name: n8n_db_secret
+#        login: true
+#      - name: nextcloud
+#        passwordSecret:
+#          name: nextcloud_db_secret
+#        login: true
+#      - name: mealie
+#        passwordSecret:
+#          name: mealie_db_secret
+#        login: true
+#      - name: paperless-ngx
+#        passwordSecret:
+#          name: paperless_ngx_db_secret
+#        login: true
+#      - name: semaphore
+#        passwordSecret:
+#          name: semaphore_db_secret
+#        login: true
+#      - name: terraform
+#        passwordSecret:
+#          name: terraform_db_secret
+#        login: true
