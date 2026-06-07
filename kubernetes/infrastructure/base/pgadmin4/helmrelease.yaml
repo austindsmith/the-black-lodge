@@ -34,3 +34,12 @@ spec:
         subPath: pgpassfile
         defaultMode: "0600"
         readOnly: true
+  servers:
+#  firstServer:
+#    Name: "Minimally Defined Server"
+#    Group: "Servers"
+#    Username: "postgres"
+#    Host: "{{ .Values.example.host }}"
+#    Port: "{{ .Values.example.port }}"
+#    SSLMode: "prefer"
+#    MaintenanceDB: "postgres"
