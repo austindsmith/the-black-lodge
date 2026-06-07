@@ -13,11 +13,11 @@ spec:
         name: cloudnative-pg
   storage:
     size: 20Gi
-  monitoring:
-    enablePodMonitor: true
-    customQueriesConfigMap:
-      - name: cnpg-default-monitoring
-        key: queries
+#  monitoring:
+#    enablePodMonitor: true
+#    customQueriesConfigMap:
+#      - name: cnpg-default-monitoring
+#        key: queries
 #  managed:
 #    databases:
 #      - name: authentik
