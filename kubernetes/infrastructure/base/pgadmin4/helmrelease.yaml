@@ -18,8 +18,8 @@ spec:
     #  enabled: true
     #  resourceType: ConfigMap
     #  existingConfigmap: "pgadmin4"
-    #env:
-    #pgpassfile: /var/lib/pgadmin/storage/pgadmin/file.pgpass
+    env:
+      pgpassfile: /pgadmin4/pgpass/file.pgpass
     #contextPath: /pgadmin4
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     #extraConfigmapMounts:
@@ -31,7 +31,7 @@ spec:
     extraSecretMounts:
       - name: pgpass
         secret: pgadmin-pgpass
-        mountPath: "/var/lib/pgadmin/storage/pgadmin/file.pgpass"
+        mountPath: "/pgadmin4/pgpass/file.pgpass"
         subPath: pgpassfile
         defaultMode: "0600"
         readOnly: true
