@@ -1,13 +1,12 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: overserr-ingress
-  namespace: traefik
+  name: overserr
 spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`overserr.theblacklodge.dev`)
+    - match: Host(`overseerr.theblacklodge.dev`)
       kind: Rule
       services:
         - name: overserr
