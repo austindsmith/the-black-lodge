@@ -15,3 +15,6 @@ spec:
   values:
     crds:
       create: true
+    webhook:
+      validating:
+        failurePolicy: Ignore
