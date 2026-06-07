@@ -34,7 +34,7 @@ spec:
         subPath: pgpassfile
         defaultMode: "0600"
         readOnly: true
-  servers:
+        #servers:
 #  firstServer:
 #    Name: "Minimally Defined Server"
 #    Group: "Servers"
