@@ -1,3 +1,4 @@
+# helmrepository.yaml
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
@@ -5,4 +6,4 @@ metadata:
 spec:
   type: oci
   interval: 24h
-  url: oci://quay.io/jetstack/charts/cert-manager
+  url: oci://quay.io/jetstack
