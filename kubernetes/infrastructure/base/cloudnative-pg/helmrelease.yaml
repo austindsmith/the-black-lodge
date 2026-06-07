@@ -3,6 +3,10 @@ kind: HelmRelease
 metadata:
   name: cloudnative-pg
 spec:
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
   interval: 1h
   chart:
     spec:
@@ -15,6 +19,7 @@ spec:
   values:
     crds:
       create: true
+
     webhook:
       validating:
         failurePolicy: Ignore
