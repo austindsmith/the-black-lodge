@@ -13,21 +13,20 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: pgadmin4
+  valuesFrom:
+    - kind: Secret
+      name: pgadmin-env
+      valuesKey: PGADMIN_DEFAULT_PASSWORD
+      targetPath: env.password
   values:
     serverDefinitions:
       enabled: true
       resourceType: ConfigMap
       existingConfigmap: "pgadmin4"
-    env:
-      pgpassfile: /pgadmin4/pgpass/file.pgpass
-    #contextPath: /pgadmin4
+      env:
+        email: austindsmith@proton.me
+        pgpassfile: /pgadmin4/pgpass/file.pgpass
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
-    #extraConfigmapMounts:
-    #  - name: servers-config
-    #    configMap: pgadmin4
-    #    mountPath: /pgadmin4/servers.json
-    #    subPath: servers.json
-    #    readOnly: true
     extraSecretMounts:
       - name: pgpass
         secret: pgadmin-pgpass
