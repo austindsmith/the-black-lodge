@@ -23,9 +23,9 @@ spec:
       enabled: true
       resourceType: ConfigMap
       existingConfigmap: "pgadmin4"
-      env:
-        email: austindsmith@proton.me
-        pgpassfile: /pgadmin4/pgpass/file.pgpass
+    env:
+      email: austindsmith@proton.me
+      pgpassfile: /pgadmin4/pgpass/file.pgpass
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     extraSecretMounts:
       - name: pgpass
