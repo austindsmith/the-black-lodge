@@ -13,7 +13,7 @@ data:
           "Port": 5432,
           "MaintenanceDB": "postgres",
           "Username": "postgres",
-          "PassFile": "/pgpassfile",
+          "PassFile": "/var/lib/pgadmin/storage/pgadmin/file.pgpass",
           "SSLMode": "prefer"
         }
       }
