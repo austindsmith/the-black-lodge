@@ -15,8 +15,8 @@ spec:
         name: pgadmin4
   valuesFrom:
     - kind: Secret
-      name: pgadmin-env
-      valuesKey: PGADMIN_DEFAULT_PASSWORD
+      name: pgadmin-pass
+      valuesKey: pgadmin_password
       targetPath: env.password
   values:
     serverDefinitions:
