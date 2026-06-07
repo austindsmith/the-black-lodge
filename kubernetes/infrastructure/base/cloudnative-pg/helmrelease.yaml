@@ -12,6 +12,6 @@ spec:
         kind: HelmRepository
         name: cloudnative-pg
         namespace: cloudnative-pg
-  #values:
-  #  monitoring:
-  #    podMonitorEnabled: true
+  values:
+    crds:
+      create: true
