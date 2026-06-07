@@ -7,7 +7,7 @@ spec:
   instances: 3
   bootstrap:
     initdb:
-      database: appdb
+      #database: appdb
       owner: postgres
       secret:
         name: cloudnative-pg
