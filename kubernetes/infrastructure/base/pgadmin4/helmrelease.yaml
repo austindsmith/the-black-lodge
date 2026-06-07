@@ -14,10 +14,10 @@ spec:
         kind: HelmRepository
         name: pgadmin4
   values:
-    serverDefinitions:
-      enabled: true
-      resourceType: ConfigMap
-      existingConfigmap: "pgadmin4"
+    #serverDefinitions:
+    #  enabled: true
+    #  resourceType: ConfigMap
+    #  existingConfigmap: "pgadmin4"
     env:
       pgpassfile: /var/lib/pgadmin/storage/pgadmin/file.pgpass
       #contextPath: /pgadmin4
