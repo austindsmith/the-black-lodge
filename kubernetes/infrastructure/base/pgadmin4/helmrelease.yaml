@@ -28,10 +28,10 @@ spec:
         mountPath: /pgadmin4/servers.json
         subPath: servers.json
         readOnly: true
-    extraSecretMounts:
-      - name: pgpass
-        secret: pgadmin-pgpass
-        mountPath: "/var/lib/pgadmin/storage/pgadmin/file.pgpass"
-        subPath: pgpassfile
-        defaultMode: "0600"
-        readOnly: true
+    #extraSecretMounts:
+    #  - name: pgpass
+    #    secret: pgadmin-pgpass
+    #    mountPath: "/var/lib/pgadmin/storage/pgadmin/file.pgpass"
+    #    subPath: pgpassfile
+    #    defaultMode: "0600"
+    #    readOnly: true
