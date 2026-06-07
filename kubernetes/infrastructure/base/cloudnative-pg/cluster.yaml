@@ -10,7 +10,7 @@ spec:
       database: appdb
       owner: postgres
       secret:
-        name: cloudnative-pg-admin
+        name: cloudnative-pg
   storage:
     size: 20Gi
   managed:
