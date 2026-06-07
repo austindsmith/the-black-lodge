@@ -22,12 +22,12 @@ spec:
       pgpassfile: /var/lib/pgadmin/storage/pgadmin/file.pgpass
       contextPath: /pgadmin4
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
-    extraConfigmapMounts:
-      - name: servers-config
-        configMap: pgadmin4
-        mountPath: /pgadmin4/servers.json
-        subPath: servers.json
-        readOnly: true
+    #extraConfigmapMounts:
+    #  - name: servers-config
+    #    configMap: pgadmin4
+    #    mountPath: /pgadmin4/servers.json
+    #    subPath: servers.json
+    #    readOnly: true
     #extraSecretMounts:
     #  - name: pgpass
     #    secret: pgadmin-pgpass
