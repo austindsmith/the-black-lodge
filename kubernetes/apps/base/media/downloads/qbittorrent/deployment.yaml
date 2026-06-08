@@ -33,6 +33,12 @@ spec:
               WebUI\LocalHostAuth=false
               EOF
               fi
+          volumeMounts:
+            - name: qbittorrent-config
+              mountPath: /config
+            - name: creds
+              mountPath: /creds
+              readOnly: true
       containers:
         - name: gluetun
           image: qmcgaw/gluetun
