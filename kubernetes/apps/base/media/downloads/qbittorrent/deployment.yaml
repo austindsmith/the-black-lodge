@@ -88,3 +88,6 @@ spec:
         - name: data
           persistentVolumeClaim:
             claimName: media
+        - name: creds
+          secret:
+            secretName: qbittorrent-creds
