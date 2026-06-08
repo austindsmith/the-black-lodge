@@ -24,3 +24,6 @@ collections:
 roles:
   - name: linux-system-roles.cockpit
     version: "1.7.4"
+
+  - name: mdsketch.teleport
+    version: "2.0.0"
