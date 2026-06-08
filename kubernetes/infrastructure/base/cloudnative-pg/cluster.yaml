@@ -5,8 +5,7 @@ metadata:
   name: cloudnative-pg
 spec:
   instances: 3
-  superuserSecret:
-    name: cloudnative-pg
+  enableSuperuserAccess: true
   postgresql:
     pg_hba:
       - host all postgres all scram-sha-256

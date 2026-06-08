@@ -15,8 +15,8 @@ spec:
         name: pgadmin4
   valuesFrom:
     - kind: Secret
-      name: pgadmin-pgpass
-      valuesKey: pgadmin_password
+      name: cloudnative-pg-superuser
+      valuesKey: password
       targetPath: env.password
   values:
     serverDefinitions:
@@ -29,17 +29,8 @@ spec:
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     extraSecretMounts:
       - name: pgpass
-        secret: pgadmin-pgpass
+        secret: cloudnative-pg-superuser
         mountPath: "/pgadmin4/pgpass/file.pgpass"
-        subPath: pgpassfile
+        subPath: pgpass
         defaultMode: 0600
         readOnly: true
-        #servers:
-#  firstServer:
-#    Name: "Minimally Defined Server"
-#    Group: "Servers"
-#    Username: "postgres"
-#    Host: "{{ .Values.example.host }}"
-#    Port: "{{ .Values.example.port }}"
-#    SSLMode: "prefer"
-#    MaintenanceDB: "postgres"
