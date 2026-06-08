@@ -5,9 +5,13 @@ metadata:
   name: cloudnative-pg
 spec:
   instances: 3
+  superuserSecret:
+    name: cloudnative-pg
+  postgresql:
+    pg_hba:
+      - host all postgres all scram-sha-256
   bootstrap:
     initdb:
-      #database: appdb
       owner: postgres
       secret:
         name: cloudnative-pg
