@@ -13,3 +13,14 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: teleport
+  valuesFrom:
+    - kind: Secret
+      name: teleport
+      valuesKey: email_address
+      targetPath: acmeEmail
+    - kind: Secret
+      name: teleport
+      valuesKey: cluster_name
+      targetPath: clusterName
+  values:
+    acme: true
