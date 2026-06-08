@@ -2,7 +2,7 @@
 apiVersion: postgresql.cnpg.io/v1
 kind: Cluster
 metadata:
-  name: cloudnative-pg
+  name: app-cluster
 spec:
   instances: 3
   enableSuperuserAccess: true

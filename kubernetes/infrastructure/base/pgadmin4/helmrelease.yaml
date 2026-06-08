@@ -25,12 +25,32 @@ spec:
       existingConfigmap: "pgadmin4"
     env:
       email: austindsmith@proton.me
-      pgpassfile: /pgadmin4/pgpass/file.pgpass
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     extraSecretMounts:
-      - name: pgpass
-        secret: cloudnative-pg-superuser
-        mountPath: "/pgadmin4/pgpass/file.pgpass"
-        subPath: pgpass
-        defaultMode: 0600
+      - name: pgpass-app
+        secret: app-cluster-superuser
+        mountPath: /pgpass-src/app
         readOnly: true
+      - name: pgpass-data
+        secret: data-cluster-superuser
+        mountPath: /pgpass-src/data
+        readOnly: true
+    extraInitContainers: |
+      - name: stage-pgpass
+        image: dpage/pgadmin4:latest
+        command:
+          - /bin/sh
+          - -c
+          - >
+            mkdir -p /var/lib/pgadmin/storage/austindsmith_proton.me &&
+            ( cat /pgpass-src/app/pgpass; echo; cat /pgpass-src/data/pgpass; echo ) > /var/lib/pgadmin/storage/austindsmith_proton.me/file.pgpass &&
+            chmod 600 /var/lib/pgadmin/storage/austindsmith_proton.me/file.pgpass
+        securityContext:
+          runAsUser: 5050
+        volumeMounts:
+          - name: pgadmin-data
+            mountPath: /var/lib/pgadmin
+          - name: pgpass-app
+            mountPath: /pgpass-src/app
+          - name: pgpass-data
+            mountPath: /pgpass-src/data

@@ -7,13 +7,23 @@ data:
     {
       "Servers": {
         "1": {
-          "Name": "cloudnative-pg",
+          "Name": "app-cluster",
           "Group": "Servers",
-          "Host": "cloudnative-pg-rw",
+          "Host": "app-cluster-rw",
           "Port": 5432,
           "MaintenanceDB": "postgres",
           "Username": "postgres",
-          "PassFile": "/pgadmin4/pgpass/file.pgpass",
+          "PassFile": "/file.pgpass",
+          "SSLMode": "prefer"
+        },
+        "2": {
+          "Name": "data-cluster",
+          "Group": "Servers",
+          "Host": "data-cluster-rw",
+          "Port": 5432,
+          "MaintenanceDB": "postgres",
+          "Username": "postgres",
+          "PassFile": "/file.pgpass",
           "SSLMode": "prefer"
         }
       }
