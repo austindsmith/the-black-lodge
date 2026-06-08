@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gluetun
+  name: qbittorrent
   namespace: media
 spec:
   replicas: 1
@@ -15,20 +15,14 @@ spec:
       labels:
         app: qbittorrent
     spec:
-      securityContext:
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-      initContainers:
+      containers:
         - name: gluetun
           image: qmcgaw/gluetun
-          restartPolicy: Always
           securityContext:
             capabilities:
               add:
                 - NET_ADMIN
           env:
-            - name: TZ
-              value: America/Denver
             - name: VPN_SERVICE_PROVIDER
               value: protonvpn
             - name: VPN_TYPE
@@ -40,52 +34,17 @@ spec:
                   key: vpn-private-key
             - name: SERVER_COUNTRIES
               value: United States
-            - name: DNS_ADDRESS
-              value: "1.1.1.1"
+            - name: FREE_ONLY
+              value: "off"
           ports:
-            - name: http-proxy
-              containerPort: 8888
-            - name: control
+            - name: gluetun-api
               containerPort: 8000
-          volumeMounts:
-            - name: config
-              mountPath: /gluetun
-          resources:
-            requests:
-              cpu: 100m
-              memory: 64Mi
-            limits:
-              memory: 256Mi
-        - name: wait-for-vpn
-          image: alpine
-          command:
-            - sh
-            - -c
-            - |
-              until wget -qO- https://checkip.amazonaws.com 2>/dev/null; do
-                sleep 2
-              done
-        - name: seed-qbittorrent-config
-          image: alpine
-          command:
-            - sh
-            - -c
-            - |
-              if [ ! -f /config/qBittorrent/qBittorrent.conf ]; then
-                mkdir -p /config/qBittorrent
-                cat > /config/qBittorrent/qBittorrent.conf <<EOF
-              [Preferences]
-              WebUI\AuthSubnetWhitelistEnabled=true
-              WebUI\AuthSubnetWhitelist=0.0.0.0/0
-              WebUI\LocalHostAuth=false
-              EOF
-              fi
-          volumeMounts:
-            - name: qbittorrent-config
-              mountPath: /config
-            - name: creds
-              mountPath: /creds
-      containers:
+          readinessProbe:
+            httpGet:
+              path: /v1/openvpn/status
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 5
         - name: qbittorrent
           image: lscr.io/linuxserver/qbittorrent:latest
           env:
@@ -107,22 +66,11 @@ spec:
               mountPath: /config
             - name: data
               mountPath: /data
-          resources:
-            requests:
-              cpu: 100m
-              memory: 256Mi
-            limits:
-              memory: 1Gi
+
       volumes:
-        - name: config
-          persistentVolumeClaim:
-            claimName: gluetun-config
         - name: qbittorrent-config
           persistentVolumeClaim:
             claimName: qbittorrent-config
         - name: data
           persistentVolumeClaim:
             claimName: media
-        - name: creds
-          secret:
-            secretName: qbittorrent-creds

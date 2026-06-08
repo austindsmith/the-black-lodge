@@ -3,24 +3,6 @@ kind: HelmRelease
 metadata:
   name: cloudnative-pg
 spec:
-  extraInitContainers: |
-    - name: stage-pgpass
-      image: dpage/pgadmin4:latest
-      command:
-        - /bin/sh
-        - -c
-        - >
-          mkdir -p /var/lib/pgadmin/storage/austindsmith_proton.me &&
-          cp /pgpass-src/pgpass /var/lib/pgadmin/storage/austindsmith_proton.me/file.pgpass &&
-          chown 5050:5050 /var/lib/pgadmin/storage/austindsmith_proton.me/file.pgpass &&
-          chmod 600 /var/lib/pgadmin/storage/austindsmith_proton.me/file.pgpass
-      securityContext:
-        runAsUser: 0
-      volumeMounts:
-        - name: pgadmin-data
-          mountPath: /var/lib/pgadmin
-        - name: pgpass-src
-          mountPath: /pgpass-src
   install:
     crds: Create
   upgrade:

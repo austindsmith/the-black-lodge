@@ -1,0 +1,43 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: teleport
+spec:
+  install:
+    createNamespace: true
+  interval: 1h
+  chart:
+    spec:
+      chart: teleport
+      version: 18.8.3
+      sourceRef:
+        kind: HelmRepository
+        name: teleport
+  valuesFrom:
+    - kind: Secret
+      name: teleport
+      valuesKey: client_id
+      targetPath: oidc.providers.authentik.client_id
+    - kind: Secret
+      name: teleport
+      valuesKey: client_secret
+      targetPath: oidc.providers.authentik.client_secret
+      #- kind: Secret
+      #  name: semaphore
+      #  valuesKey: email_address
+      #  targetPath: global.rootUser.email
+  values:
+    oidc:
+      enable: true
+      providers:
+        authentik:
+          display_name: Authentik
+          provider_url: https://authentik.theblacklodge.dev/application/o/teleport/
+          redirect_url: https://teleport.theblacklodge.dev/api/auth/oidc/authentik/redirect
+          username_claim: preferred_username
+          name_claim: preferred_username
+          email_claim: email
+          scopes:
+            - openid
+            - profile
+            - email
