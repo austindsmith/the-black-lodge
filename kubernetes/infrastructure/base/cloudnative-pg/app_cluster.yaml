@@ -15,7 +15,7 @@ spec:
       secret:
         name: cloudnative-pg
   storage:
-    size: 20Gi
+    size: 5Gi
 #  monitoring:
 #    enablePodMonitor: true
 #    customQueriesConfigMap:
