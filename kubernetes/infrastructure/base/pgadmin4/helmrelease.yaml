@@ -16,7 +16,7 @@ spec:
   valuesFrom:
     - kind: Secret
       name: cloudnative-pg
-      valuesKey: password
+      valuesKey: postgres_password
       targetPath: env.password
   values:
     serverDefinitions:
