@@ -5,7 +5,7 @@ inputs = {
   disk_size    = 10
   datastore_id = "local-lvm"
   interface    = "scsi0"
-  template_id  = 9000
+  template_id  = 9001
   description  = ""
   pool_id      = "kubernetes"
 
