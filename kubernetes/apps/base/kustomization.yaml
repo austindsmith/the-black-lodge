@@ -3,7 +3,7 @@ resources:
   - headlamp
   - media
   - semaphore
-  #- teleport
+  - teleport
   #- generate
   #- jupyterhub
   #- dagster
