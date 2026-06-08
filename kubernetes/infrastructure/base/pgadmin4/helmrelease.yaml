@@ -15,7 +15,7 @@ spec:
         name: pgadmin4
   valuesFrom:
     - kind: Secret
-      name: cloudnative-pg-superuser
+      name: cloudnative-pg
       valuesKey: password
       targetPath: env.password
   values:
