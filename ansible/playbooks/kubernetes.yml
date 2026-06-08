@@ -28,12 +28,13 @@
         src: "{{ marimo }}"
         kubeconfig: /etc/rancher/k3s/k3s.yaml
 
-    - name: Apply CloudNative PG CRDs
-      become: true
-      kubernetes.core.k8s:
-        state: present
-        src: "{{ cloudnative_pg_crd_url }}"
-        kubeconfig: /etc/rancher/k3s/k3s.yaml
+    # Removed, the helmrelease should handle this
+    #- name: Apply CloudNative PG CRDs
+    #  become: true
+    #  kubernetes.core.k8s:
+    #    state: present
+    #    src: "{{ cloudnative_pg_crd_url }}"
+    #    kubeconfig: /etc/rancher/k3s/k3s.yaml
 
     - name: create flux namespace
       ansible.builtin.script: "{{ playbook_dir }}/files/flux_namespace.sh"
