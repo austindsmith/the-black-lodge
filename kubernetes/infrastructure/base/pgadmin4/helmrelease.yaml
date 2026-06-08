@@ -32,7 +32,7 @@ spec:
         secret: pgadmin-pgpass
         mountPath: "/pgadmin4/pgpass/file.pgpass"
         subPath: pgpassfile
-        defaultMode: "0600"
+        defaultMode: 0600
         readOnly: true
         #servers:
 #  firstServer:
