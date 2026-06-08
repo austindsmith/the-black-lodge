@@ -35,15 +35,15 @@
         src: "{{ cloudnative_pg_crd_url }}"
         kubeconfig: /etc/rancher/k3s/k3s.yaml
 
-    - name: run flux bootstrapper
-      ansible.builtin.script: "{{ playbook_dir }}/files/flux_bootstrap.sh"
+    - name: create flux secret
+      ansible.builtin.script: "{{ playbook_dir }}/files/flux_secret.sh"
       delegate_to: localhost
       connection: local
       environment:
         KUBECONFIG: "{{ lookup('env', 'HOME') }}/.kube/config"
 
-    - name: create flux secret
-      ansible.builtin.script: "{{ playbook_dir }}/files/flux_secret.sh"
+    - name: run flux bootstrapper
+      ansible.builtin.script: "{{ playbook_dir }}/files/flux_bootstrap.sh"
       delegate_to: localhost
       connection: local
       environment:

@@ -35,5 +35,5 @@ apply:
     | kubectl apply -f -
 
 flux:
-    /home/austin/.local/share/scripts/flux_bootstrap.sh  && \
-    /home/austin/.local/share/scripts/flux_secret.sh
+    /home/austin/.local/share/scripts/flux_secret.sh && \
+    /home/austin/.local/share/scripts/flux_bootstrap.sh
