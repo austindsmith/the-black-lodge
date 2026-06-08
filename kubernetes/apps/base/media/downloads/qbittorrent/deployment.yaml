@@ -15,6 +15,22 @@ spec:
       labels:
         app: qbittorrent
     spec:
+      initContainers:
+        - name: seed-qbittorrent-config
+          image: alpine
+          command:
+            - sh
+            - -c
+            - |
+              if [ ! -f /config/qBittorrent/qBittorrent.conf ]; then
+                mkdir -p /config/qBittorrent
+                cat > /config/qBittorrent/qBittorrent.conf <<EOF
+              [Preferences]
+              WebUI\AuthSubnetWhitelistEnabled=true
+              WebUI\AuthSubnetWhitelist=0.0.0.0/0
+              WebUI\LocalHostAuth=false
+              EOF
+              fi
       containers:
         - name: gluetun
           image: qmcgaw/gluetun
