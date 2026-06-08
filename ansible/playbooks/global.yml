@@ -1,6 +1,6 @@
 - name: Configure global settings
   hosts: all
-  become: true
+  #become: true
   tasks:
     - name: Install SOPS
       ansible.builtin.include_role:
