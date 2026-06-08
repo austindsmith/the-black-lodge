@@ -41,7 +41,7 @@ spec:
               containerPort: 8000
           readinessProbe:
             httpGet:
-              path: /v1/openvpn/status
+              path: /health
               port: 8000
             initialDelaySeconds: 10
             periodSeconds: 5
