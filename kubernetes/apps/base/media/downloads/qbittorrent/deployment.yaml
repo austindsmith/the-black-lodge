@@ -58,9 +58,10 @@ spec:
             - name: gluetun-api
               containerPort: 8000
           readinessProbe:
-            httpGet:
-              path: /health
-              port: 8000
+            exec:
+              command:
+                - /gluetun-entrypoint
+                - healthcheck
             initialDelaySeconds: 10
             periodSeconds: 5
         - name: qbittorrent
