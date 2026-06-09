@@ -9,7 +9,7 @@ spec:
       restartPolicy: OnFailure
       containers:
         - name: tctl
-          image: teleport:18.8.3
+          image: public.ecr.aws/gravitational/teleport:18.8.3
           command:
             - sh
             - -c
