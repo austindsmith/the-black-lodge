@@ -7,7 +7,7 @@ spec:
   interval: 1h
 
   install:
-    createNamespace: false
+    createNamespace: true
 
   chart:
     spec:
@@ -33,13 +33,10 @@ spec:
     ssh_service:
       enabled: false
 
-    kubernetes_service:
-      enabled: false
-
-    service:
-      type: ClusterIP
-
     persistence:
       enabled: true
       storageClassName: longhorn
       size: 10Gi
+
+    service:
+      type: ClusterIP

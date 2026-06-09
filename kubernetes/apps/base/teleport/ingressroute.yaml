@@ -3,8 +3,6 @@ kind: IngressRoute
 metadata:
   name: teleport
   namespace: teleport
-  annotations:
-    traefik.ingress.kubernetes.io/service.serversscheme: https
 spec:
   entryPoints:
     - websecure

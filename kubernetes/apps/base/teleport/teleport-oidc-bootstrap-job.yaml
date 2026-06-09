@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: teleport-oidc-bootstrap
+  namespace: teleport
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: tctl
+          image: teleport:18.8.3
+          command:
+            - sh
+            - -c
+            - |
+              tctl create -f /config/oidc.yaml
+          volumeMounts:
+            - name: config
+              mountPath: /config
+      volumes:
+        - name: config
+          secret:
+            secretName: teleport-oidc
