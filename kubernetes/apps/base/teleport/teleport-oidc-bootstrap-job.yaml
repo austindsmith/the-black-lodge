@@ -7,21 +7,27 @@ spec:
   template:
     spec:
       restartPolicy: OnFailure
+      serviceAccountName: teleport-bootstrap
       initContainers:
         - name: wait-for-teleport
-          image: busybox
-          command:
-            - sh
-            - -c
-            - until nc -z teleport 443; do sleep 5; done
-      containers:
-        - name: tctl
-          image: public.ecr.aws/gravitational/teleport:18.8.3
+          image: bitnami/kubectl:1.32
           command:
             - sh
             - -c
             - |
-              tctl create -f /config/oidc.yaml
+              until kubectl get pod -n teleport -l app.kubernetes.io/name=teleport -o jsonpath='{.items[0].status.phase}' | grep -q Running; do
+                sleep 5
+              done
+      containers:
+        - name: tctl
+          image: bitnami/kubectl:1.32
+          command:
+            - sh
+            - -c
+            - |
+              POD=$(kubectl get pod -n teleport -l app.kubernetes.io/name=teleport -o jsonpath='{.items[0].metadata.name}')
+              kubectl cp /config/oidc.yaml teleport/${POD}:/tmp/oidc.yaml
+              kubectl exec -n teleport ${POD} -- tctl create -f /tmp/oidc.yaml
           volumeMounts:
             - name: config
               mountPath: /config

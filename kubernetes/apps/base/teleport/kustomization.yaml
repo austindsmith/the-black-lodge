@@ -3,9 +3,11 @@ kind: Kustomization
 namespace: teleport
 
 resources:
+  - namespace.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  - namespace.yaml
   - ingressroute.yaml
+  - serverstransport.yaml
   - secret.yaml
+  - serviceaccount.yaml
   - teleport-oidc-bootstrap-job.yaml
