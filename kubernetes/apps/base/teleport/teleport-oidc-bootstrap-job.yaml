@@ -4,19 +4,21 @@ metadata:
   name: teleport-oidc-bootstrap
   namespace: teleport
 spec:
+  backoffLimit: 20
   template:
     spec:
       restartPolicy: OnFailure
       serviceAccountName: teleport-bootstrap
       initContainers:
-        - name: wait-for-teleport
+        - name: wait-for-auth
           image: alpine/k8s:1.32.3
           command:
             - sh
             - -c
             - |
-              until kubectl get pod -n teleport -l app.kubernetes.io/name=teleport \
-                -o jsonpath='{.items[0].status.phase}' 2>/dev/null | grep -q Running; do
+              until kubectl get pod -n teleport \
+                -l app.kubernetes.io/instance=teleport,app.kubernetes.io/component=auth \
+                -o jsonpath='{.items[0].status.conditions[?(@.type=="Ready")].status}' 2>/dev/null | grep -q True; do
                 sleep 5
               done
       containers:
@@ -26,9 +28,8 @@ spec:
             - sh
             - -c
             - |
-              POD=$(kubectl get pod -n teleport -l app.kubernetes.io/name=teleport -o jsonpath='{.items[0].metadata.name}')
-              kubectl cp /config/oidc.yaml teleport/${POD}:/tmp/oidc.yaml
-              kubectl exec -n teleport ${POD} -- tctl create -f /tmp/oidc.yaml
+              POD=$(kubectl get pod -n teleport -l app.kubernetes.io/instance=teleport,app.kubernetes.io/component=auth -o jsonpath='{.items[0].metadata.name}')
+              kubectl exec -i -n teleport "${POD}" -- tctl create -f /dev/stdin < /config/oidc.yaml
           volumeMounts:
             - name: config
               mountPath: /config
