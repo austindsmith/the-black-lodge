@@ -10,7 +10,7 @@ spec:
       serviceAccountName: teleport-bootstrap
       initContainers:
         - name: wait-for-teleport
-          image: bitnami/kubectl:1.32
+          image: rancher/kubectl:v1.36.1
           command:
             - sh
             - -c
@@ -20,7 +20,7 @@ spec:
               done
       containers:
         - name: tctl
-          image: bitnami/kubectl:1.32
+          image: rancher/kubectl:v1.36.1
           command:
             - sh
             - -c
