@@ -6,5 +6,5 @@ resources:
   - proxmox
   - cloudnative-pg
   - pgadmin4
-  - metallb
+  #- metallb
   #- metallb-config
