@@ -17,7 +17,7 @@ spec:
         namespace: teleport
   values:
     clusterName: teleport.theblacklodge.dev
-    proxyListenerMode: multiplex
+    #proxyListenerMode: multiplex
     persistence:
       enabled: true
       storageClassName: longhorn
