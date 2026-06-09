@@ -8,10 +8,16 @@ spec:
   chart:
     spec:
       chart: metallb
-      version: ">=0.14.0"
+      version: 0.15.2
       sourceRef:
         kind: HelmRepository
         name: metallb
         namespace: flux-system
   install:
     createNamespace: true
+  values:
+    frrk8s:
+      enabled: false
+    speaker:
+      frr:
+        enabled: false
