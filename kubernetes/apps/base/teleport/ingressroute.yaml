@@ -1,17 +1,19 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: teleport
-  namespace: teleport
+  name: teleport-cluster
+  namespace: teleport-cluster
 spec:
+  ingressClassName: public
+  tls:
+    - hosts:
+        - teleport.theblacklodge.dev
+      secretName: teleport-tls
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`teleport.theblacklodge.dev`)
       kind: Rule
       services:
-        - name: teleport
+        - name: teleport-cluster
           port: 443
-          scheme: https
-          serversTransport: teleport-transport
-  tls: {}
