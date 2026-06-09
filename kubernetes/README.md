@@ -6,16 +6,15 @@
 
 ## Apps to download
 
-- [ ] Gluetun/arr stack
+- [x] Gluetun/arr stack
 - [x] Pangolin
-- [ ] Rancher
 - [x] Longhorn
-- [ ] Postgres
+- [x] Postgres
 - [ ] Airflow
 - [x] Dagster
-- [ ] n8n
+- [x] n8n
 - [ ] node-red/rabbitmq
-- [ ] Semaphore
+- [x] Semaphore
 - [ ] Grafana/monitoring stack
 - [x] Authentik
 - [ ] Crowdsec
@@ -24,3 +23,8 @@
 - [ ] Paperless
 - [ ] Mealie
 - [ ] RustFS
+
+## Deployment oddities
+
+- Qbittorrent not setting custom password
+- Cloudnative-pg password needs to be entered in UI as well

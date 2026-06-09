@@ -5,10 +5,8 @@ metadata:
   namespace: teleport
 spec:
   interval: 1h
-
   install:
     createNamespace: true
-
   chart:
     spec:
       chart: teleport-cluster
@@ -16,27 +14,13 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: teleport
-        namespace: flux-system
-
+        namespace: teleport
   values:
     clusterName: teleport.theblacklodge.dev
-
     proxyListenerMode: multiplex
-
-    auth:
-      enabled: true
-
-    proxy:
-      enabled: true
-      publicAddr: teleport.theblacklodge.dev:443
-
-    ssh_service:
-      enabled: false
-
     persistence:
       enabled: true
       storageClassName: longhorn
       size: 10Gi
-
     service:
       type: ClusterIP
