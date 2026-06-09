@@ -5,7 +5,7 @@ metadata:
   namespace: teleport
 spec:
   entryPoints:
-    - websecure
+    - web
   routes:
     - match: Host(`teleport.theblacklodge.dev`)
       kind: Rule
