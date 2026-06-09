@@ -225,7 +225,7 @@ entries:
         - !Find [authentik_providers_oauth2.scopemapping, [managed, goauthentik.io/providers/oauth2/scope-profile]]
       redirect_uris:
         - matching_mode: strict
-          url: https://teleport.theblacklodge.dev/api/auth/oidc/authentik/redirect
+          url: https://teleport.theblacklodge.dev/v1/webapi/oidc/callback
 
 
 

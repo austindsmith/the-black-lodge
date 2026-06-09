@@ -2,10 +2,13 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: teleport
+  namespace: teleport
 spec:
-  install:
-    createNamespace: true
   interval: 1h
+
+  install:
+    createNamespace: false
+
   chart:
     spec:
       chart: teleport-cluster
@@ -13,23 +16,29 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: teleport
-  valuesFrom:
-    - kind: Secret
-      name: teleport
-      valuesKey: email_address
-      targetPath: acmeEmail
-    - kind: Secret
-      name: teleport
-      valuesKey: cluster_name
-      targetPath: clusterName
+        namespace: flux-system
+
   values:
-    acme: false
-    tls:
-      existingSecretName: ""
+    clusterName: teleport.theblacklodge.dev
+
     proxyListenerMode: multiplex
+
+    auth:
+      enabled: true
+
+    proxy:
+      enabled: true
+      publicAddr: teleport.theblacklodge.dev:443
+
+    ssh_service:
+      enabled: false
+
+    kubernetes_service:
+      enabled: false
+
     service:
-      type: LoadBalancer
-      loadBalancerIP: 192.168.100.200
+      type: ClusterIP
+
     persistence:
       enabled: true
       storageClassName: longhorn

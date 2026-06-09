@@ -3,14 +3,18 @@ kind: IngressRoute
 metadata:
   name: teleport
   namespace: teleport
+  annotations:
+    traefik.ingress.kubernetes.io/service.serversscheme: https
 spec:
   entryPoints:
     - websecure
+
   routes:
     - match: Host(`teleport.theblacklodge.dev`)
       kind: Rule
       services:
         - name: teleport
-          port: 3080
+          port: 443
+
   tls:
     certResolver: cloudflare
