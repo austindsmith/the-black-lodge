@@ -10,17 +10,14 @@ spec:
       serviceAccountName: teleport-bootstrap
       initContainers:
         - name: wait-for-teleport
-          image: rancher/kubectl:v1.36.1
+          image: busybox
           command:
             - sh
             - -c
-            - |
-              until kubectl get pod -n teleport -l app.kubernetes.io/name=teleport -o jsonpath='{.items[0].status.phase}' | grep -q Running; do
-                sleep 5
-              done
+            - until nc -z teleport 443; do sleep 5; done
       containers:
         - name: tctl
-          image: rancher/kubectl:v1.36.1
+          image: public.ecr.aws/gravitational/teleport:18.8.3
           command:
             - sh
             - -c
