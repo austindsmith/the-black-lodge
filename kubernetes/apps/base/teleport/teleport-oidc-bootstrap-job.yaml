@@ -7,6 +7,13 @@ spec:
   template:
     spec:
       restartPolicy: OnFailure
+      initContainers:
+        - name: wait-for-teleport
+          image: busybox
+          command:
+            - sh
+            - -c
+            - until nc -z teleport 443; do sleep 5; done
       containers:
         - name: tctl
           image: public.ecr.aws/gravitational/teleport:18.8.3

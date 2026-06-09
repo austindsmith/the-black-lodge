@@ -6,13 +6,12 @@ metadata:
 spec:
   entryPoints:
     - websecure
-
   routes:
     - match: Host(`teleport.theblacklodge.dev`)
       kind: Rule
       services:
         - name: teleport
           port: 443
-
+          serversTransport: teleport-transport
   tls:
-    certResolver: cloudflare
+    passthrough: true
