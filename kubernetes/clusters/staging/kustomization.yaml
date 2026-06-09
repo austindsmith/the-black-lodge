@@ -1,4 +1,4 @@
 resources:
   - infrastructure.yaml
-  #- metallb-config.yaml
+  - metallb-config.yaml
   - apps.yaml

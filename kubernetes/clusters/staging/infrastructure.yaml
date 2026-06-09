@@ -14,8 +14,8 @@ spec:
     secretRef:
       name: sops-age
   path: ./kubernetes/infrastructure/base
-  #healthChecks:
-  #  - apiVersion: helm.toolkit.fluxcd.io/v2
-  #    kind: HelmRelease
-  #    name: metallb
-  #    namespace: metallb-system
+  healthChecks:
+    - apiVersion: helm.toolkit.fluxcd.io/v2
+      kind: HelmRelease
+      name: metallb
+      namespace: metallb-system
