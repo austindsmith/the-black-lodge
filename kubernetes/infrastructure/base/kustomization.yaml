@@ -7,4 +7,4 @@ resources:
   - cloudnative-pg
   - pgadmin4
   - metallb
-  - metallb-config
+  #- metallb-config
