@@ -24,9 +24,12 @@ spec:
       size: 10Gi
     service:
       type: ClusterIP
-  proxy_service:
-    enabled: true
-    # TLS certificate for the HTTPS connection.
-    https_keypairs: []
-    # Get an automatic certificate from letsencrypt.org using ACME.
-    acme: {}
+    proxy:
+      teleportConfig:
+        teleport:
+          cache:
+            enabled: false
+        proxy_service:
+          enabled: true
+          https_keypairs: []
+          acme: {}
