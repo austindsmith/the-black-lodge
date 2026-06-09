@@ -5,6 +5,7 @@ namespace: teleport
 resources:
   - helmrepository.yaml
   - helmrelease.yaml
+  - namespace.yaml
   - ingressroute.yaml
   - secret.yaml
   - teleport-oidc-bootstrap-job.yaml
