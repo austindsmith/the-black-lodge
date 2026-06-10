@@ -20,6 +20,7 @@ spec:
       - "--insecure"
     auth:
       teleportConfig:
+        proxyListenerMode: "multiplex"
         # put any teleport.yaml auth configuration overrides here
         teleport:
           log:
