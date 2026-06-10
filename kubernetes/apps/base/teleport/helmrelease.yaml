@@ -25,7 +25,8 @@ spec:
   values:
     chartMode: standalone
     clusterName: teleport.theblacklodge.dev
-
+    extraArgs:
+      - "--insecure"
     auth:
       teleportConfig:
         # put any teleport.yaml auth configuration overrides here
