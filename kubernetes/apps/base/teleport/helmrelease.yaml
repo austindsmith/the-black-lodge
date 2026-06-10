@@ -20,7 +20,7 @@ spec:
     clusterName: teleport.theblacklodge.dev
     proxyListenerMode: "multiplex"
     authentication:
-      type: 'oidc'
+      type: 'github'
     extraArgs:
       - "--insecure"
     auth:
