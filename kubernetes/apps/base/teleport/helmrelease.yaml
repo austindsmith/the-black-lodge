@@ -19,6 +19,8 @@ spec:
     chartMode: standalone
     clusterName: teleport.theblacklodge.dev
     proxyListenerMode: "multiplex"
+    authentication:
+      type: 'oidc'
     extraArgs:
       - "--insecure"
     auth:
