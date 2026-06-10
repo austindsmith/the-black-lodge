@@ -13,15 +13,6 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: teleport
-  valuesFrom:
-    - kind: Secret
-      name: teleport
-      valuesKey: client_id
-      targetPath: oidc.providers.authentik.client_id
-    - kind: Secret
-      name: teleport
-      valuesKey: client_secret
-      targetPath: oidc.providers.authentik.client_secret
   values:
     chartMode: standalone
     clusterName: teleport.theblacklodge.dev
