@@ -30,6 +30,7 @@ spec:
           enabled: true
           web_idle_timeout: 1h
           authentication:
+            proxyListenerMode: "multiplex"
             locking_mode: best_effort
 
     proxy:
