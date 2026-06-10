@@ -6,5 +6,5 @@ install_scripts:
     become: true
   - name: k3d
     script_url: https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh
-  - name: flux
-    script_url: https://fluxcd.io/install.sh
+    #- name: flux
+# script_url: https://fluxcd.io/install.sh

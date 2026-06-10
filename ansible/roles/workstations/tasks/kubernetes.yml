@@ -71,3 +71,6 @@
 - name: bootstrap flux
   script: flux_bootstrap.sh
   when: 0 > 1
+
+- name: Install teleport
+  command: curl https://cdn.teleport.dev/install.sh | bash -s 18.8.3

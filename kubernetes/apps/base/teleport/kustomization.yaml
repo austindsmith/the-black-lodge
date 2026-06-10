@@ -7,6 +7,5 @@ resources:
   - ./helmrelease.yaml
   - ./helmrepository.yaml
   - ./service.yaml
-  #- ./teleport.yaml
   - ./ingressroute.yaml
-  #- ./secret.yaml
+  - ./authentik.yaml

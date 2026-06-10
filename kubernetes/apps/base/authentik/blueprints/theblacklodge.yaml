@@ -5,6 +5,7 @@ metadata:
     blueprints.goauthentik.io/instantiate: "true"
 entries:
   - model: authentik_providers_oauth2.scopemapping
+    state: present
     identifiers:
       name: Custom email scope with verified
     attrs:
@@ -17,6 +18,7 @@ entries:
         }
 
   - model: authentik_providers_oauth2.oauth2provider
+    state: present
     identifiers:
       name: Provider for Headlamp
     attrs:
@@ -47,6 +49,7 @@ entries:
           url: https://headlamp.theblacklodge.dev/oidc-callback
 
   - model: authentik_providers_oauth2.oauth2provider
+    state: present
     identifiers:
       name: Provider for Pangolin
     attrs:
@@ -77,6 +80,7 @@ entries:
           url: https://pangolin.theblacklodge.dev/auth/idp/1/oidc/callback
 
   - model: authentik_providers_oauth2.oauth2provider
+    state: present
     identifiers:
       name: Provider for Cloudflare
     attrs:
@@ -107,6 +111,7 @@ entries:
           url: https://theblacklodge.cloudflareaccess.com/cdn-cgi/access/callback
 
   - model: authentik_providers_oauth2.oauth2provider
+    state: present
     identifiers:
       name: Provider for Proxmox
     attrs:
@@ -137,6 +142,7 @@ entries:
           url: https://proxmox.theblacklodge.dev
 
   - model: authentik_providers_oauth2.oauth2provider
+    state: present
     identifiers:
       name: Provider for PGAdmin4
     attrs:
@@ -167,6 +173,7 @@ entries:
           url: https://pgadmin4.theblacklodge.dev/oauth2/authorize
 
   - model: authentik_providers_oauth2.oauth2provider
+    state: present
     identifiers:
       name: Provider for Semaphore
     attrs:
@@ -198,6 +205,7 @@ entries:
 
 
   - model: authentik_providers_oauth2.oauth2provider
+    state: present
     identifiers:
       name: Provider for Teleport
     attrs:
@@ -230,6 +238,7 @@ entries:
 
 
   - model: authentik_core.application
+    state: present
     identifiers:
       pk: 96b95f2b-2eb9-5bf0-be8c-ee5f9d66b9f8
     attrs:
@@ -239,6 +248,7 @@ entries:
       policy_engine_mode: any
 
   - model: authentik_core.application
+    state: present
     identifiers:
       pk: 4fc871a0-c3a6-4bdc-b35e-06897d32b97c
     attrs:
@@ -248,6 +258,7 @@ entries:
       policy_engine_mode: any
 
   - model: authentik_core.application
+    state: present
     identifiers:
       pk: d63dad65-9d46-55cf-b4da-fe8c86662d44
     attrs:
@@ -257,6 +268,7 @@ entries:
       policy_engine_mode: any
 
   - model: authentik_core.application
+    state: present
     identifiers:
       pk: e9c0a071-c210-59f0-bc93-cda70613fcab
     attrs:
@@ -266,6 +278,7 @@ entries:
       policy_engine_mode: any
 
   - model: authentik_core.application
+    state: present
     identifiers:
       pk: 27c529b8-2440-5011-9531-ca8cb1dc34d9
     attrs:
@@ -275,6 +288,7 @@ entries:
       policy_engine_mode: any
 
   - model: authentik_core.application
+    state: present
     identifiers:
       pk: 4287fb98-4da5-52a4-ad72-c6f7b33dfe07
     attrs:
@@ -284,6 +298,7 @@ entries:
       policy_engine_mode: any
 
   - model: authentik_core.application
+    state: present
     identifiers:
       pk: a47b57c9-cc6e-5712-9499-2ef6f8dab77d
     attrs:
@@ -302,7 +317,10 @@ entries:
       expression: |
         return any("cn=admins" in str(m) for m in ldap.get("memberOf", []))
 
-  - attrs:
+  - model: authentik_sources_ldap.ldapsource
+    state: present
+    permissions: []
+    attrs:
       additional_group_dn: !Env ldap_group_dn
       additional_user_dn: !Env ldap_user_dn
       base_dn: !Env ldap_base_dn
@@ -340,9 +358,6 @@ entries:
     conditions: []
     identifiers:
       pk: e8f166bc-1685-4d84-8a81-bab67cf8b5d2
-    model: authentik_sources_ldap.ldapsource
-    permissions: []
-    state: present
 
   - model: authentik_stages_authenticator_totp.authenticatorTOTPStage
     state: present
@@ -380,7 +395,10 @@ entries:
         - !Find [authentik_stages_authenticator_totp.authenticatorTOTPStage, [name, mfa-totp-setup]]
         - !Find [authentik_stages_authenticator_webauthn.authenticatorWebAuthnStage, [name, mfa-webauthn-setup]]
 
-  - attrs:
+  - model: authentik_core.user
+    state: present
+    permissions: []
+    attrs:
       attributes:
         distinguishedName: !Env ldap_primary_user_dn
         givenName: !Env ldap_primary_user_given_name
@@ -398,9 +416,7 @@ entries:
     conditions: []
     identifiers:
       username: !Env ldap_primary_username
-    model: authentik_core.user
-    permissions: []
-    state: present
+
 
   - model: authentik_core.user
     state: present

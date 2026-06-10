@@ -12,6 +12,7 @@
   when: script_check.rc != 0
 
 - name: Install {{ install_script.name }}
-  ansible.builtin.script: /tmp/{{ install_script.name }}_install.sh
+  ansible.builtin.script: >
+    /tmp/{{ install_script.name }}_install.sh {{ install_script.args | default('') }}
   become: "{{ install_script.become | default(false) }}"
   when: script_check.rc != 0
