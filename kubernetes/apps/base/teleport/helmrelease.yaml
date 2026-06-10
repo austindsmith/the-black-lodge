@@ -8,11 +8,11 @@ spec:
   interval: 1h
   chart:
     spec:
-      chart: teleport
+      chart: teleport-cluster
       version: 18.8.3
       sourceRef:
         kind: HelmRepository
-        name: teleport-cluster
+        name: teleport
   values:
     chartMode: standalone
     clusterName: teleport.theblacklodge.dev
