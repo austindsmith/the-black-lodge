@@ -3,7 +3,6 @@ kind: Service
 metadata:
   name: teleport
 spec:
-  type: ClusterIP
   selector:
     app.kubernetes.io/component: proxy
   ports:
