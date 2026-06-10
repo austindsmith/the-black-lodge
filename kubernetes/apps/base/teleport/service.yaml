@@ -4,8 +4,8 @@ metadata:
   name: teleport
 spec:
   selector:
-    app: teleport-proxy
+    app.kubernetes.io/component: auth
   ports:
     - name: http
-      port: 443
+      port: 3080
       targetPort: http
