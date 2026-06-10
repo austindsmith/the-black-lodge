@@ -6,7 +6,7 @@ resources:
   - ./namespace.yaml
   - ./helmrelease.yaml
   - ./helmrepository.yaml
-  #- ./service.yaml
+  - ./service.yaml
   #- ./teleport.yaml
   - ./ingressroute.yaml
   #- ./secret.yaml

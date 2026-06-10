@@ -10,4 +10,4 @@ spec:
       kind: Rule
       services:
         - name: teleport
-          port: 443
+          port: 3080
