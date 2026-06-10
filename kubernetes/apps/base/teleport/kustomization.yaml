@@ -8,5 +8,4 @@ resources:
   - ./helmrepository.yaml
   - ./service.yaml
   - ./ingressroute.yaml
-  - ./local_user.yaml
   #- ./authentik.yaml Moved to config and added teleport-config.yaml to cluster folder to handle CRD timing

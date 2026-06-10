@@ -3,4 +3,5 @@ kind: Kustomization
 namespace: teleport
 resources:
   - github.yaml
+  - local_user.yaml
   #- authentik.yaml
