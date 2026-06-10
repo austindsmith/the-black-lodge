@@ -2,10 +2,9 @@ collections:
   - name: ansible.posix
     version: "2.1.0"
 
-  # pacman tools for arch linux
   - name: community.general
     version: "12.5.0"
-  # pacman tools for arch linux
+
   - name: kewlfft.aur
     version: "0.13.0"
 
@@ -21,6 +20,7 @@ collections:
 
   - name: kubernetes.core
     version: "6.3.0"
+
 roles:
   - name: linux-system-roles.cockpit
     version: "1.7.4"

@@ -203,7 +203,6 @@ entries:
         - matching_mode: strict
           url: https://semaphore.theblacklodge.dev/api/auth/oidc/authentik/redirect
 
-
   - model: authentik_providers_oauth2.oauth2provider
     state: present
     identifiers:
@@ -235,12 +234,10 @@ entries:
         - matching_mode: strict
           url: https://teleport.theblacklodge.dev/v1/webapi/oidc/callback
 
-
-
   - model: authentik_core.application
     state: present
     identifiers:
-      pk: 96b95f2b-2eb9-5bf0-be8c-ee5f9d66b9f8
+      slug: headlamp
     attrs:
       name: Headlamp
       slug: headlamp
@@ -250,7 +247,7 @@ entries:
   - model: authentik_core.application
     state: present
     identifiers:
-      pk: 4fc871a0-c3a6-4bdc-b35e-06897d32b97c
+      slug: pangolin
     attrs:
       name: Pangolin
       slug: pangolin
@@ -260,7 +257,7 @@ entries:
   - model: authentik_core.application
     state: present
     identifiers:
-      pk: d63dad65-9d46-55cf-b4da-fe8c86662d44
+      slug: cloudflare
     attrs:
       name: Cloudflare
       slug: cloudflare
@@ -270,7 +267,7 @@ entries:
   - model: authentik_core.application
     state: present
     identifiers:
-      pk: e9c0a071-c210-59f0-bc93-cda70613fcab
+      slug: proxmox
     attrs:
       name: Proxmox
       slug: proxmox
@@ -280,7 +277,7 @@ entries:
   - model: authentik_core.application
     state: present
     identifiers:
-      pk: 27c529b8-2440-5011-9531-ca8cb1dc34d9
+      slug: pgadmin
     attrs:
       name: PGAdmin4
       slug: pgadmin
@@ -290,7 +287,7 @@ entries:
   - model: authentik_core.application
     state: present
     identifiers:
-      pk: 4287fb98-4da5-52a4-ad72-c6f7b33dfe07
+      slug: semaphore
     attrs:
       name: Semaphore
       slug: semaphore
@@ -300,7 +297,7 @@ entries:
   - model: authentik_core.application
     state: present
     identifiers:
-      pk: a47b57c9-cc6e-5712-9499-2ef6f8dab77d
+      slug: teleport
     attrs:
       name: Teleport
       slug: teleport
@@ -319,7 +316,10 @@ entries:
 
   - model: authentik_sources_ldap.ldapsource
     state: present
+    conditions: []
     permissions: []
+    identifiers:
+      slug: freeipa
     attrs:
       additional_group_dn: !Env ldap_group_dn
       additional_user_dn: !Env ldap_user_dn
@@ -355,9 +355,6 @@ entries:
         - !Find [authentik_sources_ldap.ldapsourcepropertymapping, [managed, goauthentik.io/sources/ldap/openldap-cn]]
         - !Find [authentik_sources_ldap.ldapsourcepropertymapping, [managed, goauthentik.io/sources/ldap/default-mail]]
         - !Find [authentik_sources_ldap.ldapsourcepropertymapping, [managed, goauthentik.io/sources/ldap/default-name]]
-    conditions: []
-    identifiers:
-      pk: e8f166bc-1685-4d84-8a81-bab67cf8b5d2
 
   - model: authentik_stages_authenticator_totp.authenticatorTOTPStage
     state: present
@@ -397,7 +394,10 @@ entries:
 
   - model: authentik_core.user
     state: present
+    conditions: []
     permissions: []
+    identifiers:
+      username: !Env ldap_primary_username
     attrs:
       attributes:
         distinguishedName: !Env ldap_primary_user_dn
@@ -413,10 +413,6 @@ entries:
       path: !Env ldap_primary_user_path
       type: internal
       username: !Env ldap_primary_username
-    conditions: []
-    identifiers:
-      username: !Env ldap_primary_username
-
 
   - model: authentik_core.user
     state: present

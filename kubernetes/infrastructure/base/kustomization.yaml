@@ -1,9 +1,9 @@
 resources:
-  - cert-manager
+  #- metallb
+  #- cert-manager
   - cloudflare-tunnel
   - traefik
   - longhorn
   - proxmox
   - cloudnative-pg
   - pgadmin4
-  - metallb
