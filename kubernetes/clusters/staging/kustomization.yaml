@@ -1,5 +1,5 @@
 resources:
   - infrastructure.yaml
   - apps.yaml
-  - metallb-config.yaml
+  #- metallb-config.yaml
   - teleport-config.yaml

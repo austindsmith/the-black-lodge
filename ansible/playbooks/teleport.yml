@@ -17,4 +17,4 @@
         period: 60m0s
     teleport_auth_token: "{{ teleport_token }}"
     teleport_ca_pin: "{{ teleport_ca_pin }}"
-    teleport_auth_server: "{{ teleport_auth_server }}"
+    teleport_proxy_server: "{{ teleport_auth_server }}"
