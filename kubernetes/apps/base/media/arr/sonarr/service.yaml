@@ -9,4 +9,3 @@ spec:
   ports:
     - name: http
       port: 8989
-      targetPort: http

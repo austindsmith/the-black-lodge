@@ -6,92 +6,12 @@ metadata:
   name: neko
 spec:
   ports:
-    - name: "8080"
+    - name: http
       port: 8080
       targetPort: 8080
-    - name: "52000"
-      port: 52000
-      protocol: UDP
-      targetPort: 52000
-    - name: "52001"
-      port: 52001
-      protocol: UDP
-      targetPort: 52001
-    - name: "52002"
-      port: 52002
-      protocol: UDP
-      targetPort: 52002
-    - name: "52003"
-      port: 52003
-      protocol: UDP
-      targetPort: 52003
-    - name: "52004"
-      port: 52004
-      protocol: UDP
-      targetPort: 52004
-    - name: "52005"
-      port: 52005
-      protocol: UDP
-      targetPort: 52005
-    - name: "52006"
-      port: 52006
-      protocol: UDP
-      targetPort: 52006
-    - name: "52007"
-      port: 52007
-      protocol: UDP
-      targetPort: 52007
-    - name: "52008"
-      port: 52008
-      protocol: UDP
-      targetPort: 52008
-    - name: "52009"
-      port: 52009
-      protocol: UDP
-      targetPort: 52009
-    - name: "52010"
-      port: 52010
-      protocol: UDP
-      targetPort: 52010
-    - name: "52011"
-      port: 52011
-      protocol: UDP
-      targetPort: 52011
-    - name: "52012"
-      port: 52012
-      protocol: UDP
-      targetPort: 52012
-    - name: "52013"
-      port: 52013
-      protocol: UDP
-      targetPort: 52013
-    - name: "52014"
-      port: 52014
-      protocol: UDP
-      targetPort: 52014
-    - name: "52015"
-      port: 52015
-      protocol: UDP
-      targetPort: 52015
-    - name: "52016"
-      port: 52016
-      protocol: UDP
-      targetPort: 52016
-    - name: "52017"
-      port: 52017
-      protocol: UDP
-      targetPort: 52017
-    - name: "52018"
-      port: 52018
-      protocol: UDP
-      targetPort: 52018
-    - name: "52019"
-      port: 52019
-      protocol: UDP
-      targetPort: 52019
-    - name: "52020"
-      port: 52020
-      protocol: UDP
-      targetPort: 52020
+    - name: webrtc-tcp
+      port: 59000
+      protocol: TCP
+      targetPort: 59000
   selector:
     io.kompose.service: neko
