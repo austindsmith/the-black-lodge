@@ -26,6 +26,7 @@
       - name: ip-address
         command: ["/bin/sh", "-c", "hostname -I | awk '{print $1}'"]
         period: 60m0s
+    teleport_version: "18.8.3"
     teleport_auth_token: "{{ teleport.token }}"
     teleport_ca_pin: "{{ teleport.ca_pin }}"
-    teleport_auth_server: "{{ teleport.auth_server }}"
+    teleport_proxy_server: "{{ teleport.proxy_server }}"

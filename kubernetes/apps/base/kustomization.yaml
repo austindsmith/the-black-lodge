@@ -4,6 +4,7 @@ resources:
   - media
   - semaphore
   - teleport
+  - neko
   #- generate
   #- jupyterhub
   #- dagster

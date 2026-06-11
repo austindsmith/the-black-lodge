@@ -22,24 +22,24 @@ spec:
       name: semaphore
       valuesKey: client_secret
       targetPath: oidc.providers.authentik.client_secret
-      #- kind: Secret
-      #  name: semaphore
-      #  valuesKey: admin_full_name
-      #  targetPath: admin.fullname
-      #- kind: Secret
-      #  name: semaphore
-      #  valuesKey: admin_username
-      #  targetPath: admin.username
+    - kind: Secret
+      name: semaphore
+      valuesKey: admin_full_name
+      targetPath: admin.fullname
+    - kind: Secret
+      name: semaphore
+      valuesKey: admin_username
+      targetPath: admin.username
     - kind: Secret
       name: semaphore
       valuesKey: admin_password
-      targetPath: admin.existingSecret
+      targetPath: admin.password
   values:
     admin:
       create: true
-      fullnameKey: admin_full_name
-      usernameKey: admin_username
-      passwordKey: admin_password
+      fullname: ""
+      username: ""
+      password: ""
     oidc:
       enable: true
       providers:

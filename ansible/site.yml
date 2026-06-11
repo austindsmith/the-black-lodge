@@ -15,6 +15,3 @@
 
 - name: Create tang server
   ansible.builtin.import_playbook: playbooks/tang.yml
-
-- name: Create tang server
-  ansible.builtin.import_playbook: playbooks/tang.yml

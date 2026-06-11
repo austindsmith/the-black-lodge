@@ -8,4 +8,3 @@ spec:
   ports:
     - name: http
       port: 5055
-      targetPort: http

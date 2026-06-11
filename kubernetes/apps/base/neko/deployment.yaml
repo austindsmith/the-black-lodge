@@ -1,0 +1,75 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: neko
+  name: neko
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: neko
+  template:
+    metadata:
+      labels:
+        io.kompose.service: neko
+    spec:
+      containers:
+        - name: neko
+          image: ghcr.io/m1k1o/neko/firefox:latest
+          envFrom:
+            - secretRef:
+                name: neko-secrets
+          env:
+            - name: NEKO_DESKTOP_SCREEN
+              value: 1920x1080@30
+            - name: NEKO_WEBRTC_EPR
+              value: 52000-52020
+            - name: NEKO_WEBRTC_ICELITE
+              value: "1"
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+            - containerPort: 52000
+              protocol: UDP
+            - containerPort: 52001
+              protocol: UDP
+            - containerPort: 52002
+              protocol: UDP
+            - containerPort: 52003
+              protocol: UDP
+            - containerPort: 52004
+              protocol: UDP
+            - containerPort: 52005
+              protocol: UDP
+            - containerPort: 52006
+              protocol: UDP
+            - containerPort: 52007
+              protocol: UDP
+            - containerPort: 52008
+              protocol: UDP
+            - containerPort: 52009
+              protocol: UDP
+            - containerPort: 52010
+              protocol: UDP
+            - containerPort: 52011
+              protocol: UDP
+            - containerPort: 52012
+              protocol: UDP
+            - containerPort: 52013
+              protocol: UDP
+            - containerPort: 52014
+              protocol: UDP
+            - containerPort: 52015
+              protocol: UDP
+            - containerPort: 52016
+              protocol: UDP
+            - containerPort: 52017
+              protocol: UDP
+            - containerPort: 52018
+              protocol: UDP
+            - containerPort: 52019
+              protocol: UDP
+            - containerPort: 52020
+              protocol: UDP
+      restartPolicy: Always
