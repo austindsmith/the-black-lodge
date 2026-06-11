@@ -6,3 +6,7 @@ spec:
   roles:
     - access
     - editor
+  traits:
+    logins:
+      - root
+      - austin

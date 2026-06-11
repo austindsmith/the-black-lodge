@@ -2,10 +2,6 @@
   roles:
     - mdsketch.teleport
   vars:
-    # optional ssh labels
-    teleport_ssh_labels:
-      - k: "label_key"
-        v: "label_value"
     teleport_ssh_commands:
       - name: hostname
         command: [hostname]
@@ -19,6 +15,6 @@
       - name: ip-address
         command: ["/bin/sh", "-c", "hostname -I | awk '{print $1}'"]
         period: 60m0s
-    teleport_auth_token: "super secret auth token"
-    teleport_ca_pin: "not as secret ca pin"
-    teleport_auth_server: "auth server"
+    teleport_auth_token: "{{ teleport_token }}"
+    teleport_ca_pin: "{{ teleport_ca_pin }}"
+    teleport_auth_server: "{{ teleport_auth_server }}"

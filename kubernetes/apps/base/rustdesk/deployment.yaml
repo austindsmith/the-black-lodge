@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rustdesk-api
+  namespace: rustdesk
+  labels:
+    app: rustdesk-api
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: rustdesk-api
+  template:
+    metadata:
+      labels:
+        app: rustdesk-api
+    spec:
+      initContainers:
+        - name: db-sync
+          image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+          command: ["/app/rustdesk-api-server-pro", "sync"]
+          workingDir: /app/data
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: config
+              mountPath: /app/data/server.yaml
+              subPath: server.yaml
+      containers:
+        - name: rustdesk-api
+          image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+          command: ["/app/rustdesk-api-server-pro", "start"]
+          workingDir: /app/data
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: config
+              mountPath: /app/data/server.yaml
+              subPath: server.yaml
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: rustdesk-api-data
+        - name: config
+          secret:
+            secretName: rustdesk-api-config

@@ -1,3 +1,27 @@
+resource "cloudflare_zero_trust_access_application" "teleport_bypass" {
+  account_id                = var.cloudflare_account_id
+  app_launcher_visible      = false
+  auto_redirect_to_identity = false
+  domain                    = "teleport.${var.domain}"
+  name                      = "Teleport Bypass"
+  session_duration          = "24h"
+  type                      = "self_hosted"
+
+  destinations = [{
+    type = "public"
+    uri  = "teleport.${var.domain}"
+  }]
+
+  policies = [{
+    decision   = "bypass"
+    name       = "Teleport Bypass"
+    include    = [{ everyone = {} }]
+    precedence = 1
+    require    = []
+    reusable   = true
+  }]
+}
+
 resource "cloudflare_zero_trust_access_application" "authentik_admin" {
   account_id                = var.cloudflare_account_id
   app_launcher_visible      = false

@@ -1,0 +1,34 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: rustdesk-api-create-admin
+  namespace: rustdesk
+spec:
+  backoffLimit: 0
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: create-admin
+          image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
+          command:
+            - /app/rustdesk-api-server-pro
+            - user
+            - add
+            - admin
+            - REPLACE_WITH_ADMIN_PASSWORD
+            - --admin
+          workingDir: /app/data
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: config
+              mountPath: /app/data/server.yaml
+              subPath: server.yaml
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: rustdesk-api-data
+        - name: config
+          secret:
+            secretName: rustdesk-api-config
