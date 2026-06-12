@@ -1,34 +1,49 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: rustdesk-api-create-admin
-  namespace: rustdesk
+    name: rustdesk-api-create-admin
+    namespace: rustdesk
 spec:
-  backoffLimit: 0
-  template:
-    spec:
-      restartPolicy: Never
-      containers:
-        - name: create-admin
-          image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
-          command:
-            - /app/rustdesk-api-server-pro
-            - user
-            - add
-            - admin
-            - REPLACE_WITH_ADMIN_PASSWORD
-            - --admin
-          workingDir: /app/data
-          volumeMounts:
-            - name: data
-              mountPath: /app/data
-            - name: config
-              mountPath: /app/data/server.yaml
-              subPath: server.yaml
-      volumes:
-        - name: data
-          persistentVolumeClaim:
-            claimName: rustdesk-api-data
-        - name: config
-          secret:
-            secretName: rustdesk-api-config
+    backoffLimit: ENC[AES256_GCM,data:aw==,iv:10u5O9icsyoZjDm/1FdPzugs1siPX6vK5ia+bXH1gig=,tag:jMwUbAMHs7qCe94MPcROYw==,type:int]
+    template:
+        spec:
+            restartPolicy: ENC[AES256_GCM,data:eKZDnKg=,iv:3quJeU96DM36YLjr/LzEJm1K8YW5k4+QKLeUOzJdTDQ=,tag:0tariwv92ynNp19w8qZuiQ==,type:str]
+            containers:
+                - name: ENC[AES256_GCM,data:R2/iGkejz186YuBM,iv:YAZhYLu1ahvVnyo9So8gra5Mf3evP70BzzyMca7w4I0=,tag:X8mEzm7XSOK+90jRzHsIMQ==,type:str]
+                  image: ENC[AES256_GCM,data:hcCQO0U5OHs4LUgcLlhlZX5DCQibdr8ivofAHfxmfk1ea5352jhAtK+ZRFU8KJusrQ==,iv:7c/i4/h9YqaplYMdnlzwXPVtoBhiYh5F1dgNOXy81b8=,tag:PMNdIzZY0bi7/Lo2x3fvaA==,type:str]
+                  command:
+                    - ENC[AES256_GCM,data:ffboS5s1mDrwCa3l1+PM/tH/fhXlfn6EDZopKQ==,iv:t3MW/uDOz+RuyVUjUe49tN0bixUlHLrvUVPJ6bkc4eE=,tag:6cRriXO2r89IK/C5luC/6g==,type:str]
+                    - ENC[AES256_GCM,data:TbU7bw==,iv:B/AlrWKuMPO71KMF12mADB1flSsrTI2D7I+Fz5WSB48=,tag:iO5hEliXLD1NXiO/ryJCNg==,type:str]
+                    - ENC[AES256_GCM,data:GWSI,iv:8uISzC9cG7gGZTr5E1YzSUj1Qsuxe3jgOS3jTMu5tww=,tag:37EmziW0AQtFK97ICqIFbQ==,type:str]
+                    - ENC[AES256_GCM,data:uQ0IP1o=,iv:0udYgnFMR9z74EGZlGVEm2k999JaRYQ/qbNuwxvbiOU=,tag:Z6DiqDlLHHDq63+/VMObbQ==,type:str]
+                    - ENC[AES256_GCM,data:/kr7EH34MONNvqnEKBBYZTRI+KcNl4LtlJ7vTwnDyptu82mONQ==,iv:ek43TohbAYkywMFrz3JtMYMgNt+M5Asqr0TxpJ4OGTU=,tag:4HLNzgXHv7x5GtlB2Y97UQ==,type:str]
+                    - ENC[AES256_GCM,data:yERq4FE86g==,iv:d8Kply0O4KpYCtuwVuMtRMYUBhADU135UhA6YcKC3go=,tag:ujM9+PHGDvW3c4DyM6dgOw==,type:str]
+                  workingDir: ENC[AES256_GCM,data:aiLFrAxq2VOc,iv:A1SnHcAA163ggnLAJ30uQ40ZBai7ySSnddfjrGs3MDM=,tag:ncKVtMPwgtWW9c0jSxUyRA==,type:str]
+                  volumeMounts:
+                    - name: ENC[AES256_GCM,data:o8bYtQ==,iv:nPikQ6QvCMRQZwrFXFgOiXPTcJM6alTsIHMtTKsP7mg=,tag:Q9MaYqut55FxAFCUgjrntA==,type:str]
+                      mountPath: ENC[AES256_GCM,data:GKPtKIb/wV+K,iv:3Tfltefs/RvaSu6jjodMHbxd3nz1lTPwWp6x7I3OwlE=,tag:VAL+WXMJwmRlzS2xaFw6mA==,type:str]
+                    - name: ENC[AES256_GCM,data:Pg+yKQGS,iv:vewFFvNvEPlqtTuPNCXJEZz6jQ/6kShPRta7XId6k14=,tag:wPjqud2SAb0Z66PTLMyxSQ==,type:str]
+                      mountPath: ENC[AES256_GCM,data:42mWVgvcKD4j8H3arQNoCQQ+mq6r,iv:fMh28nVkQPsFsFSBs+p1MS8uEkmKd78lOFur5R8F+/4=,tag:wZyNn9EnYroR7wYi2M49kA==,type:str]
+                      subPath: ENC[AES256_GCM,data:6lCALpltdoDqgQM=,iv:+qeV0EpZk6vpzE4/iGjkRGmR0aobFA11gfbEfJ4ZrzY=,tag:3/Yy6s3lf83SBVpTvbB4VQ==,type:str]
+            volumes:
+                - name: ENC[AES256_GCM,data:uEmzRA==,iv:DUZRDXTNM/zdh9CWG7eeATsPXuucuqd/qNXv+hhsqs0=,tag:sqdaqym3TkPrOIHwpLHhjQ==,type:str]
+                  persistentVolumeClaim:
+                    claimName: ENC[AES256_GCM,data:LUj0IIPTmGbzLD7yPHzG6ko=,iv:TGR1s/BbsKUB6mIiN48C9t+wmIBiybrbL/6nZAn82Vg=,tag:L438WMR8L6WHc3KhQeGfOA==,type:str]
+                - name: ENC[AES256_GCM,data:YM+73u9B,iv:PHA1/MVDlyr6ZZBSXknHL6ZsbXVfogpVOQ7xTVdKHjM=,tag:WXANPwSrILR4Nrnq0Cp6tQ==,type:str]
+                  secret:
+                    secretName: ENC[AES256_GCM,data:CMZfMyeTSg3LZgJE/y4VOWJ2MQ==,iv:J6MgCpuMGz15OTlHuj4FCOlisP6lAAOeKHC6gpajSOQ=,tag:vtb64xDeQRqsKadQP4MXmQ==,type:str]
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBxNVpsT1FyaUVzNFVuMDF3
+            VHZKd1Iwd3ZySzVnazlUMSt5RUdvbFBXclU4CktVZE5KUVBlUXVnVThPbWRQNUpR
+            SmVMYXNTcVFXSXNTdUljbUVEQi9yR00KLS0tIERSVm5xbXp6bnFYaFRwSEFUUkww
+            dnJ4ZEhObEVkbU9aZUI3VEtNQUtjTUkKDQsXxVdhL8CYsZsmrqNgBHZpcOrEJp9F
+            JrmgQ0PGYhGZFlbtvafQqYUoa1opjSbA4mpXQFriqsP0Aym3n9Locg==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n
+    encrypted_regex: ^(data|stringData|spec)$
+    lastmodified: "2026-06-12T00:20:20Z"
+    mac: ENC[AES256_GCM,data:dmmnDgpBxjzA/9HcZ1bbyFlUI8MQ3oVkeK1PzKtd7mU0a1WcixXbNgTgD9OOMzFIrhW+Hl+xyxD0UlOyQKYuuSkFYHSJiYeawvVMpnMcfUJUiEiQ+SQRpNuVQxymCEaCXMTHcz73wINM3KWEbHHeBRycnxt2gwzhVUhmplVGdHQ=,iv:tz102w/c59ZUdkEprGwOIi2TPrrMW/jYVMPKagdfPic=,tag:9bo3QTZD2JouDHQy29Xolg==,type:str]
+    version: 3.13.1
