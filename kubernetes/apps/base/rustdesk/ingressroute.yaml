@@ -7,17 +7,17 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: PathPrefix(`/api`) && Host(`rustdesk-api.example.com`)
+    - match: PathPrefix(`/api`) && Host(`rustdesk.theblacklodge.dev`)
       kind: Rule
       services:
         - name: rustdesk-api
           port: 8080
-    - match: PathPrefix(`/admin`) && Host(`rustdesk-api.example.com`)
+    - match: PathPrefix(`/admin`) && Host(`rustdesk.theblacklodge.dev`)
       kind: Rule
       services:
         - name: rustdesk-api
           port: 8080
-    - match: Host(`rustdesk-api.example.com`)
+    - match: Host(`rustdesk.theblacklodge.dev`)
       kind: Rule
       services:
         - name: rustdesk-api
