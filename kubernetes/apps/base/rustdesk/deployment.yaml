@@ -55,3 +55,32 @@ spec:
         - name: config
           secret:
             secretName: rustdesk-api-config
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hbbs
+  namespace: rustdesk
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hbbs
+  template:
+    metadata:
+      labels:
+        app: hbbs
+    spec:
+      containers:
+        - name: hbbs
+          image: rustdesk/rustdesk-server:latest
+          command: ["hbbs", "-r", "rd-relay.theblacklodge.dev"]
+          ports:
+            - containerPort: 21118
+          volumeMounts:
+            - name: keys
+              mountPath: /root
+      volumes:
+        - name: keys
+          persistentVolumeClaim:
+            claimName: hbbs-keys

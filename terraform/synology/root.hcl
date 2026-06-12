@@ -29,8 +29,8 @@ generate "provider" {
     }
     provider "synology" {
       host     = var.nas_url
-      user     = "admin"
-      password = "your-password"
+      user     = var.username
+      password = var.password
     }
 
   EOF

@@ -5,6 +5,7 @@ resources:
   - semaphore
   - teleport
   - rustdesk
+  - kasm-brave
   #- generate
   #- jupyterhub
   #- dagster
