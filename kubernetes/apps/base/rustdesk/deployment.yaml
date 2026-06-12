@@ -17,24 +17,24 @@ spec:
       labels:
         app: rustdesk-api
     spec:
-      initContainers:
-        - name: db-sync
-          image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
-          command: ["/app/rustdesk-api-server-pro", "sync"]
-          workingDir: /app/data
-          volumeMounts:
-            - name: data
-              mountPath: /app/data
-            - name: config
-              mountPath: /app/data/server.yaml
-              subPath: server.yaml
       containers:
         - name: rustdesk-api
           image: ghcr.io/lantongxue/rustdesk-api-server-pro:latest
-          command: ["/app/rustdesk-api-server-pro", "start"]
-          workingDir: /app/data
           ports:
             - containerPort: 8080
+          env:
+            - name: TZ
+              value: America/Denver
+            - name: ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  name: rustdesk-api-admin
+                  key: username
+            - name: ADMIN_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: rustdesk-api-admin
+                  key: password
           volumeMounts:
             - name: data
               mountPath: /app/data

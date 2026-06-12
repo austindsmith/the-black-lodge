@@ -1,3 +1,25 @@
+resource "cloudflare_zero_trust_access_application" "rustdesk_bypass" {
+  account_id                = var.cloudflare_account_id
+  app_launcher_visible      = false
+  auto_redirect_to_identity = false
+  domain                    = "rustdesk.${var.domain}"
+  name                      = "RustDesk Bypass"
+  session_duration          = "24h"
+  type                      = "self_hosted"
+  destinations = [{
+    type = "public"
+    uri  = "rustdesk.${var.domain}"
+  }]
+  policies = [{
+    decision   = "bypass"
+    name       = "RustDesk Bypass"
+    include    = [{ everyone = {} }]
+    precedence = 1
+    require    = []
+    reusable   = true
+  }]
+}
+
 resource "cloudflare_zero_trust_access_application" "teleport_bypass" {
   account_id                = var.cloudflare_account_id
   app_launcher_visible      = false
