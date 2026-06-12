@@ -17,7 +17,7 @@ metadata:
   namespace: rustdesk
 spec:
   selector:
-    app: hbbs
+    app: rustdesk-server
   ports:
     - port: 21118
       targetPort: 21118
@@ -29,7 +29,7 @@ metadata:
   namespace: rustdesk
 spec:
   selector:
-    app: hbbr
+    app: rustdesk-server
   ports:
     - port: 21119
       targetPort: 21119
