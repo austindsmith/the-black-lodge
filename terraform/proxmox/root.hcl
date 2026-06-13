@@ -1,9 +1,5 @@
 download_dir = "${get_repo_root()}/.terragrunt-cache"
 
-include "remote_state" {
-  path = find_in_parent_folders("remote_state.hcl")
-}
-
 generate "provider" {
   path      = "provider.tf"
   if_exists = "overwrite_terragrunt"

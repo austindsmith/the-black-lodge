@@ -3,6 +3,10 @@ include "root" {
   expose = true
 }
 
+include "remote_state" {
+  path = find_in_parent_folders("remote_state.hcl")
+}
+
 locals {
   local_secrets  = yamldecode(sops_decrypt_file("${get_terragrunt_dir()}/secret.yaml"))
   merged_secrets = merge(include.root.locals.secrets, local.local_secrets)
