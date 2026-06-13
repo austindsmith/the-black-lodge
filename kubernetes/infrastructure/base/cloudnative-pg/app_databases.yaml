@@ -1,0 +1,83 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: authentik
+  namespace: cloudnative-pg
+spec:
+  name: authentik
+  owner: authentik
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: immich
+  namespace: cloudnative-pg
+spec:
+  name: immich
+  owner: immich
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: n8n
+  namespace: cloudnative-pg
+spec:
+  name: n8n
+  owner: n8n
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: nextcloud
+  namespace: cloudnative-pg
+spec:
+  name: nextcloud
+  owner: nextcloud
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: mealie
+  namespace: cloudnative-pg
+spec:
+  name: mealie
+  owner: mealie
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: paperless-ngx
+  namespace: cloudnative-pg
+spec:
+  name: paperless-ngx
+  owner: paperless-ngx
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: semaphore
+  namespace: cloudnative-pg
+spec:
+  name: semaphore
+  owner: semaphore
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain

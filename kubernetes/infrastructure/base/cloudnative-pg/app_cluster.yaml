@@ -21,21 +21,6 @@ spec:
       - name: cnpg-default-monitoring
         key: queries
   managed:
-    databases:
-      - name: authentik
-        owner: authentik
-      - name: immich
-        owner: immich
-      - name: n8n
-        owner: n8n
-      - name: nextcloud
-        owner: nextcloud
-      - name: mealie
-        owner: mealie
-      - name: paperless-ngx
-        owner: paperless-ngx
-      - name: semaphore
-        owner: semaphore
     roles:
       - name: authentik
         passwordSecret:
