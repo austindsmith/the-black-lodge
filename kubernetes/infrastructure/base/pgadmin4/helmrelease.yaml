@@ -42,7 +42,7 @@ spec:
           - /bin/sh
           - -c
           - >
-            mkdir -p /var/lib/pgadmin/storage/austindsmith_accouts_proton.me &&
+            mkdir -p /var/lib/pgadmin/storage/austindsmith_accounts_proton.me &&
             ( cat /pgpass-src/app/pgpass; echo; cat /pgpass-src/data/pgpass; echo ) > /var/lib/pgadmin/storage/austindsmith_accounts_proton.me/file.pgpass &&
             chmod 600 /var/lib/pgadmin/storage/austindsmith_accounts_proton.me/file.pgpass
         securityContext:
