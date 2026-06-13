@@ -1,5 +1,7 @@
 legacy_servers:
   hosts:
+    synology:
+      ansible_host: 192.168.1.131
     ipa:
       ansible_host: 192.168.50.20
     tang:

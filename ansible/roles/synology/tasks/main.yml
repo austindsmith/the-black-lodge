@@ -1,0 +1,5 @@
+- name: Manage packages
+  ansible.builtin.import_tasks: packages.yml
+
+- name: Deploy RustFS
+  ansible.builtin.import_tasks: rustfs.yml

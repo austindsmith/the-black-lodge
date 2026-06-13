@@ -1,0 +1,6 @@
+- name: Manage Synology
+  become: true
+  hosts: synology
+  gather_facts: false
+  roles:
+    - synology

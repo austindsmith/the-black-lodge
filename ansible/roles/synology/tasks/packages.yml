@@ -1,0 +1,18 @@
+- name: Check if Container Manager is installed
+  ansible.builtin.stat:
+    path: /var/packages/ContainerManager/enabled
+  register: cm_installed
+
+- name: Install Container Manager
+  ansible.builtin.command: /usr/syno/bin/synopkg install_from_server ContainerManager
+  when: not cm_installed.stat.exists
+
+- name: Check if Container Manager is running
+  ansible.builtin.command: /usr/syno/bin/synopkg is_onoff ContainerManager
+  register: cm_running
+  changed_when: false
+  failed_when: false
+
+- name: Start Container Manager
+  ansible.builtin.command: /usr/syno/bin/synopkg start ContainerManager
+  when: cm_running.rc != 0

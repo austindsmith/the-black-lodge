@@ -1,0 +1,36 @@
+- name: Create rustfs directory
+  ansible.builtin.file:
+    path: "{{ rustfs_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy compose file
+  ansible.builtin.template:
+    src: rustfs-compose.yml.j2
+    dest: "{{ rustfs_dir }}/docker-compose.yml"
+    mode: "0644"
+  register: compose_file
+
+- name: Copy env file
+  ansible.builtin.template:
+    src: rustfs.env.j2
+    dest: "{{ rustfs_dir }}/.env"
+    mode: "0600"
+  register: env_file
+
+- name: Deploy RustFS stack
+  community.docker.docker_compose_v2:
+    project_src: "{{ rustfs_dir }}"
+    state: present
+    pull: missing
+    docker_cli: /var/packages/ContainerManager/target/usr/bin/docker
+  register: compose_result
+
+- name: Recreate stack if files changed
+  community.docker.docker_compose_v2:
+    project_src: "{{ rustfs_dir }}"
+    state: present
+    pull: missing
+    docker_cli: /var/packages/ContainerManager/target/usr/bin/docker
+    recreate: always
+  when: compose_file.changed or env_file.changed

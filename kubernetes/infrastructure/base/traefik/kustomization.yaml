@@ -8,3 +8,4 @@ resources:
   - ./helmrelease.yaml
   - ./dashboard-ingress.yaml
   - ./cloudflare-ingress.yaml
+  - ./rustfs-synology.yaml

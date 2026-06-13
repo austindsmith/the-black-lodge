@@ -21,6 +21,9 @@ collections:
   - name: kubernetes.core
     version: "6.3.0"
 
+  - name: community.docker
+    version: "5.2.0"
+
 roles:
   - name: linux-system-roles.cockpit
     version: "1.7.4"
