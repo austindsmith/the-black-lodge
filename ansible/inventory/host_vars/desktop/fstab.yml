@@ -1,0 +1,73 @@
+fstab_mounts:
+  - device: UUID=09C9-7966
+    path: /boot
+    fstype: vfat
+    opts: umask=0077
+    dump: 0
+    passno: 2
+  - device: /dev/mapper/luks-b725b444-0166-44df-90e4-c4bb0e829a47
+    path: /
+    fstype: btrfs
+    opts: subvol=/@,noatime,compress=zstd,space_cache=v2,commit=120
+    dump: 0
+    passno: 0
+  - device: /dev/mapper/luks-b725b444-0166-44df-90e4-c4bb0e829a47
+    path: /home
+    fstype: btrfs
+    opts: subvol=/@home,noatime,compress=zstd,space_cache=v2,commit=120
+    dump: 0
+    passno: 0
+  - device: /dev/mapper/luks-b725b444-0166-44df-90e4-c4bb0e829a47
+    path: /root
+    fstype: btrfs
+    opts: subvol=/@root,noatime,compress=zstd,space_cache=v2,commit=120
+    dump: 0
+    passno: 0
+  - device: /dev/mapper/luks-b725b444-0166-44df-90e4-c4bb0e829a47
+    path: /srv
+    fstype: btrfs
+    opts: subvol=/@srv,noatime,compress=zstd,space_cache=v2,commit=120
+    dump: 0
+    passno: 0
+  - device: /dev/mapper/luks-b725b444-0166-44df-90e4-c4bb0e829a47
+    path: /var/cache
+    fstype: btrfs
+    opts: subvol=/@cache,noatime,compress=zstd,space_cache=v2,commit=120
+    dump: 0
+    passno: 0
+  - device: /dev/mapper/luks-b725b444-0166-44df-90e4-c4bb0e829a47
+    path: /var/log
+    fstype: btrfs
+    opts: subvol=/@log,noatime,compress=zstd,space_cache=v2,commit=120
+    dump: 0
+    passno: 0
+  - device: /dev/mapper/luks-b725b444-0166-44df-90e4-c4bb0e829a47
+    path: /var/tmp
+    fstype: btrfs
+    opts: subvol=/@tmp,noatime,compress=zstd,space_cache=v2,commit=120
+    dump: 0
+    passno: 0
+  - device: tmpfs
+    path: /tmp
+    fstype: tmpfs
+    opts: noatime,mode=1777
+    dump: 0
+    passno: 0
+  - device: UUID=509a1084-7e21-4fbc-b1e7-30067d3cb88a
+    path: /mnt/secondary_ssd
+    fstype: ext4
+    opts: defaults,noatime,nofail,x-gvfs-show,x-gvfs-name=secondary_ssd
+    dump: 0
+    passno: 2
+  - device: 192.168.1.131:/volume1/backups
+    path: /mnt/backups
+    fstype: nfs4
+    opts: _netdev,noatime,nofail,x-systemd.automount,x-gvfs-show,x-gvfs-name=backups,x-systemd.idle-timeout=300
+    dump: 0
+    passno: 0
+  - device: 192.168.1.131:/volume1/homes/austin
+    path: /mnt/nas/homes/austin
+    fstype: nfs4
+    opts: _netdev,noatime,nofail,soft,timeo=30,retrans=3,x-systemd.automount,x-gvfs-show,x-gvfs-name=nas_personal_drive,x-systemd.idle-timeout=300
+    dump: 0
+    passno: 0
