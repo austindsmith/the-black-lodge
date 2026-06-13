@@ -14,7 +14,7 @@ locals {
 inputs = local.env.inputs
 
 terraform {
-  source = "${get_parent_terragrunt_dir()}/modules/generate-azure"
+  source = "${get_repo_root()}/terraform/azure/modules/generate-azure"
 }
 
 generate "provider" {
