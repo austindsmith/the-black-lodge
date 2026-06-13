@@ -3,6 +3,10 @@ include "root" {
   merge_strategy = "deep"
 }
 
+include "remote_state" {
+  path = find_in_parent_folders("remote_state.hcl")
+}
+
 locals {
   env = read_terragrunt_config("${get_terragrunt_dir()}/prod.hcl")
 }
