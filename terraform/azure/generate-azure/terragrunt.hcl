@@ -8,7 +8,7 @@ include "remote_state" {
 }
 
 locals {
-  env = read_terragrunt_config("${get_terragrunt_dir()}/prod.hcl")
+  env = read_terragrunt_config("${get_repo_root()}/terraform/azure/generate-azure/prod.hcl")
 }
 
 inputs = local.env.inputs
