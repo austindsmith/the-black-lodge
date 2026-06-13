@@ -8,6 +8,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./infrastructure/cloudnative-pg/crds
+  path: .kubernetes/infrastructure/base/cloudnative-pg/crds
   prune: false
   wait: true
