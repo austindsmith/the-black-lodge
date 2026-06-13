@@ -4,6 +4,8 @@ metadata:
   name: infrastructure
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cloudnative-pg-crds
   interval: 10m
   prune: true
   sourceRef:

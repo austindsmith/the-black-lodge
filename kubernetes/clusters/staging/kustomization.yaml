@@ -1,5 +1,6 @@
 resources:
   - infrastructure.yaml
   - apps.yaml
+  - cloudnative-pg-crds.yaml
   #- metallb-config.yaml
   - teleport-config.yaml
