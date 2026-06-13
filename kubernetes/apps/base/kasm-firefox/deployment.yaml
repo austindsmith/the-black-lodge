@@ -62,3 +62,14 @@ spec:
           emptyDir:
             medium: Memory
             sizeLimit: 1Gi
+        - name: custom-init
+          configMap:
+            name: firefox-custom-init
+            defaultMode: 0755
+      volumeMounts:
+        - name: config
+          mountPath: /config
+        - name: dshm
+          mountPath: /dev/shm
+        - name: custom-init
+          mountPath: /custom-cont-init.d
