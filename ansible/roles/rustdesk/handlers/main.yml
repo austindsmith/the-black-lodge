@@ -1,0 +1,9 @@
+- name: restart rustdesk linux
+  ansible.builtin.systemd:
+    name: rustdesk
+    state: restarted
+
+- name: restart rustdesk windows
+  ansible.windows.win_service:
+    name: RustDesk
+    state: restarted

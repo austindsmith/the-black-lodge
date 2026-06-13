@@ -1,0 +1,9 @@
+- name: Download package
+  ansible.builtin.get_url:
+    url: "{{ rustdesk_base_url }}/rustdesk-{{ rustdesk_version }}-0-x86_64.pkg.tar.zst"
+    dest: /tmp/rustdesk.pkg.tar.zst
+
+- name: Install RustDesk
+  community.general.pacman:
+    name: /tmp/rustdesk.pkg.tar.zst
+    state: present

@@ -1,0 +1,5 @@
+- name: Install RustDesk
+  ansible.builtin.dnf:
+    name: "{{ rustdesk_base_url }}/rustdesk-{{ rustdesk_version }}-0.x86_64.rpm"
+    state: present
+    disable_gpg_check: true

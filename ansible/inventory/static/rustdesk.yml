@@ -1,0 +1,12 @@
+all:
+  children:
+    rustdesk_clients:
+      hosts:
+        #rocky-box:
+        #ubuntu-desktop:
+        #pve1:
+        desktop:
+        laptop:
+    #windows:
+    #  hosts:
+    #    win-desktop:

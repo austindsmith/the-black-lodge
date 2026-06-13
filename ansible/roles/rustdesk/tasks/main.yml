@@ -1,0 +1,9 @@
+- name: Bail on unsupported platforms
+  ansible.builtin.meta: end_host
+  when: ansible_os_family == "Alpine"
+
+- name: Include install tasks for platform
+  ansible.builtin.include_tasks: "{{ ansible_os_family | lower }}.yml"
+
+- name: Include configuration tasks
+  ansible.builtin.include_tasks: configure.yml

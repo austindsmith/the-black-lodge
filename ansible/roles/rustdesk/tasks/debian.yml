@@ -1,0 +1,3 @@
+- name: Install RustDesk
+  ansible.builtin.apt:
+    deb: "{{ rustdesk_base_url }}/rustdesk-{{ rustdesk_version }}-x86_64.deb"

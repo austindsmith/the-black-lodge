@@ -1,0 +1,47 @@
+- name: Deploy config (Linux)
+  ansible.builtin.template:
+    src: RustDesk2.toml.j2
+    dest: /root/.config/rustdesk/RustDesk2.toml
+    mode: "0600"
+  notify: restart rustdesk linux
+  when: ansible_os_family != "Windows"
+
+- name: Deploy config (Windows)
+  ansible.windows.win_template:
+    src: RustDesk2.toml.j2
+    dest: C:\Windows\ServiceProfiles\LocalService\AppData\Roaming\RustDesk\config\RustDesk2.toml
+  notify: restart rustdesk windows
+  when: ansible_os_family == "Windows"
+
+- name: Flush handlers so config applies before password
+  ansible.builtin.meta: flush_handlers
+
+- name: Set permanent password (Linux)
+  ansible.builtin.shell: rustdesk --password "$RUSTDESK_PW"
+  environment:
+    RUSTDESK_PW: "{{ rustdesk_password }}"
+  no_log: true
+  changed_when: true
+  when: ansible_os_family != "Windows"
+
+- name: Set permanent password (Windows)
+  ansible.windows.win_command: '"C:\Program Files\RustDesk\rustdesk.exe" --password {{ rustdesk_password }}'
+  no_log: true
+  changed_when: true
+  when: ansible_os_family == "Windows"
+
+- name: Read client ID (Linux)
+  ansible.builtin.command: rustdesk --get-id
+  register: rustdesk_id_linux
+  changed_when: false
+  when: ansible_os_family != "Windows"
+
+- name: Read client ID (Windows)
+  ansible.windows.win_command: '"C:\Program Files\RustDesk\rustdesk.exe" --get-id'
+  register: rustdesk_id_windows
+  changed_when: false
+  when: ansible_os_family == "Windows"
+
+- name: Report ID
+  ansible.builtin.debug:
+    msg: "{{ inventory_hostname }}: {{ rustdesk_id_linux.stdout | default(rustdesk_id_windows.stdout) }}"

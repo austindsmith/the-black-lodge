@@ -1,0 +1,17 @@
+- name: Download installer
+  ansible.windows.win_get_url:
+    url: "{{ rustdesk_base_url }}/rustdesk-{{ rustdesk_version }}-x86_64.exe"
+    dest: C:\Windows\Temp\rustdesk.exe
+
+- name: Install RustDesk silently
+  ansible.windows.win_command: C:\Windows\Temp\rustdesk.exe --silent-install
+  args:
+    creates: C:\Program Files\RustDesk\rustdesk.exe
+
+- name: Wait for service registration
+  ansible.windows.win_service_info:
+    name: RustDesk
+  register: rustdesk_svc
+  until: rustdesk_svc.exists
+  retries: 10
+  delay: 3
