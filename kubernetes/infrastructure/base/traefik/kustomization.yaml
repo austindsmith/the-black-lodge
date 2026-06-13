@@ -9,4 +9,5 @@ resources:
   - ./dashboard-ingress.yaml
   - ./cloudflare-ingress.yaml
   - ./private-ingress.yaml
-  - ./rustfs-synology.yaml
+  - ./rustfs-services.yaml
+  - ./rustfs-ingress.yaml

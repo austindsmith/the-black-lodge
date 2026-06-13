@@ -122,7 +122,7 @@ resource "cloudflare_zero_trust_access_application" "wildcard" {
       }
     }]
     exclude    = []
-    name       = "The Black Lodge development"
+    name       = "Email access"
     precedence = 1
     require    = []
     reusable   = true
