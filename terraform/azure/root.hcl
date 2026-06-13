@@ -1,14 +1,7 @@
 download_dir = "${get_repo_root()}/.terragrunt-cache"
 
-remote_state {
-  backend = "local"
-  config = {
-    path = "${get_repo_root()}/.tfstate/${path_relative_to_include()}/terraform.tfstate"
-  }
-  generate = {
-    path      = "backend.tf"
-    if_exists = "overwrite"
-  }
+include "remote_state" {
+  path = find_in_parent_folders("remote_state.hcl")
 }
 
 locals {

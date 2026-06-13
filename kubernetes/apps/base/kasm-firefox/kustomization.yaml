@@ -8,4 +8,5 @@ resources:
   - ./deployment.yaml
   - ./service.yaml
   - ./ingressroute.yaml
+  - ./configmap.yaml
   - ./secret.yaml
