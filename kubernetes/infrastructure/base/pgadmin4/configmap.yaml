@@ -13,7 +13,7 @@ data:
           "Port": 5432,
           "MaintenanceDB": "postgres",
           "Username": "postgres",
-          "PassFile": "/file.pgpass",
+          "PassFile": "file.pgpass",
           "SSLMode": "prefer"
         },
         "2": {
@@ -23,7 +23,7 @@ data:
           "Port": 5432,
           "MaintenanceDB": "postgres",
           "Username": "postgres",
-          "PassFile": "/file.pgpass",
+          "PassFile": "file.pgpass",
           "SSLMode": "prefer"
         }
       }
