@@ -1,0 +1,7 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+paths = [
+  "default_values.yaml"
+]
