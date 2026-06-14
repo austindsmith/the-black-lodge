@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -18,10 +19,8 @@ spec:
               repository: ghcr.io/home-operations/qbittorrent-libtorrentv1
               tag: 5.2.1@sha256:844555b6c1ed43afcb0001100973676fc6d825d5142c65f612a25fd9eba0bb0a
             env:
-              QBT_WEBUI_PORT: &port 80
-              QBT_TORRENTING_PORT: &torrentPort 31288
               TZ: America/Denver
-              PORT: &port 80
+              QBT_WEBUI_PORT: &port 80
             probes:
               liveness:
                 enabled: true
@@ -47,24 +46,75 @@ spec:
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
-              capabilities: {drop: ["ALL"]}
+              capabilities:
+                drop: ["ALL"]
             resources:
               requests:
                 cpu: 10m
               limits:
                 memory: 2Gi
+
+          gluetun:
+            image:
+              repository: ghcr.io/qdm12/gluetun
+              tag: v3.40.0
+            env:
+              TZ: America/Denver
+              VPN_SERVICE_PROVIDER: protonvpn
+              VPN_TYPE: wireguard
+              SERVER_COUNTRIES: United States
+              FREE_ONLY: "off"
+              HTTP_CONTROL_SERVER_ADDRESS: ":8000"
+              FIREWALL_INPUT_PORTS: *port
+              VPN_PORT_FORWARDING: "on"
+              VPN_PORT_FORWARDING_PROVIDER: protonvpn
+            envFrom:
+              - secretRef:
+                  name: qbittorrent-creds
+            securityContext:
+              capabilities:
+                add: ["NET_ADMIN"]
+            resources:
+              requests:
+                cpu: 10m
+                memory: 256Mi
+              limits:
+                memory: 2Gi
+
+          port-sync:
+            image:
+              repository: ghcr.io/bjw-s-labs/gluetun-qb-port-sync
+              tag: 0.0.4@sha256:6060da1978c5ec8ea1cad56d8538f35b504b1dcb3fc9845f1f69b18d1b36020a
+            env:
+              GLUETUN_CONTROL_SERVER_HOST: localhost
+              GLUETUN_CONTROL_SERVER_PORT: 8000
+              QBITTORRENT_HOST: localhost
+              QBITTORRENT_WEBUI_PORT: *port
+              SYNC_INTERVAL_SECONDS: 60
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
+            resources:
+              requests:
+                cpu: 5m
+              limits:
+                memory: 32Mi
+
     defaultPodOptions:
       securityContext:
-        runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
         fsGroupChangePolicy: OnRootMismatch
+
     service:
       app:
         ports:
           http:
             port: *port
+
     ingress:
       app:
         className: traefik
@@ -75,10 +125,17 @@ spec:
                 service:
                   identifier: app
                   port: http
+
     persistence:
       config:
         existingClaim: qbittorrent-config
         globalMounts:
-          - path: /app/config
+          - path: /config
+      media:
+        type: nfs
+        server: 192.168.1.131
+        path: /volume1/media
+        globalMounts:
+          - path: /data
       tmp:
         type: emptyDir

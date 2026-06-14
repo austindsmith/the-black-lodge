@@ -40,7 +40,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/v1/status
+                    path: /health
                     port: *port
                   periodSeconds: 10
                   timeoutSeconds: 5
@@ -57,6 +57,7 @@ spec:
             resources:
               requests:
                 cpu: 10m
+                memory: 256Mi
               limits:
                 memory: 2Gi
     defaultPodOptions:
@@ -85,6 +86,6 @@ spec:
       config:
         existingClaim: qui-config
         globalMounts:
-          - path: /app/config
+          - path: /config
       tmp:
         type: emptyDir
