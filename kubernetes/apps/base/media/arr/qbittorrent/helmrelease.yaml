@@ -72,6 +72,9 @@ spec:
               - secretRef:
                   name: qbittorrent-creds
             securityContext:
+              runAsUser: 0
+              runAsGroup: 0
+              runAsNonRoot: false
               capabilities:
                 add: ["NET_ADMIN"]
             resources:
