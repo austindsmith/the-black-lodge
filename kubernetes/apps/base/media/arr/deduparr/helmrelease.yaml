@@ -17,6 +17,9 @@ spec:
             image:
               repository: quay.io/kernald/deduparr
               tag: 1.2.0@sha256:6e579f684a147dcd2dcd4468c50ffb0848e23b8306f1355037a2419931fe4b7f
+            envFrom:
+              - secretRef:
+                  name: deduparr-secret
             env:
               DEDUPARR_LOG_LEVEL: info
               DEDUPARR_RADARR_MOVIES_ENABLED: true
