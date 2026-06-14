@@ -5,8 +5,8 @@ resources:
   - deduparr
   - plex
   - prowlarr
-  - qbittorrent
-  - qui
+  #- qbittorrent
+  #- qui
   - radarr
   - sabnzbd
   - seerr
