@@ -7,3 +7,4 @@ resources:
   - proxmox
   - cloudnative-pg
   - bytebase
+  - pgadmin4

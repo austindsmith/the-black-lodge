@@ -29,5 +29,3 @@ tmp/
 *.iso
 secrets*
 windows-README.md
-default_variables.yaml
-default_values.yaml
