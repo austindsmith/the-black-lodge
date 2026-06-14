@@ -72,23 +72,11 @@ spec:
       method: kubernetes
       tokenName: db-agent-token
     roles: db
-    extraVolumes:
-      - name: cluster-ca-bundle
-        secret:
-          secretName: cluster-ca-bundle
-          items:
-            - key: ca.crt
-              path: ca.crt
-    extraVolumeMounts:
-      - name: cluster-ca-bundle
-        mountPath: /etc/teleport-db-ca
-        readOnly: true
     databases:
       - name: app-cluster-rw
         protocol: postgres
         uri: app-cluster-rw.cloudnative-pg.svc.cluster.local:5432
         tls:
-          mode: verify-ca
-          ca_cert_file: /etc/teleport-db-ca/ca.crt
+          mode: insecure
         static_labels:
           env: homelab

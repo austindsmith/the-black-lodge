@@ -4,7 +4,6 @@ namespace: teleport
 
 resources:
   - ./namespace.yaml
-  - ./ca-certificate.yaml
   - ./helmrelease.yaml
   - ./helmrepository.yaml
   - ./service.yaml
