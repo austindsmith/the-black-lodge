@@ -13,3 +13,26 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: plex
+  values:
+    plex:
+      claim: ""
+    image:
+      tag: latest
+    env:
+      TZ: America/Denver
+      PUID: "1000"
+      PGID: "1000"
+      UMASK: "002"
+    persistence:
+      config:
+        existingClaim: plex-config
+      data:
+        existingClaim: media
+    resources:
+      requests:
+        cpu: 100m
+        memory: 256Mi
+      limits:
+        memory: 1Gi
+    ingress:
+      enabled: false

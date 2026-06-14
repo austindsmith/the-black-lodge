@@ -3,8 +3,8 @@ kind: Kustomization
 namespace: dbgate
 
 resources:
-  - ./namespace.yaml
-  - ./helmrelease.yaml
-  - ./helmrepository.yaml
-  - ./ingressroute.yaml
-  - ./secret.yaml
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingressroute.yaml
+  - secret.yaml

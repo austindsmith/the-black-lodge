@@ -4,7 +4,7 @@ metadata:
   name: plex
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
     - match: Host(`plex.theblacklodge.dev`)
       kind: Rule
