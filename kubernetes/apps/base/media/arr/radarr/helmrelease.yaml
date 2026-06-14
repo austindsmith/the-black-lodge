@@ -90,6 +90,6 @@ spec:
       config:
         existingClaim: radarr-config
         globalMounts:
-          - path: /app/config
+          - path: /config
       tmp:
         type: emptyDir

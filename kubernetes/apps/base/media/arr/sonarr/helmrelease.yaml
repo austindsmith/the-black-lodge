@@ -90,6 +90,6 @@ spec:
       config:
         existingClaim: sonarr-config
         globalMounts:
-          - path: /app/config
+          - path: /config
       tmp:
         type: emptyDir
