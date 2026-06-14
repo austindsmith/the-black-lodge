@@ -6,6 +6,7 @@ resources:
   - ./namespace.yaml
   - ./helmrelease.yaml
   - ./helmrepository.yaml
+  - ./ca-certificate.yaml
   - ./service.yaml
   - ./ingressroute.yaml
   #- ./authentik.yaml Moved to config and added teleport-config.yaml to cluster folder to handle CRD timing

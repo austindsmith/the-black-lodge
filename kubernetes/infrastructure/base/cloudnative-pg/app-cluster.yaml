@@ -8,10 +8,10 @@ spec:
   certificates:
     serverCASecret: cluster-ca-secret
     clientCASecret: teleport-db-client-ca
-  postgresql:
-    pg_hba:
-      - hostssl all all all cert
-      - host all all all scram-sha-256
+    postgresql:
+      pg_hba:
+        - hostssl all postgres all cert
+        - host all all all scram-sha-256
   bootstrap:
     initdb:
       owner: postgres
