@@ -2,4 +2,5 @@ resources:
   - sonarr
   - radarr
   - prowlarr
-  - overseerr
+  #- overseerr
+  - seerr
