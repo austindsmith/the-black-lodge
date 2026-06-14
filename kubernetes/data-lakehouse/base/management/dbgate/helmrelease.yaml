@@ -9,26 +9,29 @@ spec:
   chart:
     spec:
       chart: dbgate
-      version: 2026.3.30
+      version: v2026.3.30
       sourceRef:
         kind: HelmRepository
         name: dbgate
-  #valuesFrom:
-  #  - kind: Secret
-  #    name: dbgate
-  #    valuesKey: postgres_password
-  #    targetPath: bytebase.option.externalPg.pgPassword
+  postRenderers:
+    - kustomize:
+        patches:
+          - patch: |
+              $patch: delete
+              apiVersion: gateway.networking.k8s.io/v1
+              kind: Gateway
+              metadata:
+                name: dbgate
+          - patch: |
+              $patch: delete
+              apiVersion: gateway.networking.k8s.io/v1
+              kind: HTTPRoute
+              metadata:
+                name: dbgate
   values:
     fullnameOverride: "dbgate"
     image:
       pullPolicy: IfNotPresent
-    gateway:
-      className: ""
-
-    autoscaling:
-      http:
-        minReplicas: 1
-        maxReplicas: 1
     app:
       kind: "Postgres"
       service:
@@ -38,3 +41,6 @@ spec:
         name: "dbgate-cloudnative-pg-secret"
       tls:
         enabled: false
+    gateway:
+      referenceGrant:
+        create: false
