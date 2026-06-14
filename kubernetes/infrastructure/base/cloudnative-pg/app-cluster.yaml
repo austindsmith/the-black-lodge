@@ -5,9 +5,13 @@ metadata:
 spec:
   instances: 3
   enableSuperuserAccess: true
+  certificates:
+    clientCASecret: teleport-db-client-ca
   postgresql:
     pg_hba:
-      - hostssl all all all scram-sha-256
+      # Teleport DB agent: SSL + client cert from Teleport's DB CA
+      - hostssl all all all cert
+      # Apps within cluster: non-SSL + password (sslmode=disable required)
       - host all all all scram-sha-256
   bootstrap:
     initdb:
