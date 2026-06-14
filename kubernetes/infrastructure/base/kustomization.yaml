@@ -1,6 +1,6 @@
 resources:
   #- metallb
-  #- cert-manager
+  - cert-manager
   - cloudflare-tunnel
   - traefik
   - longhorn
