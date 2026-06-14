@@ -6,7 +6,7 @@ spec:
   instances: 3
   enableSuperuserAccess: true
   certificates:
-    serverTLSSecret: app-cluster-server-tls
+    serverCASecret: cluster-ca-secret
   postgresql:
     pg_hba:
       - host all all all scram-sha-256

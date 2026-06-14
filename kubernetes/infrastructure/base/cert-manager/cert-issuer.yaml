@@ -21,6 +21,8 @@ spec:
     name: selfsigned
     kind: ClusterIssuer
     group: cert-manager.io
+  duration: 87600h
+  renewBefore: 8760h
 ---
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
