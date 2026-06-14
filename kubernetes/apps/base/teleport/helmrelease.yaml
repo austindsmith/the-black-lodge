@@ -80,9 +80,3 @@ spec:
           mode: insecure
         static_labels:
           env: homelab
-        static_credentials:
-          username: authentik
-          password:
-            from_secret:
-              name: authentik-db-secret
-              key: password
