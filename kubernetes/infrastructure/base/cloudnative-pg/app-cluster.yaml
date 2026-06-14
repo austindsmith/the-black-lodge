@@ -7,7 +7,7 @@ spec:
   enableSuperuserAccess: true
   postgresql:
     pg_hba:
-      - host all postgres all scram-sha-256
+      - host all all all scram-sha-256
   bootstrap:
     initdb:
       owner: postgres
