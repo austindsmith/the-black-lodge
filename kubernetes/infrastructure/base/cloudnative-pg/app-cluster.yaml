@@ -5,13 +5,9 @@ metadata:
 spec:
   instances: 3
   enableSuperuserAccess: true
-  certificates:
-    serverCASecret: cluster-ca-secret
-    serverTLSSecret: app-cluster-server-tls
-    clientCASecret: teleport-db-client-ca
   postgresql:
     pg_hba:
-      - hostssl all postgres all cert
+      - hostssl all all all scram-sha-256
       - host all all all scram-sha-256
   bootstrap:
     initdb:
