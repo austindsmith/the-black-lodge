@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: dbgate
+spec:
+  install:
+    createNamespace: true
+  interval: 1h
+  chart:
+    spec:
+      chart: dbgate
+      version: 2026.3.30
+      sourceRef:
+        kind: HelmRepository
+        name: dbgate
+  #valuesFrom:
+  #  - kind: Secret
+  #    name: dbgate
+  #    valuesKey: postgres_password
+  #    targetPath: bytebase.option.externalPg.pgPassword
+  values:
+    gateway:
+      className: ""
+
+    autoscaling:
+      http:
+        minReplicas: 1
+        maxReplicas: 1
+    app:
+      kind: "postgres@dbgate-plugin-postgres"
+      service:
+        name: "app-cluster-rw"
+        namespace: "cloudnative-pg"
+      authSecret:
+        name: "dbgate-cloudnative-pg-secret"
+      tls:
+        enabled: false

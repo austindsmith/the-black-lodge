@@ -50,3 +50,11 @@ spec:
         passwordSecret:
           name: semaphore-db-secret
         login: true
+      - name: bytebase
+        passwordSecret:
+          name: bytebase-db-secret
+        login: true
+      - name: dbgate
+        passwordSecret:
+          name: dbgate-db-secret
+        login: true

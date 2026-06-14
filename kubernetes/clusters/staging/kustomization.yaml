@@ -1,6 +1,7 @@
 resources:
   - infrastructure.yaml
   - apps.yaml
+  - data-lakehouse.yaml
   - cloudnative-pg-crds.yaml
   #- metallb-config.yaml
   - teleport-config.yaml

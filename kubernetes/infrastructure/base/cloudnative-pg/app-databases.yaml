@@ -81,3 +81,27 @@ spec:
   cluster:
     name: app-cluster
   databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: bytebase
+  namespace: cloudnative-pg
+spec:
+  name: bytebase
+  owner: bytebase
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: dbgate
+  namespace: cloudnative-pg
+spec:
+  name: dbgate
+  owner: dbgate
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
