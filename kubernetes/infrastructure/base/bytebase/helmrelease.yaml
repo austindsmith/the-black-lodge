@@ -25,5 +25,5 @@ spec:
         externalPg: # Bytebase will ignore the bytebase.option.externalPg.url if this is specified.
           pgHost: "app-cluster-rw.cloudnative-pg.svc.cluster.local"
           pgPort: "5432"
-          pgUsername: "postgres"
-          pgDatabase: "postgres"
+          pgUsername: "bytebase"
+          pgDatabase: "bytebase"
