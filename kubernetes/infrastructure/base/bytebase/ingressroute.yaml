@@ -9,5 +9,5 @@ spec:
     - match: Host(`bytebase.theblacklodge.dev`)
       kind: Rule
       services:
-        - name: bytebase
-          port: 8080
+        - name: bytebase-entrypoint
+          port: 80
