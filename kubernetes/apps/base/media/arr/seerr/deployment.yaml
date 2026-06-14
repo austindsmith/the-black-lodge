@@ -1,22 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prowlarr
+  name: seerr
+  namespace: media
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: prowlarr
+      app: seerr
   template:
     metadata:
       labels:
-        app: prowlarr
+        app: seerr
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
       containers:
-        - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:latest
+        - name: seerr
+          image: lscr.io/linuxserver/seerr:latest
           env:
             - name: PUID
               value: "1000"
@@ -26,6 +32,9 @@ spec:
               value: "002"
             - name: TZ
               value: America/Denver
+          ports:
+            - name: http
+              containerPort: 5055
           volumeMounts:
             - name: config
               mountPath: /config
@@ -40,7 +49,7 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: prowlarr-config
+            claimName: seerr-config
         - name: data
           persistentVolumeClaim:
             claimName: media

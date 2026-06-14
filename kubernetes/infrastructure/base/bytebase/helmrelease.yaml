@@ -17,10 +17,10 @@ spec:
     - kind: Secret
       name: bytebase
       valuesKey: postgres_password
-      targetPath: bytebase.options.externalPg.pgPassword
+      targetPath: bytebase.option.externalPg.pgPassword
   values:
     bytebase:
-      options:
+      option:
         external-url: "https://bytebase.theblacklodge.dev"
         externalPg: # Bytebase will ignore the bytebase.option.externalPg.url if this is specified.
           pgHost: "app-cluster-rw.cloudnative-pg.svc.cluster.local"

@@ -7,4 +7,4 @@ resources:
   - ./ingressroute.yaml
   - ./deployment.yaml
   - ./service.yaml
-  #- ./secret.yaml
+  - ./ocirepository.yaml

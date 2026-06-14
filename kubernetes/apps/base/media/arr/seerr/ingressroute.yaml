@@ -1,13 +1,13 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: prowlarr
+  name: seerr
 spec:
   entryPoints:
     - web
   routes:
-    - match: Host(`prowlarr.theblacklodge.dev`)
+    - match: Host(`seerr.theblacklodge.dev`)
       kind: Rule
       services:
-        - name: prowlarr
-          port: 9696
+        - name: seerr
+          port: 5055
