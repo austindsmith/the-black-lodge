@@ -25,7 +25,6 @@ spec:
       existingConfigmap: "pgadmin4"
     env:
       email: austindsmith_accounts@proton.me
-      PGADMIN_SERVER_JSON_FILE: /pgadmin4/servers.json
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     extraSecretMounts:
       - name: pgpass-app

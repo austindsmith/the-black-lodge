@@ -34,7 +34,24 @@ spec:
       name: semaphore
       valuesKey: admin_password
       targetPath: admin.password
+    - kind: Secret
+      name: semaphore_postgres
+      valuesKey: admin_password
+      targetPath: database.auth.password
+
   values:
+    database:
+      type: postgres
+      name: semaphore
+      host: app-cluster-rw.cloudnative-pg.svc.cluster.local
+      port: 5432
+      usernameFromSecret: true
+      usernameKey: username
+      passwordKey: password
+      existingSecret: semaphore-postgres
+
+    postgresql:
+      enabled: false
     admin:
       create: true
     oidc:
