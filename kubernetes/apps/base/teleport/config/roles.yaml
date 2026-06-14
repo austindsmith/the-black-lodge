@@ -1,5 +1,5 @@
-apiVersion: resources.teleport.dev/v6
-kind: Role
+apiVersion: resources.teleport.dev/v5
+kind: TeleportRole
 metadata:
   name: db-access
 spec:
