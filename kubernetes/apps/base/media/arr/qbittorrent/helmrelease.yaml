@@ -27,7 +27,6 @@ spec:
                   cat > /config/qBittorrent/qBittorrent.conf <<EOF
                 [Preferences]
                 WebUI\Username=qbittorrent
-                WebUI\Password_PBKDF2="$(cat /creds/qbittorrent-password-hash)"
                 WebUI\AuthSubnetWhitelistEnabled=true
                 WebUI\AuthSubnetWhitelist=0.0.0.0/0
                 WebUI\LocalHostAuth=false
