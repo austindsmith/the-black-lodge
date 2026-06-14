@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prowlarr
+  name: fileflows
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: prowlarr
+      app: fileflows
   template:
     metadata:
       labels:
-        app: prowlarr
+        app: fileflows
     spec:
       containers:
-        - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:latest
+        - name: fileflows
+          image: lscr.io/linuxserver/fileflows:latest
           env:
             - name: PUID
               value: "1000"
@@ -40,7 +40,7 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: prowlarr-config
+            claimName: fileflows-config
         - name: data
           persistentVolumeClaim:
             claimName: media
