@@ -87,5 +87,11 @@ spec:
         existingClaim: qui-config
         globalMounts:
           - path: /config
+      media:
+        type: nfs
+        server: 192.168.1.131
+        path: /volume1/media
+        globalMounts:
+          - path: /data
       tmp:
         type: emptyDir
