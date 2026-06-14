@@ -17,6 +17,9 @@ spec:
             image:
               repository: ghcr.io/autobrr/qui
               tag: v1.20.0@sha256:946e96a158d847a01b5d0055aeadfc1998fff021974d0d5b1e61ccd7fb199450
+            envFrom:
+              - secretRef:
+                  name: qui-secret
             env:
               QUI__AUTH_DISABLED: true
               QUI__I_ACKNOWLEDGE_THIS_IS_A_BAD_IDEA: true
