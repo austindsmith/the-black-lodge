@@ -8,11 +8,11 @@ spec:
   postgresql:
     pg_hba:
       - host all postgres all scram-sha-256
-  bootstrap:
-    initdb:
-      owner: postgres
-      secret:
-        name: cloudnative-pg
+    bootstrap:
+      initdb:
+        owner: postgres
+    superuserSecret:
+      name: cloudnative-pg-admin
   storage:
     size: 5Gi
   monitoring:
@@ -24,29 +24,29 @@ spec:
     roles:
       - name: authentik
         passwordSecret:
-          name: authentik_db_secret
+          name: authentik-db-secret
         login: true
       - name: immich
         passwordSecret:
-          name: immich_db_secret
+          name: immich-db-secret
         login: true
       - name: n8n
         passwordSecret:
-          name: n8n_db_secret
+          name: n8n-db-secret
         login: true
       - name: nextcloud
         passwordSecret:
-          name: nextcloud_db_secret
+          name: nextcloud-db-secret
         login: true
       - name: mealie
         passwordSecret:
-          name: mealie_db_secret
+          name: mealie-db-secret
         login: true
       - name: paperless-ngx
         passwordSecret:
-          name: paperless_ngx_db_secret
+          name: paperless-ngx-db-secret
         login: true
       - name: semaphore
         passwordSecret:
-          name: semaphore_db_secret
+          name: semaphore-db-secret
         login: true

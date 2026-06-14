@@ -3,8 +3,8 @@ kind: Kustomization
 namespace: semaphore
 
 resources:
+  - ./namespace.yaml
   - ./helmrelease.yaml
   - ./helmrepository.yaml
   - ./ingressroute.yaml
-  - ./namespace.yaml
   - ./secret.yaml

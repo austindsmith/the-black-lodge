@@ -5,7 +5,7 @@ resources:
   - ./namespace.yaml
   - ./helmrepository.yaml
   - ./helmrelease.yaml
-  - ./app_cluster.yaml # Note, this may cause ordering issues
-  - ./data_cluster.yaml
-  - ./app_databases.yaml
+  - ./app-cluster.yaml # Note, this may cause ordering issues
+  - ./data-cluster.yaml
+  - ./app-databases.yaml
   - ./secret.yaml
