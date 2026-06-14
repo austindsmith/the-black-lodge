@@ -38,13 +38,23 @@ spec:
       name: authentik
       valuesKey: bootstrap_email
       targetPath: authentik.bootstrap_email
+    - kind: Secret
+      name: authentik
+      valuesKey: postgresql_password
+      targetPath: authentik.postgresql.password
   values:
     authentik:
+      postgresql:
+        host: app-cluster-rw.cloudnative-pg.svc.cluster.local
+        name: "authentik"
+        user: "authentik"
+        port: 5432
       error_reporting:
         enabled: true
       default_user_change_name: true
     postgresql:
-      enabled: true
+      enabled: false
+
     global:
       envFrom:
         - secretRef:
