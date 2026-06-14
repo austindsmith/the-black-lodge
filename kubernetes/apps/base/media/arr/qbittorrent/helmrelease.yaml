@@ -13,6 +13,25 @@ spec:
       qbittorrent:
         annotations:
           reloader.stakater.com/auto: "true"
+        initContainers:
+          seed-qbittorrent-config:
+            image:
+              repository: alpine
+            command:
+              - sh
+              - -c
+              - |
+                if [ ! -f /config/qBittorrent/qBittorrent.conf ]; then
+                  mkdir -p /config/qBittorrent
+                  cat > /config/qBittorrent/qBittorrent.conf <<EOF
+                [Preferences]
+                WebUI\Username=$(cat /creds/qbittorrent-username)
+                WebUI\Password_PBKDF2="$(cat /creds/qbittorrent-password-hash)"
+                WebUI\AuthSubnetWhitelistEnabled=true
+                WebUI\AuthSubnetWhitelist=0.0.0.0/0
+                WebUI\LocalHostAuth=false
+                EOF
+                fi
         containers:
           app:
             image:
@@ -134,6 +153,11 @@ spec:
         existingClaim: qbittorrent-config
         globalMounts:
           - path: /config
+      creds:
+        type: secret
+        name: qbittorrent-seed
+        globalMounts:
+          - path: /creds
       media:
         type: nfs
         server: 192.168.1.131

@@ -7,7 +7,14 @@ spec:
     db_labels:
       "*": "*"
     db_names:
-      - "*"
+      - authentik
+      - immich
+      - n8n
+      - nextcloud
+      - mealie
+      - paperless_ngx
+      - semaphore
+      - postgres
     db_users:
       - postgres
       - authentik
