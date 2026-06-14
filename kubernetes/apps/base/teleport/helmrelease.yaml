@@ -81,3 +81,13 @@ spec:
           ca_cert_file: /etc/teleport-db-ca/ca.crt
         static_labels:
           env: homelab
+
+    extraVolumes:
+      - name: db-ca
+        secret:
+          secretName: app-cluster-ca
+
+    extraVolumeMounts:
+      - name: db-ca
+        mountPath: /etc/teleport-db-ca
+        readOnly: true
