@@ -1,7 +1,4 @@
-[extend]
-useDefault = true
-
 [[allowlists]]
 paths = [
-  "default_values.yaml"
+  '''.*default_values\.yaml'''
 ]
