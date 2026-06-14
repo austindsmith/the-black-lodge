@@ -86,6 +86,6 @@ spec:
       config:
         existingClaim: autobrr-config
         globalMounts:
-          - path: /app/config
+          - path: /config
       tmp:
         type: emptyDir

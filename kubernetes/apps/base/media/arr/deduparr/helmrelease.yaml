@@ -88,6 +88,6 @@ spec:
       config:
         existingClaim: deduparr-config
         globalMounts:
-          - path: /app/config
+          - path: /config
       tmp:
         type: emptyDir
