@@ -7,7 +7,7 @@ spec:
   enableSuperuserAccess: true
   certificates:
     serverCASecret: cluster-ca-secret
-    clientCASecret: teleport-db-client-ca
+    serverTLSSecret: app-cluster-server-tls
     postgresql:
       pg_hba:
         - hostssl all postgres all cert
