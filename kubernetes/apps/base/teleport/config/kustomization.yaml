@@ -6,4 +6,4 @@ resources:
   - local_user.yaml
   - provisiontokens.yaml
   - roles.yaml
-  - databases.yaml
+  #- databases.yaml
