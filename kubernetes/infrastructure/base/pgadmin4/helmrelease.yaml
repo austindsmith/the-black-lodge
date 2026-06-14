@@ -28,11 +28,11 @@ spec:
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     extraSecretMounts:
       - name: pgpass-app
-        secret: app-cluster-superuser
+        secret: app-cluster-app
         mountPath: /pgpass-src/app
         readOnly: true
       - name: pgpass-data
-        secret: data-cluster-superuser
+        secret: data-cluster-app
         mountPath: /pgpass-src/data
         readOnly: true
     extraInitContainers: |
