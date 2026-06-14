@@ -1,22 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: prowlarr
+  name: sabnzbd
+  namespace: media
 spec:
   replicas: 1
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      app: prowlarr
+      app: sabnzbd
   template:
     metadata:
       labels:
-        app: prowlarr
+        app: sabnzbd
     spec:
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+      initContainers:
+        - name: seed-config
+          image: alpine
+          command:
+            - sh
+            - -c
+            - |
+              if [ ! -f /config/sabnzbd.ini ]; then
+                cp /seed/sabnzbd.ini /config/sabnzbd.ini
+              fi
+          volumeMounts:
+            - name: config
+              mountPath: /config
+            - name: seed
+              mountPath: /seed
       containers:
-        - name: prowlarr
-          image: lscr.io/linuxserver/prowlarr:latest
+        - name: sabnzbd
+          image: lscr.io/linuxserver/sabnzbd:latest
           env:
             - name: PUID
               value: "1000"
@@ -26,6 +47,9 @@ spec:
               value: "002"
             - name: TZ
               value: America/Denver
+          ports:
+            - name: http
+              containerPort: 8080
           volumeMounts:
             - name: config
               mountPath: /config
@@ -40,7 +64,10 @@ spec:
       volumes:
         - name: config
           persistentVolumeClaim:
-            claimName: prowlarr-config
+            claimName: sabnzbd-config
         - name: data
           persistentVolumeClaim:
             claimName: media
+        - name: seed
+          configMap:
+            name: sabnzbd-config-seed

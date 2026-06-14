@@ -4,15 +4,6 @@ namespace: media
 
 resources:
   - ./pvc-config.yaml
-  - ./ingressroute.yaml
-  - ./deployment.yaml
-  - ./service.yaml
-
-helmCharts:
-  - name: radarr
-    repo: https://charts.pree.dev
-    version: 1.14.0
-    releaseName: radarr
-    namespace: media
-    valuesFile: values.yaml
-    kubeVersion: v1.36.1
+  - ./ocirepository.yaml
+  - ./helmrelease.yaml
+  - ./secret.yaml

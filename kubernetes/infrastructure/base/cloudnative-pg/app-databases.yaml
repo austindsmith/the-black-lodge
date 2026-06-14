@@ -105,3 +105,87 @@ spec:
   cluster:
     name: app-cluster
   databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: radarr
+  namespace: cloudnative-pg
+spec:
+  name: radarr
+  owner: radarr
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: sonarr
+  namespace: cloudnative-pg
+spec:
+  name: sonarr
+  owner: sonarr
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: bazarr
+  namespace: cloudnative-pg
+spec:
+  name: bazarr
+  owner: bazarr
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: prowlarr
+  namespace: cloudnative-pg
+spec:
+  name: prowlarr
+  owner: prowlarr
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: autobrr
+  namespace: cloudnative-pg
+spec:
+  name: autobrr
+  owner: autobrr
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: deduparr
+  namespace: cloudnative-pg
+spec:
+  name: deduparr
+  owner: deduparr
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: qui
+  namespace: cloudnative-pg
+spec:
+  name: qui
+  owner: qui
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain

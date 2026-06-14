@@ -58,3 +58,31 @@ spec:
         passwordSecret:
           name: dbgate-db-secret
         login: true
+      - name: radarr
+        passwordSecret:
+          name: radarr-db-secret
+        login: true
+      - name: sonarr
+        passwordSecret:
+          name: sonarr-db-secret
+        login: true
+      - name: bazarr
+        passwordSecret:
+          name: bazarr-db-secret
+        login: true
+      - name: prowlarr
+        passwordSecret:
+          name: prowlarr-db-secret
+        login: true
+      - name: autobrr
+        passwordSecret:
+          name: autobrr-db-secret
+        login: true
+      - name: deduparr
+        passwordSecret:
+          name: deduparr-db-secret
+        login: true
+      - name: qui
+        passwordSecret:
+          name: qui-db-secret
+        login: true

@@ -1,6 +1,13 @@
 resources:
-  - sonarr
-  - radarr
+  - agregarr
+  - autobrr
+  - bazarr
+  - deduparr
+  - plex
   - prowlarr
-  #- overseerr
+  - qbittorrent
+  - qui
+  - radarr
+  - sabnzbd
   - seerr
+  - sonarr

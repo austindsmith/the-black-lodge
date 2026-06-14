@@ -1,13 +1,13 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: prowlarr
+  name: plex
 spec:
   entryPoints:
-    - web
+    - websecure
   routes:
-    - match: Host(`prowlarr.theblacklodge.dev`)
+    - match: Host(`plex.theblacklodge.dev`)
       kind: Rule
       services:
-        - name: prowlarr
-          port: 9696
+        - name: plex
+          port: 32400

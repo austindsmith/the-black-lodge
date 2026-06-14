@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: prowlarr-config
+  name: agregarr-config
   namespace: media
 spec:
   accessModes:
