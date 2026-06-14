@@ -24,9 +24,6 @@ spec:
         failurePolicy: Ignore
       validating:
         failurePolicy: Ignore
-      mutatingWebhookConfigurationAnnotations:
-        cert-manager.io/inject-ca-from: cnpg-system/cnpg-webhook-service-cert
-      validatingWebhookConfigurationAnnotations:
-        cert-manager.io/inject-ca-from: cnpg-system/cnpg-webhook-service-cert
     cert-manager:
       enabled: true
+      generateCertificates: true
