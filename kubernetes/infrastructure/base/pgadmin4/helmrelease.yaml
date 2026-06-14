@@ -27,7 +27,24 @@ spec:
       email: austindsmith_accounts@proton.me
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     extraSecretMounts:
-      - name: pgpass-file
+      - name: pgpass-src
         secret: pgadmin-pgpass
-        mountPath: /pgpass
+        mountPath: /pgpass-src
         readOnly: true
+    extraInitContainers: |
+      - name: stage-pgpass
+        image: dpage/pgadmin4:latest
+        command:
+          - /bin/sh
+          - -c
+          - >
+            mkdir -p /var/lib/pgadmin/storage/austindsmith_accounts_proton.me &&
+            cp /pgpass-src/pgpassfile /var/lib/pgadmin/storage/austindsmith_accounts_proton.me/file.pgpass &&
+            chmod 600 /var/lib/pgadmin/storage/austindsmith_accounts_proton.me/file.pgpass
+        securityContext:
+          runAsUser: 5050
+        volumeMounts:
+          - name: pgadmin-data
+            mountPath: /var/lib/pgadmin
+          - name: pgpass-src
+            mountPath: /pgpass-src
