@@ -30,7 +30,7 @@ spec:
         minReplicas: 1
         maxReplicas: 1
     app:
-      kind: "postgres@dbgate-plugin-postgres"
+      kind: "Postgres"
       service:
         name: "app-cluster-rw"
         namespace: "cloudnative-pg"
