@@ -17,6 +17,7 @@ spec:
           seed-qbittorrent-config:
             image:
               repository: alpine
+              tag: latest
             command:
               - sh
               - -c
