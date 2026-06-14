@@ -16,7 +16,7 @@ spec:
   valuesFrom:
     - kind: Secret
       name: pgadmin-pgpass
-      valuesKey: postgres_password
+      valuesKey: pgadmin_password
       targetPath: env.password
   values:
     serverDefinitions:
@@ -27,30 +27,7 @@ spec:
       email: austindsmith_accounts@proton.me
     envVarsFromSecrets: [pgadmin-oauth, pgadmin-env]
     extraSecretMounts:
-      - name: pgpass-app
-        secret: app-cluster-app
-        mountPath: /pgpass-src/app
+      - name: pgpass-file
+        secret: pgadmin-pgpass
+        mountPath: /pgpass
         readOnly: true
-      - name: pgpass-data
-        secret: data-cluster-app
-        mountPath: /pgpass-src/data
-        readOnly: true
-    extraInitContainers: |
-      - name: stage-pgpass
-        image: dpage/pgadmin4:latest
-        command:
-          - /bin/sh
-          - -c
-          - >
-            mkdir -p /var/lib/pgadmin/storage/austindsmith_accounts_proton.me &&
-            ( cat /pgpass-src/app/pgpass; echo; cat /pgpass-src/data/pgpass; echo ) > /var/lib/pgadmin/storage/austindsmith_accounts_proton.me/file.pgpass &&
-            chmod 600 /var/lib/pgadmin/storage/austindsmith_accounts_proton.me/file.pgpass
-        securityContext:
-          runAsUser: 5050
-        volumeMounts:
-          - name: pgadmin-data
-            mountPath: /var/lib/pgadmin
-          - name: pgpass-app
-            mountPath: /pgpass-src/app
-          - name: pgpass-data
-            mountPath: /pgpass-src/data

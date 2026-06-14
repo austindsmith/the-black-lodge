@@ -11,7 +11,7 @@ spec:
   bootstrap:
     initdb:
       owner: postgres
-      secret:
-        name: cloudnative-pg-admin
+  superuserSecret:
+    name: cloudnative-pg-admin
   storage:
     size: 5Gi
