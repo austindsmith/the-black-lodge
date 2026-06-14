@@ -1,0 +1,19 @@
+apiVersion: resources.teleport.dev/v3
+kind: Role
+metadata:
+  name: db-access
+spec:
+  allow:
+    db_labels:
+      "*": "*"
+    db_names:
+      - "*"
+    db_users:
+      - postgres
+      - authentik
+      - semaphore
+      - nextcloud
+      - n8n
+      - mealie
+      - paperless-ngx
+      - immich

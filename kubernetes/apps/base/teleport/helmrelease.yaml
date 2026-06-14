@@ -52,3 +52,29 @@ spec:
 
     podSecurityPolicy:
       enabled: false
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: teleport-db-agent
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: teleport-kube-agent
+      version: "18.8.3"
+      sourceRef:
+        kind: HelmRepository
+        name: teleport
+  values:
+    proxyAddr: teleport.theblacklodge.dev:443
+    joinParams:
+      method: kubernetes
+      tokenName: db-agent-token
+    roles: db
+    databases:
+      - name: app-cluster-rw
+        protocol: postgres
+        uri: app-cluster-rw.cloudnative-pg.svc.cluster.local:5432
+        static_labels:
+          env: homelab

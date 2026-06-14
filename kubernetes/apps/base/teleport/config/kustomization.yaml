@@ -4,4 +4,5 @@ namespace: teleport
 resources:
   - github.yaml
   - local_user.yaml
-  #- authentik.yaml
+  - provisiontokens.yaml
+  - roles.yaml

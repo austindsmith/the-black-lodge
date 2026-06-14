@@ -6,7 +6,9 @@ spec:
   roles:
     - access
     - editor
+    - db-access
   traits:
     logins:
       - root
+      - ansible
       - austin
