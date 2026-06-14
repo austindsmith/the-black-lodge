@@ -70,7 +70,7 @@ spec:
               VPN_PORT_FORWARDING_PROVIDER: protonvpn
             envFrom:
               - secretRef:
-                  name: qbittorrent-creds
+                  name: qbittorrent-secret
             securityContext:
               runAsUser: 0
               runAsGroup: 0
