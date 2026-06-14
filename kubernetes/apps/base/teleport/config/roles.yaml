@@ -1,4 +1,4 @@
-apiVersion: resources.teleport.dev/v3
+apiVersion: resources.teleport.dev/v6
 kind: Role
 metadata:
   name: db-access
