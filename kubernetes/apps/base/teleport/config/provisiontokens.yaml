@@ -1,4 +1,4 @@
-apiVersion: resources.teleport.dev/v2
+apiVersion: resources.teleport.dev/v1
 kind: ProvisionToken
 metadata:
   name: db-agent-token
