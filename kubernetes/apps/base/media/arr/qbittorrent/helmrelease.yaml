@@ -17,7 +17,7 @@ spec:
           seed-qbittorrent-config:
             image:
               repository: alpine
-              tag: latest
+              tag: 3.21
             command:
               - sh
               - -c
@@ -26,11 +26,16 @@ spec:
                   mkdir -p /config/qBittorrent
                   cat > /config/qBittorrent/qBittorrent.conf <<EOF
                 [Preferences]
-                WebUI\Username="qbittorrent"
+                WebUI\Username=qbittorrent
                 WebUI\Password_PBKDF2="$(cat /creds/qbittorrent-password-hash)"
                 WebUI\AuthSubnetWhitelistEnabled=true
                 WebUI\AuthSubnetWhitelist=0.0.0.0/0
                 WebUI\LocalHostAuth=false
+                WebUI\ReverseProxySupportEnabled=true
+                WebUI\TrustedReverseProxiesList=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+                WebUI\CSRFProtection=false
+                WebUI\HostHeaderValidation=false
+                WebUI\ServerDomains=*
                 EOF
                 fi
         containers:
