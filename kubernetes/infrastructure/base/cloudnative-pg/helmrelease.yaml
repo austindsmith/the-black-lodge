@@ -21,9 +21,8 @@ spec:
       create: true
     webhook:
       mutating:
-        failurePolicy: Ignore
+        failurePolicy: Fail
       validating:
-        failurePolicy: Ignore
-    cert-manager:
-      enabled: true
-      generateCertificates: true
+        failurePolicy: Fail
+    monitoring:
+      enablePodMonitor: true
