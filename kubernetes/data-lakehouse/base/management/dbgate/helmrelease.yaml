@@ -19,6 +19,9 @@ spec:
   #    valuesKey: postgres_password
   #    targetPath: bytebase.option.externalPg.pgPassword
   values:
+    fullnameOverride: "dbgate"
+    image:
+      pullPolicy: IfNotPresent
     gateway:
       className: ""
 
