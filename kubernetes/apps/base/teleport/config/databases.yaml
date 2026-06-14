@@ -1,0 +1,11 @@
+apiVersion: resources.teleport.dev/v3
+kind: TeleportDatabaseV3
+metadata:
+  name: app-cluster
+  labels:
+    env: staging
+spec:
+  protocol: postgres
+  uri: app-cluster-rw.cloudnative-pg.svc.cluster.local:5432
+  tls:
+    mode: insecure
