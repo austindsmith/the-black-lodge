@@ -337,6 +337,17 @@ entries:
       provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Teleport]]
       policy_engine_mode: any
 
+  - model: authentik_core.application
+    state: present
+    identifiers:
+      slug: autobrr
+    attrs:
+      name: Autobrr
+      slug: autobrr
+      provider: !Find [authentik_providers_oauth2.oauth2provider, [name, Provider for Autobrr]]
+      policy_engine_mode: any
+
+
   - model: authentik_sources_ldap.ldapsourcepropertymapping
     state: present
     identifiers:
