@@ -3,4 +3,4 @@ resources:
   - radarr
   - prowlarr
   #- overseerr
-  #- seerr
+  - seerr
