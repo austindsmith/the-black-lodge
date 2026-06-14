@@ -40,7 +40,7 @@ spec:
                 custom: true
                 spec:
                   httpGet:
-                    path: /api/v1/status
+                    path: /api/healthz/readiness
                     port: *port
                   periodSeconds: 10
                   timeoutSeconds: 5
@@ -57,6 +57,7 @@ spec:
             resources:
               requests:
                 cpu: 10m
+                memory: 256Mi
               limits:
                 memory: 2Gi
     defaultPodOptions:
