@@ -21,6 +21,7 @@ spec:
               - secretRef:
                   name: bazarr-secret
             env:
+              BAZARR__PORT: &port 80
               TZ: America/Denver
               LOG_LEVEL: "info"
               PORT: &port 80
