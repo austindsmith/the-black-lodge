@@ -4,9 +4,6 @@ metadata:
   name: cloudnative-pg-crds
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: cert-manager
-      namespace: cert-manager
   interval: 1h
   sourceRef:
     kind: GitRepository
