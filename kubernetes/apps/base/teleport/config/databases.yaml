@@ -1,5 +1,5 @@
 apiVersion: resources.teleport.dev/v3
-kind: TeleportDatabaseV3
+kind: db
 metadata:
   name: app-cluster
   labels:
