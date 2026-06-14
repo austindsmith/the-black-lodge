@@ -22,3 +22,8 @@ metadata:
   namespace: teleport
 spec:
   insecureSkipVerify: true
+  disableHTTP2: true
+  forwardingTimeouts:
+    dialTimeout: 30s
+    responseHeaderTimeout: 0s
+    readIdleTimeout: 0s
