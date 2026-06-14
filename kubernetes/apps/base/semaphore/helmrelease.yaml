@@ -34,11 +34,6 @@ spec:
       name: semaphore
       valuesKey: admin_password
       targetPath: admin.password
-    - kind: Secret
-      name: semaphore_postgres
-      valuesKey: admin_password
-      targetPath: database.auth.password
-
   values:
     database:
       type: postgres
