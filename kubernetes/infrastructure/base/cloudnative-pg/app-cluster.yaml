@@ -8,11 +8,11 @@ spec:
   postgresql:
     pg_hba:
       - host all postgres all scram-sha-256
-    bootstrap:
-      initdb:
-        owner: postgres
-    superuserSecret:
-      name: cloudnative-pg-admin
+  bootstrap:
+    initdb:
+      owner: postgres
+  superuserSecret:
+    name: cloudnative-pg-admin
   storage:
     size: 5Gi
   monitoring:
