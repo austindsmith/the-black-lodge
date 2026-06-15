@@ -99,7 +99,6 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0
             env:
-              DNS_KEEP_NAMESERVER: "on"
               WIREGUARD_MTU: "1320"
               VPN_PORT_FORWARDING: "on"
               PORT_FORWARD_ONLY: "off"
