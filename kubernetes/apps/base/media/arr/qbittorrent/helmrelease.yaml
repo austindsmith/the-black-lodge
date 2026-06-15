@@ -96,6 +96,7 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0
             env:
+              WIREGUARD_MTU: "1320"
               VPN_PORT_FORWARDING: "on"
               PORT_FORWARD_ONLY: "on"
               VPN_TYPE: wireguard
