@@ -101,7 +101,7 @@ spec:
             env:
               WIREGUARD_MTU: "1320"
               VPN_PORT_FORWARDING: "on"
-              PORT_FORWARD_ONLY: "on"
+              PORT_FORWARD_ONLY: "off"
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
               VPN_SERVICE_PROVIDER: protonvpn
