@@ -176,21 +176,3 @@ spec:
           - path: /data
       tmp:
         type: emptyDir
-        Proxy\Profiles\RSS=true
-
-        [Preferences]
-        General\Locale=en
-        General\StatusbarExternalIPDisplayed=true
-        MailNotification\req_auth=true
-
-        WebUI\AuthSubnetWhitelist=0.0.0.0/0
-        WebUI\AuthSubnetWhitelistEnabled=true
-        WebUI\CSRFProtection=false
-        WebUI\HostHeaderValidation=false
-        WebUI\LocalHostAuth=false
-        WebUI\Password_PBKDF2="@ByteArray(3LwJ/zTYGkiTGVrCXLwBgw==:ibKlPiWFPIVZbVX6GpYJWmibQ0ZPnupuN/CNB8vB3EpXXuiUMf2GfuId3SlmvII/cXJfo00oXyBOTatQ00Ntag==)"
-        WebUI\Port=80
-        WebUI\ReverseProxySupportEnabled=true
-        WebUI\ServerDomains=*
-        WebUI\TrustedReverseProxiesList=10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16
-        WebUI\Username=qbittorrent
