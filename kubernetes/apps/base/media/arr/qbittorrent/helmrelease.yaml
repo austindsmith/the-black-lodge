@@ -99,6 +99,7 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0
             env:
+              DOT: "off"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16
               WIREGUARD_MTU: "1320"
               VPN_PORT_FORWARDING: "on"
