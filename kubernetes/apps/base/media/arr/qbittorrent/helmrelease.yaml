@@ -55,11 +55,22 @@ spec:
             env:
               TZ: America/Denver
               QBT_WEBUI_PORT: &port 8080
+              defaultPodOptions:
             securityContext:
+              runAsNonRoot: true
               runAsUser: 1000
               runAsGroup: 1000
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
+              fsGroup: 1000
+              fsGroupChangePolicy: OnRootMismatch
+
+
+
+
+              persistence:
+                tmp:
+                  type: emptyDir
+                  globalMounts:
+                    - path: /tmp
               capabilities:
                 drop: ["ALL"]
             probes:
