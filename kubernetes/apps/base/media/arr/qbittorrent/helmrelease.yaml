@@ -56,8 +56,8 @@ spec:
               TZ: America/Denver
               QBT_WEBUI_PORT: &port 8080
             securityContext:
-              runAsUser: 568
-              runAsGroup: 568
+              runAsUser: 1000
+              runAsGroup: 1000
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
