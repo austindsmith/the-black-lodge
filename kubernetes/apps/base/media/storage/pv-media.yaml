@@ -12,7 +12,7 @@ spec:
   storageClassName: ""
   mountOptions:
     - nfsvers=4.1
-    - harda
+    - hard
     - noatime
     - nconnect=4
   nfs:
