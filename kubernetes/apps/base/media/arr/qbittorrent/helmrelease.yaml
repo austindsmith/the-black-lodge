@@ -100,6 +100,7 @@ spec:
               tag: v3.40.0
             env:
               DOT: "off"
+              DNS_ADDRESS: "1.1.1.1"
               FIREWALL_OUTBOUND_SUBNETS: 10.42.0.0/16,10.43.0.0/16
               WIREGUARD_MTU: "1320"
               VPN_PORT_FORWARDING: "on"
@@ -109,6 +110,7 @@ spec:
               VPN_SERVICE_PROVIDER: protonvpn
               SERVER_COUNTRIES: United States
               FREE_ONLY: "off"
+              HTTP_CONTROL_SERVER: "on"
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
@@ -117,7 +119,8 @@ spec:
               runAsGroup: 0
               runAsNonRoot: false
               capabilities:
-                add: ["NET_ADMIN"]
+                add:
+                  - "NET_ADMIN"
             resources:
               requests:
                 cpu: 10m
