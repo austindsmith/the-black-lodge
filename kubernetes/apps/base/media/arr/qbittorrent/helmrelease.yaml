@@ -87,16 +87,12 @@ spec:
               tag: v3.40.0
             env:
               TZ: America/Denver
-              FIREWALL_OUTBOUND_SUBNETS: 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+              VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
               VPN_SERVICE_PROVIDER: protonvpn
-              VPN_TYPE: wireguard
               SERVER_COUNTRIES: United States
               FREE_ONLY: "off"
               HTTP_CONTROL_SERVER_ADDRESS: ":8000"
-              FIREWALL_INPUT_PORTS: *port
-              VPN_PORT_FORWARDING: "on"
-              VPN_PORT_FORWARDING_PROVIDER: protonvpn
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
