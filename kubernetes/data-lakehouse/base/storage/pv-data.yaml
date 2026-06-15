@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: media-nfs
-  namespace: media
+  name: data-nfs
+  namespace: data
 spec:
   capacity:
     storage: 10Ti
@@ -12,9 +12,9 @@ spec:
   storageClassName: ""
   mountOptions:
     - nfsvers=4.1
-    - harda
+    - hard
     - noatime
     - nconnect=4
   nfs:
     server: 192.168.1.131
-    path: /volume1/media
+    path: /volume1/data

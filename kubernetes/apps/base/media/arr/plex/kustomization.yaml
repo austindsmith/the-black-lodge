@@ -7,3 +7,4 @@ resources:
   - helmrepository.yaml
   - pvc-config.yaml
   - ingressroute.yaml
+  - secret.yaml

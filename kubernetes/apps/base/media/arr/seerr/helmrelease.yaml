@@ -79,5 +79,9 @@ spec:
         existingClaim: seerr-config
         globalMounts:
           - path: /app/config
+      media:
+        existingClaim: media
+        globalMounts:
+          - path: /media
       tmp:
         type: emptyDir

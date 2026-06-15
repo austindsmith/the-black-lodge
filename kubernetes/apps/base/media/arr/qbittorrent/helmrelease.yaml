@@ -56,8 +56,8 @@ spec:
               TZ: America/Denver
               QBT_WEBUI_PORT: &port 8080
             securityContext:
-              runAsUser: 568
-              runAsGroup: 568
+              runAsUser: 1000
+              runAsGroup: 1000
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
@@ -69,16 +69,16 @@ spec:
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 5
-              #readiness:
-              #  enabled: true
-              #  custom: true
-              #  spec:
-              #    httpGet:
-              #      path: /api/v2/app/version
-              #      port: *port
-              #    periodSeconds: 10
-              #    timeoutSeconds: 5
-              #    failureThreshold: 5
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /api/v2/app/version
+                    port: *port
+                  periodSeconds: 10
+                  timeoutSeconds: 5
+                  failureThreshold: 5
               startup:
                 enabled: true
                 spec:
@@ -186,10 +186,8 @@ spec:
               - path: /tmp/gluetun
                 readOnly: true
       media:
-        type: nfs
-        server: 192.168.1.131
-        path: /volume1/media
+        existingClaim: media
         globalMounts:
-          - path: /data
+          - path: /media
       tmp:
         type: emptyDir
