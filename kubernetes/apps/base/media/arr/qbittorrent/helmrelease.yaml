@@ -96,6 +96,8 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0
             env:
+              VPN_PORT_FORWARDING: "on"
+              PORT_FORWARD_ONLY: "on"
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
               VPN_SERVICE_PROVIDER: protonvpn
