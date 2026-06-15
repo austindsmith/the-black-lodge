@@ -3,12 +3,18 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: qbittorrent
+  namespace: media
 spec:
   chartRef:
     kind: OCIRepository
     name: qbittorrent
   interval: 1h
   values:
+    defaultPodOptions:
+      securityContext:
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+
     controllers:
       qbittorrent:
         annotations:
@@ -29,6 +35,7 @@ spec:
                 WebUI\Username=qbittorrent
                 WebUI\APIKey="$(cat /creds/api_key)"
                 WebUI\Password_PBKDF2="$(cat /creds/qbittorrent_password_hash)"
+                WebUI\Port=8080
                 WebUI\AuthSubnetWhitelistEnabled=true
                 WebUI\AuthSubnetWhitelist=0.0.0.0/0
                 WebUI\LocalHostAuth=false
@@ -46,7 +53,14 @@ spec:
               tag: 5.2.1@sha256:844555b6c1ed43afcb0001100973676fc6d825d5142c65f612a25fd9eba0bb0a
             env:
               TZ: America/Denver
-              QBT_WEBUI_PORT: &port 80
+              QBT_WEBUI_PORT: &port 8080
+            securityContext:
+              runAsUser: 1000
+              runAsGroup: 1000
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop: ["ALL"]
             probes:
               liveness:
                 enabled: true
@@ -69,11 +83,6 @@ spec:
                 spec:
                   failureThreshold: 30
                   periodSeconds: 10
-            securityContext:
-              allowPrivilegeEscalation: false
-              readOnlyRootFilesystem: true
-              capabilities:
-                drop: ["ALL"]
             resources:
               requests:
                 cpu: 10m
@@ -86,13 +95,11 @@ spec:
               repository: ghcr.io/qdm12/gluetun
               tag: v3.40.0
             env:
-              TZ: America/Denver
               VPN_TYPE: wireguard
               VPN_INTERFACE: wg0
               VPN_SERVICE_PROVIDER: protonvpn
               SERVER_COUNTRIES: United States
               FREE_ONLY: "off"
-              HTTP_CONTROL_SERVER_ADDRESS: ":8000"
             envFrom:
               - secretRef:
                   name: qbittorrent-secret
@@ -131,13 +138,6 @@ spec:
               limits:
                 memory: 32Mi
 
-    defaultPodOptions:
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 1000
-        fsGroup: 1000
-        fsGroupChangePolicy: OnRootMismatch
-
     service:
       app:
         ports:
@@ -158,13 +158,29 @@ spec:
     persistence:
       config:
         existingClaim: qbittorrent-config
-        globalMounts:
-          - path: /config
+        advancedMounts:
+          qbittorrent:
+            app:
+              - path: /config
+            seed-qbittorrent-config:
+              - path: /config
       creds:
         type: secret
         name: qbittorrent-seed
-        globalMounts:
-          - path: /creds
+        advancedMounts:
+          qbittorrent:
+            seed-qbittorrent-config:
+              - path: /creds
+                readOnly: true
+      gluetun-data:
+        type: emptyDir
+        advancedMounts:
+          qbittorrent:
+            gluetun:
+              - path: /tmp/gluetun
+            port-sync:
+              - path: /tmp/gluetun
+                readOnly: true
       media:
         type: nfs
         server: 192.168.1.131
