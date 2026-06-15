@@ -39,8 +39,9 @@ spec:
                 WebUI\AuthSubnetWhitelistEnabled=true
                 WebUI\AuthSubnetWhitelist=0.0.0.0/0
                 WebUI\LocalHostAuth=false
-                WebUI\ReverseProxySupportEnabled=true
-                WebUI\TrustedReverseProxiesList=10.0.0.0/8,172.16.0.0/12,192.168.0.0/16
+                WebUI\ReverseProxySupportEnabled=false
+                WebUI\MaxAuthenticationFailCount=0
+                WebUI\BanDuration=0
                 WebUI\CSRFProtection=false
                 WebUI\HostHeaderValidation=false
                 WebUI\ServerDomains=*
@@ -55,8 +56,8 @@ spec:
               TZ: America/Denver
               QBT_WEBUI_PORT: &port 8080
             securityContext:
-              runAsUser: 1000
-              runAsGroup: 1000
+              runAsUser: 568
+              runAsGroup: 568
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true
               capabilities:
@@ -68,16 +69,16 @@ spec:
                   periodSeconds: 30
                   timeoutSeconds: 5
                   failureThreshold: 5
-              readiness:
-                enabled: true
-                custom: true
-                spec:
-                  httpGet:
-                    path: /api/v2/app/version
-                    port: *port
-                  periodSeconds: 10
-                  timeoutSeconds: 5
-                  failureThreshold: 5
+              #readiness:
+              #  enabled: true
+              #  custom: true
+              #  spec:
+              #    httpGet:
+              #      path: /api/v2/app/version
+              #      port: *port
+              #    periodSeconds: 10
+              #    timeoutSeconds: 5
+              #    failureThreshold: 5
               startup:
                 enabled: true
                 spec:
@@ -139,6 +140,7 @@ spec:
                 memory: 32Mi
 
     service:
+      forceRename: app
       app:
         ports:
           http:
