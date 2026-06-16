@@ -30,10 +30,10 @@ spec:
               name: qbittorrent-config
               key: qBittorrent.conf
 
-  persistence:
-    media:
-      existingClaim: media
-      globalMounts:
-        - path: /media
-    tmp:
-      type: emptyDir
+    persistence:
+      media:
+        existingClaim: media
+        globalMounts:
+          - path: /media
+      tmp:
+        type: emptyDir
