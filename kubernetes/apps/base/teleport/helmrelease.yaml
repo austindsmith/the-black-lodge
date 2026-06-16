@@ -77,6 +77,15 @@ spec:
         protocol: postgres
         uri: app-cluster-rw.cloudnative-pg.svc.cluster.local:5432
         tls:
-          mode: insecure
+          mode: verify-ca
+          ca_cert_file: "/etc/teleport-tls-db/db-ca/ca.crt"
         static_labels:
           env: homelab
+    extraVolumes:
+      - name: db-ca
+        secret:
+          secretName: app-cluster-server-ca
+    extraVolumeMounts:
+      - name: db-ca
+        mountPath: /etc/teleport-tls-db/db-ca
+        readOnly: true
