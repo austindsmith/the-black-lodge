@@ -29,9 +29,11 @@ spec:
               type: secret
               name: qbittorrent-config
               key: qBittorrent.conf
-  media:
-    existingClaim: media
-    globalMounts:
-      - path: /media
-  tmp:
-    type: emptyDir
+
+  persistence:
+    media:
+      existingClaim: media
+      globalMounts:
+        - path: /media
+    tmp:
+      type: emptyDir
