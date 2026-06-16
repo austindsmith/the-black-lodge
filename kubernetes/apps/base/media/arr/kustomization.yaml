@@ -5,7 +5,7 @@ resources:
   - deduparr
   - plex
   - prowlarr
-  - qbittorrent
+  - qbittorrent-vpn
   - qui
   - radarr
   - sabnzbd

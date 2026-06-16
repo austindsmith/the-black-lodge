@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbittorrent-vpn
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: qbittorrent-vpn
+      version: 0.7.4
+      sourceRef:
+        kind: HelmRepository
+        name: qbittorrent-vpn
+  values:
+    qbittorrent:
+      envFrom:
+        - secretRef:
+            name: qbittorrent-env
+    gluetun:
+      envFrom:
+        - secretRef:
+            name: gluetun-env
+    bootstrap:
+      qbittorrent:
+        config:
+          bootstrap:
+            enabled: true
+            existingConfig:
+              type: secret
+              name: qbittorrent-config
+              key: qBittorrent.conf
+  media:
+    existingClaim: media
+    globalMounts:
+      - path: /media
+  tmp:
+    type: emptyDir
