@@ -7,8 +7,16 @@ spec:
     - access
     - editor
     - db-access
+  db_users:
+    - "*"
+  db_names:
+    - "*"
   traits:
     logins:
       - root
       - ansible
       - austin
+  allow:
+    impersonate:
+      users: ["Db"]
+      roles: ["Db"]

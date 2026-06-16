@@ -6,6 +6,7 @@ spec:
   instances: 3
   enableSuperuserAccess: true
   certificates:
+    serverTLSSecret: app-cluster-server-tls
     clientCASecret: teleport-db-client-ca
   postgresql:
     pg_hba:
