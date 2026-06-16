@@ -16,24 +16,21 @@ spec:
       envFrom:
         - secretRef:
             name: qbittorrent-env
+      config:
+        bootstrap:
+          enabled: true
+          existingConfig:
+            type: secret
+            name: qbittorrent-config
+            key: qBittorrent.conf
+      persistence:
+        media:
+          existingClaim: media
+          globalMounts:
+            - path: /media
+        tmp:
+          type: emptyDir
     gluetun:
       envFrom:
         - secretRef:
             name: gluetun-env
-    bootstrap:
-      qbittorrent:
-        config:
-          bootstrap:
-            enabled: true
-            existingConfig:
-              type: secret
-              name: qbittorrent-config
-              key: qBittorrent.conf
-
-    persistence:
-      media:
-        existingClaim: media
-        globalMounts:
-          - path: /media
-      tmp:
-        type: emptyDir
