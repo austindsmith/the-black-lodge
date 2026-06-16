@@ -9,5 +9,5 @@ spec:
     - match: Host(`qbittorrent.theblacklodge.dev`)
       kind: Rule
       services:
-        - name: semaphore
-          port: 3000
+        - name: qbittorrent-vpn
+          port: 8080
