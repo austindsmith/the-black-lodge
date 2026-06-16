@@ -4,6 +4,9 @@ metadata:
   name: db-access
 spec:
   allow:
+    impersonate:
+      users: ["Db"]
+      roles: ["Db"]
     db_labels:
       "*": "*"
     db_names:
