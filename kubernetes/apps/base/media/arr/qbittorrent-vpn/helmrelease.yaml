@@ -26,7 +26,7 @@ spec:
       persistence:
         data:
           enabled: true
-          existingClaim: media-nfs
+          existingClaim: media
           mountPath: /media
       volumeMounts:
         - name: tmp
