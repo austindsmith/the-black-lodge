@@ -24,13 +24,19 @@ spec:
             name: qbittorrent-config
             key: qBittorrent.conf
       persistence:
-        media:
+        data:
+          enabled: true
           existingClaim: media
-          globalMounts:
-            - path: /media
-        tmp:
-          type: emptyDir
+          mountPath: /media
+      volumeMounts:
+        - name: tmp
+          mountPath: /tmp
+
     gluetun:
       envFrom:
         - secretRef:
             name: gluetun-env
+
+    volumes:
+      - name: tmp
+        emptyDir: {}
