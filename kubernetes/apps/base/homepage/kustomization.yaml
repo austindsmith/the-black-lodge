@@ -8,7 +8,7 @@ resources:
   - helmrepository.yaml
   - ingressroute.yaml
   - configmap.yaml
-  - cluster.yaml
+  #- cluster.yaml
   - deployment.yaml
   - service.yaml
   - serviceaccount.yaml
