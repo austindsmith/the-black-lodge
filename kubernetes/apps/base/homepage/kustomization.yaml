@@ -4,12 +4,7 @@ namespace: homepage
 
 resources:
   - namespace.yaml
-  - helmrelease.yaml
   - helmrepository.yaml
+  - helmrelease.yaml
   - ingressroute.yaml
   - configmap.yaml
-  #- cluster.yaml
-  #- deployment.yaml
-  - service.yaml
-  - serviceaccount.yaml
-  - secret.yaml

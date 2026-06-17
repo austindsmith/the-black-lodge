@@ -6,3 +6,4 @@ resources:
   - longhorn
   - proxmox
   - cloudnative-pg
+  - teleport

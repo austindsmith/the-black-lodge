@@ -3,8 +3,6 @@ kind: HelmRelease
 metadata:
   name: homepage
 spec:
-  install:
-    createNamespace: true
   interval: 1h
   chart:
     spec:
@@ -16,7 +14,7 @@ spec:
   values:
     config:
       useExistingConfigMap: homepage
-    enableRbac: false
+    enableRbac: true
     env:
       - name: HOMEPAGE_ALLOWED_HOSTS
         value: homepage.theblacklodge.dev

@@ -15,4 +15,4 @@ spec:
     provider: sops
     secretRef:
       name: sops-age
-  path: ./kubernetes/apps/base/teleport/config
+  path: ./kubernetes/infrastructure/base/teleport/config

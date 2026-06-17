@@ -12,8 +12,3 @@ spec:
         - kind: Service
           name: homepage
           port: 3000
-          sticky:
-            cookie:
-              httpOnly: true
-              secure: true
-              sameSite: none

@@ -3,7 +3,6 @@ resources:
   - headlamp
   - media
   - semaphore
-  - teleport
   - rustdesk
   - kasm-firefox
   - homepage
