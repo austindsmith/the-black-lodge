@@ -9,7 +9,7 @@ resources:
   - ingressroute.yaml
   - configmap.yaml
   #- cluster.yaml
-  - deployment.yaml
+  #- deployment.yaml
   - service.yaml
   - serviceaccount.yaml
   - secret.yaml
