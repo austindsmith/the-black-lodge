@@ -7,7 +7,11 @@ metadata:
 data:
   kubernetes.yaml: |
     mode: cluster
-  settings.yaml: ""
+  settings.yaml: |
+    title: The Black Lodge
+    background: https://github.com/austindsmith/the-black-lodge/tree/main/kubernetes/apps/base/homepage/wallpaper.jpg
+    cardBlur: md
+    theme: dark
   #settings.yaml: |
   #  providers:
   #    longhorn:
