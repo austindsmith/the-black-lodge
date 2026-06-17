@@ -9,5 +9,5 @@ spec:
     kind: GitRepository
     name: flux-system
   path: ./kubernetes/infrastructure/base/cloudnative-pg/crds
-  prune: false
+  prune: true
   wait: true
