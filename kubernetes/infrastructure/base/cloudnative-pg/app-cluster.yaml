@@ -6,14 +6,11 @@ spec:
   instances: 3
   enableSuperuserAccess: true
   certificates:
-    serverTLSSecret: app-cluster-server-tls
-    serverCASecret: app-cluster-server-ca
-    clientCASecret: teleport-db-client-ca
+    clientCASecret: pg-client-ca-bundle
+    replicationTLSSecret: pg-replication-cert
   postgresql:
     pg_hba:
-      # Teleport DB agent: SSL + client cert from Teleport's DB CA
       - hostssl all all all cert
-      # Apps within cluster: non-SSL + password (sslmode=disable required)
       - host all all all scram-sha-256
   bootstrap:
     initdb:

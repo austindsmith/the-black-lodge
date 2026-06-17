@@ -6,5 +6,3 @@ resources:
   - longhorn
   - proxmox
   - cloudnative-pg
-  - bytebase
-  - pgadmin4

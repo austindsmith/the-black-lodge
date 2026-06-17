@@ -5,8 +5,12 @@ metadata:
 spec:
   instances: 3
   enableSuperuserAccess: true
+  certificates:
+    clientCASecret: pg-client-ca-bundle
+    replicationTLSSecret: pg-replication-cert
   postgresql:
     pg_hba:
+      - hostssl all all all cert
       - host all all all scram-sha-256
   bootstrap:
     initdb:
