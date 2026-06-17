@@ -16,21 +16,27 @@ spec:
     spec:
       containers:
         - name: fileflows
-          image: lscr.io/linuxserver/fileflows:latest
+          image: revenz/fileflows
+          restart: unless-stopped
+          envFrom:
+            - secretRef:
+                name: fileflows-oidc
           env:
             - name: PUID
               value: "1000"
             - name: PGID
               value: "1000"
-            - name: UMASK
-              value: "002"
             - name: TZ
               value: America/Denver
           volumeMounts:
-            - name: config
-              mountPath: /config
+            - name: temp
+              mountPath: /temp
             - name: data
-              mountPath: /data
+              mountPath: /app/Data
+            - name: logs
+              mountPath: /app/Logs
+            - name: common
+              mountPath: /app/common
           resources:
             requests:
               cpu: 100m
@@ -38,9 +44,15 @@ spec:
             limits:
               memory: 1Gi
       volumes:
-        - name: config
+        - name: temp
           persistentVolumeClaim:
-            claimName: fileflows-config
+            claimName: fileflows-temp
         - name: data
           persistentVolumeClaim:
             claimName: media
+        - name: logs
+          persistentVolumeClaim:
+            claimName: fileflows-logs
+        - name: common
+          persistentVolumeClaim:
+            claimName: fileflows-common
