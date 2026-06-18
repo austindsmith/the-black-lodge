@@ -12,7 +12,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: synology-csi
-        namespace: flux-system
+        namespace: synology-csi
   values:
     clientInfoSecret:
       create: false
