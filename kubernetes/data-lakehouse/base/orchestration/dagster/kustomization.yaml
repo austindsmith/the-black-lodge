@@ -3,22 +3,7 @@ kind: Kustomization
 namespace: dagster
 
 resources:
-  - ./ingressroute.yaml
-  - ./namespace.yaml
-
-helmCharts:
-  - name: dagster
-    repo: https://dagster-io.github.io/helm
-    version: 1.13.6
-    releaseName: dagster
-    namespace: dagster
-    valuesFile: values.yaml
-    kubeVersion: v1.36.1
-
-patches:
-  - target:
-      kind: (ServiceAccount|Role|RoleBinding|ConfigMap|Secret|Service|Deployment|DaemonSet|StatefulSet|Job|PersistentVolumeClaim|PodDisruptionBudget|NetworkPolicy|HorizontalPodAutoscaler)
-    patch: |
-      - op: add
-        path: /metadata/namespace
-        value: dagster
+  - helmrelease.yaml
+  - helmrepository.yaml
+  - ingressroute.yaml
+  - namespace.yaml
