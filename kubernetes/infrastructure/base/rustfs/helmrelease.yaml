@@ -13,11 +13,11 @@ spec:
         name: rustfs
   valuesFrom:
     - kind: Secret
-      name: rustfs-auth
+      name: rustfs-credentials
       valuesKey: access_key
       targetPath: secret.rustfs.access_key
     - kind: Secret
-      name: rustfs-auth
+      name: rustfs-credentials
       valuesKey: secret_key
       targetPath: secret.rustfs.access_key
   values:
