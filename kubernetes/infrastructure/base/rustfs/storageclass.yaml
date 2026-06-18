@@ -5,7 +5,7 @@ metadata:
 provisioner: csi.san.synology.com
 parameters:
   dsm: "192.168.1.131"
-  location: "/volume1/data"
+  location: "/volume1"
   fsType: "ext4"
   protocol: "iscsi"
 reclaimPolicy: Retain
