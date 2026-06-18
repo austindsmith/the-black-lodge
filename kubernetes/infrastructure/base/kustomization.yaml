@@ -4,6 +4,7 @@ resources:
   - traefik
   - longhorn
   - synology-csi
+  - rustfs
   - proxmox
   - cloudnative-pg
   - teleport
