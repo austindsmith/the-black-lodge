@@ -21,6 +21,11 @@ spec:
       valuesKey: secret_key
       targetPath: secret.rustfs.secret_key
   values:
+    mode:
+      standalone:
+        enabled: true
+      distributed:
+        enabled: false
     storageclass:
       name: synology-iscsi
       dataStorageSize: 50Gi
