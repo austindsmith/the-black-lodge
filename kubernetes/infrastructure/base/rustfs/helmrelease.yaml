@@ -11,8 +11,16 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: rustfs
+  valuesFrom:
+    - kind: Secret
+      name: rustfs-auth
+      valuesKey: access_key
+      targetPath: secret.rustfs.access_key
+    - kind: Secret
+      name: rustfs-auth
+      valuesKey: secret_key
+      targetPath: secret.rustfs.access_key
   values:
-    existingSecret: rustfs-credentials
     storageclass:
       name: synology-csi-iscsi-retain
       dataStorageSize: 500Gi
