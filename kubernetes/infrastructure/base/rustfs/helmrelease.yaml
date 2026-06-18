@@ -12,7 +12,7 @@ spec:
         kind: HelmRepository
         name: rustfs
   values:
-    existingSecret:
+    existingSecret: rustfs-credentials
     storageclass:
       name: synology-csi-iscsi-retain
       dataStorageSize: 500Gi
