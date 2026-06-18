@@ -1,6 +1,0 @@
-persistence:
-  data:
-    enabled: true
-    storageClass: synology-iscsi
-    accessMode: ReadWriteOnce
-    size: 500Gi
