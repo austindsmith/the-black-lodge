@@ -22,6 +22,6 @@ spec:
       targetPath: secret.rustfs.secret_key
   values:
     storageclass:
-      name: synology-csi-iscsi-retain
-      dataStorageSize: 500Gi
-      logStorageSize: 10Gi
+      name: synology-iscsi
+      dataStorageSize: 50Gi
+      logStorageSize: 1Gi
