@@ -1,9 +1,9 @@
 resources:
-  #- metallb
   - cert-manager
   - cloudflare-tunnel
   - traefik
   - longhorn
+  - synology-csi
   - proxmox
   - cloudnative-pg
   - teleport
