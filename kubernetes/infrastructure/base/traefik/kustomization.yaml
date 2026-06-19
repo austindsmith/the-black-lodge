@@ -3,11 +3,9 @@ kind: Kustomization
 namespace: traefik
 
 resources:
-  - ./namespace.yaml
-  - ./helmrepository.yaml
-  - ./helmrelease.yaml
-  - ./dashboard-ingress.yaml
-  - ./cloudflare-ingress.yaml
-  - ./private-ingress.yaml
-  - ./rustfs-services.yaml
-  - ./rustfs-ingress.yaml
+  - namespace.yaml
+  - helmrepository.yaml
+  - helmrelease.yaml
+  - dashboard-ingress.yaml
+  - cloudflare-ingress.yaml
+  - private-ingress.yaml
