@@ -23,7 +23,7 @@ spec:
         enabled: false
     volumeClaimTemplate:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: longhorn
+      storageClassName: longhorn-single-replica
       resources:
         requests:
           storage: 30Gi
