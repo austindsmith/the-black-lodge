@@ -3,3 +3,4 @@ resources:
   - management
   - storage
   - orchestration
+  - databases
