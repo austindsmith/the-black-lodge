@@ -18,3 +18,16 @@ spec:
     env:
       - name: HOMEPAGE_ALLOWED_HOSTS
         value: homepage.theblacklodge.dev
+
+    volumes:
+      - name: homepage-config
+        secret:
+          secretName: homepage-config
+
+    volumeMounts:
+      - name: homepage-config
+        mountPath: /app/config/proxmox.yaml
+        subPath: proxmox.yaml
+      - name: homepage-config
+        mountPath: /app/config/services.yaml
+        subPath: services.yaml
