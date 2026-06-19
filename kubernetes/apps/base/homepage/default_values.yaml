@@ -1,169 +1,138 @@
+replicaCount: 1
+
 image:
-  repository: ghcr.io/gethomepage/homepage
-  # tag: v0.6.0
+  registry: ghcr.io
+  repository: gethomepage/homepage
+  pullPolicy: IfNotPresent
+  # -- Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+  sha: ""
 
-# Enable RBAC. RBAC is necessary to use Kubernetes integration
-enableRbac: false
+# -- Priority class to be assigned to the Pod(s).
+priorityClassName: ""
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
 
-extraClusterRoles:
-# - apiGroups:
-#   - some-group
-#   resources:
-#   - some-resource
-#   verbs:
-#   - get
+# -- Environment variables to add to the kea-exporter pods
+extraEnv: []
+# -- Environment variables from secrets or configmaps to add to the kea-exporter pods
+extraEnvFrom: []
+
+config:
+  # -- List of allowed hosts (sometimes with the port) that can host your homepage install
+  # -- see https://gethomepage.dev/installation/#homepage_allowed_hosts
+  allowedHosts: []
 
 serviceAccount:
-  # Specify a different service account name. When blank it will default to the release
-  # name if *create* is enabled, otherwise it will refer to the default service account.
+  # -- Specifies whether a service account should be created
+  create: true
+  # -- Automatically mount a ServiceAccount's API credentials?
+  automount: true
+  # -- Annotations to add to the service account
+  annotations: {}
+  # -- The name of the service account to use.
+  # -- If not set and create is true, a name is generated using the fullname template
   name: ""
-  # Create service account. Needed when RBAC is enabled.
-  create: false
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext:
+  fsGroup: 1000
+  fsGroupChangePolicy: OnRootMismatch
+
+securityContext:
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+  readOnlyRootFilesystem: false
+  runAsNonRoot: true
+  privileged: false
+  runAsUser: 1000
+  runAsGroup: 1000
+  seccompProfile:
+    type: RuntimeDefault
 
 service:
-  main:
-    ports:
-      http:
-        port: 3000
+  type: ClusterIP
+  port: 80
 
-controller:
-  strategy: RollingUpdate
-  rollingUpdate:
-    maxSurge: 25%
-    maxUnavailable: 25%
-
-# Enable the ingress to expose Homepage to the network.
 ingress:
+  enabled: false
+  ingressClassName: ""
+  annotations: {}
+  # kubernetes.io/ingress.class: nginx
+  # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+route:
   main:
+    # -- Enables or disables the Gateway API route
     enabled: false
-    # labels:
-    #   # This label will enable discover of this deployment in Homepage
-    #   gethomepage.dev/enabled: "true"
-    # annotations:
-    #   # These annotations will configure how this deployment is shown in Homepage
-    #   gethomepage.dev/name: "Homepage"
-    #   gethomepage.dev/description: "A modern, secure, highly customizable application dashboard."
-    #   gethomepage.dev/group: "A New Group"
-    #   gethomepage.dev/icon: "homepage.png"
-    # ingressClassName: "nginx"
-    # hosts:
-    #   - host: &host "homepage.local"
-    #     paths:
-    #       - path: /
-    #         pathType: Prefix
-    # tls:
-    #   - hosts:
-    #       - *host
+    # -- Set the route apiVersion, e.g. gateway.networking.k8s.io/v1 or gateway.networking.k8s.io/v1alpha2
+    apiVersion: gateway.networking.k8s.io/v1
+    # -- Set the route kind.
+    # Note that experimental kinds require changing `apiVersion`
+    kind: HTTPRoute
+    annotations: {}
+    labels: {}
+    parentRefs: []
+    # - name: my-gateway
+    #   namespace: gateway
+    #   sectionName: https
+    hostnames: []
+    # - chart-example.local
+    additionalRules: []
+    filters: []
+    matches:
+      - path:
+          type: PathPrefix
+          value: /
+    # -- To redirect to HTTPS, create a new route object under the main route and enable this option.
+    # This should only be used with HTTP-like routes, such as HTTPRoute or GRPCRoute.
+    # [Reference]( https://gateway-api.sigs.k8s.io/guides/http-redirect-rewrite/ )
+    httpsRedirect: false
 
-# All the config files for Homepage can be specified under their relevant config block.
-config:
-  # To use an existing ConfigMap uncomment this line and specify the name
-  # useExistingConfigMap: existing-homepage-configmap
-  bookmarks:
-    - Developer:
-        - Github:
-            - abbr: GH
-              href: https://github.com/
+rbac:
+  enabled: true
 
-  services:
-    - My First Group:
-        - My First Service:
-            href: http://localhost/
-            description: Homepage is awesome
+resources: {}
+# We usually recommend not to specify default resources and to leave this as a conscious
+# choice for the user. This also increases chances charts run on environments with little
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
+#   cpu: 100m
+#   memory: 128Mi
 
-    - My Second Group:
-        - My Second Service:
-            href: http://localhost/
-            description: Homepage is the best
+# -- Additional volumes on the output Deployment definition.
+volumes: []
+# - name: foo
+#   secret:
+#     secretName: mysecret
+#     optional: false
 
-    - My Third Group:
-        - My Third Service:
-            href: http://localhost/
-            description: Homepage is 😎
-  widgets:
-    - resources:
-        # change backend to 'kubernetes' to use Kubernetes integration. Requires RBAC.
-        backend: resources
-        expanded: true
-        cpu: true
-        memory: true
-    - search:
-        provider: duckduckgo
-        target: _blank
-        ## Uncomment to enable Kubernetes integration
-        # - kubernetes:
-        #     cluster:
-        #       show: true
-        #       cpu: true
-        #       memory: true
-        #       showLabel: true
-        #       label: "cluster"
-        #     nodes:
-        #       show: true
-        #       cpu: true
-        #       memory: true
-        #       showLabel: true
-  kubernetes:
-    # change mode to 'cluster' to use RBAC service account
-    mode: disable
-    # Uncomment to enable gateway api HttpRoute discovery.
-    #gateway: true
-  docker:
-  settings:
+# -- Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true
 
-  # all sections can alternately be appended with "String" such as this example settings. This is useful
-  # for defining a stable ordering. Unfortunately Go's (and therefore Helm's) toYaml function sorts keys
-  # and loses and input ordering. Using a string is the best way around this.
-  settingsString: |
-    title: Homepage
-    headerStyle: boxed
-    layout:
-      My First Group:
-      My Second Group:
-      My Third Group:
+nodeSelector: {}
 
-# -- Main environment variables. Template enabled.
-# Syntax options:
-# A) TZ: UTC
-# B) PASSWD: '{{ .Release.Name }}'
-# C) PASSWD:
-#      configMapKeyRef:
-#        name: config-map-name
-#        key: key-name
-# D) PASSWD:
-#      valueFrom:
-#        secretKeyRef:
-#          name: secret-name
-#          key: key-name
-#      ...
-# E) - name: TZ
-#      value: UTC
-# F) - name: TZ
-#      value: '{{ .Release.Name }}'
-env:
-  - name: HOMEPAGE_ALLOWED_HOSTS
-    # This value must be set
-    # ref: https://gethomepage.dev/installation/#homepage_allowed_hosts
-    value: null
+tolerations: []
 
-# To include environment variables from other configs or other secrets for use in
-# Homepage's variable substitutions. Refer to them here.
-# envFrom:
-#   - secretRef:
-#       name: my-secret
-#   - configMapRef:
-#       name: my-configmap
-
-persistence:
-  logs:
-    enabled: true
-    type: emptyDir
-    mountPath: /app/config/logs
-
-# resources:
-#   requests:
-#     memory: 10Mi
-#     cpu: 10m
-#   limits:
-#     memory: 200Mi
-#     cpu: 500m
+affinity: {}

@@ -10,6 +10,8 @@ spec:
   values:
     config:
       useExistingConfigMap: homepage-config
+      allowedHosts:
+        - homepage.theblacklodge.dev
     enableRbac: true
     env:
       - name: HOMEPAGE_ALLOWED_HOSTS
@@ -17,7 +19,6 @@ spec:
     envFrom:
       - secretRef:
           name: homepage-credentials
-
     volumes:
       - name: homepage-config
         configMap:
