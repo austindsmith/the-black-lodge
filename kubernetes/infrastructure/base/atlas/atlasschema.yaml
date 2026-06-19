@@ -1,0 +1,23 @@
+apiVersion: db.atlasgo.io/v1alpha1
+kind: AtlasSchema
+metadata:
+  name: myapp
+  namespace: myapp
+spec:
+  credentials:
+    scheme: postgres
+    host: app-cluster-rw.test
+    user: app
+    passwordFrom:
+      secretKeyRef:
+        key: password
+        name: myapp-pg-app
+    database: app
+    port: 5432
+    parameters:
+      sslmode: disable
+  schema:
+    sql: |
+      create table t1 (
+        id int
+      );
