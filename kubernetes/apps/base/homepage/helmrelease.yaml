@@ -4,13 +4,9 @@ metadata:
   name: homepage
 spec:
   interval: 1h
-  chart:
-    spec:
-      chart: homepage
-      version: 2.1.0
-      sourceRef:
-        kind: HelmRepository
-        name: homepage
+  chartRef:
+    kind: OCIRepository
+    name: homepage
   values:
     config:
       useExistingConfigMap: homepage-config

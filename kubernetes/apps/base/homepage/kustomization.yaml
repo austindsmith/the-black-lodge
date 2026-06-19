@@ -4,7 +4,7 @@ namespace: homepage
 
 resources:
   - namespace.yaml
-  - helmrepository.yaml
+  - ocirepository.yaml
   - helmrelease.yaml
   - ingressroute.yaml
   - secret.yaml
