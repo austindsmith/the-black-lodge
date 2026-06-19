@@ -13,7 +13,7 @@ spec:
         name: homepage
   values:
     config:
-      useExistingConfigMap: homepage
+      useExistingConfigMap: homepage-config
     enableRbac: true
     env:
       - name: HOMEPAGE_ALLOWED_HOSTS
