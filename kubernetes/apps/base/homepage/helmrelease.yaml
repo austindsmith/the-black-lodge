@@ -22,6 +22,10 @@ spec:
       - secretRef:
           name: homepage-credentials
 
+    volumes:
+      - name: homepage-config
+        configMap:
+          name: homepage-config
     volumeMounts:
       - name: homepage-config
         mountPath: /app/config/bookmarks.yaml
