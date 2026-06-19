@@ -1,0 +1,20 @@
+# must match your actual Proxmox node name
+proxmox:
+    url: https://192.168.1.80:8006
+    token: root@pam!homepage
+    secret: 5955cbc5-9c2b-4559-b133-c6d418965697
+sops:
+    age:
+        - enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBxVG85TFVPZUhoTUtVSFNi
+            Y3hNUXkzN1V6Zlg0TS9xT3U1Tkl6V0dZcjNRClJnUDR0ZnRkMWhWbTduLzZPV3VZ
+            U2xMZGRFemp2MXBzWWcwRU5LSWR5R0EKLS0tIEVsUGJIRTBJTWM4clNzQTQxSGFo
+            Ky9YMkp1MDVuYm91YnBIdVVlTmQ5dzAKsiDChzK1v9dK0HlgQqLj5GLnmJrYkStP
+            vuAwqXe39EwJWfHmnbLZz3G0VzZP9dd6kDigj8bejJBSLAW/95Qc1g==
+            -----END AGE ENCRYPTED FILE-----
+          recipient: age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n
+    encrypted_regex: ^(data|stringData|spec)$
+    lastmodified: "2026-06-19T05:29:01Z"
+    mac: ENC[AES256_GCM,data:pNvs9G9IiuJ0MYppVOpXwmsBUbW8Bb/qWV3GXthefpJ+MnZr+jMrUN84yEKB1bH7seOa4N4v8aNkzMYkvZXT7GEAbal3Nq5xJ6pVL8hosOjpoeOTJPFIm56Qf3ztGQhK2PEU7za1IDCNf/l5SmVBkOBkBuwfObdWfdHb1FoyyPk=,iv:orijYeVOJFFRCCWjEMcpu++/ik8UGbzrZ/54jdhTUKY=,tag:h6cFGVsLukFPh77ciQngIQ==,type:str]
+    version: 3.13.1

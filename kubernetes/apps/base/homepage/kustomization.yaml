@@ -9,3 +9,14 @@ resources:
   - ingressroute.yaml
   - configmap.yaml
   - secret.yaml
+
+configMapGenerator:
+  - name: homepage-config
+    files:
+      - config/bookmarks.yaml
+      - config/proxmox.yaml
+      - config/services.yaml
+      - config/settings.yaml
+      - config/widgets.yaml
+    options:
+      disableNameSuffixHash: true
