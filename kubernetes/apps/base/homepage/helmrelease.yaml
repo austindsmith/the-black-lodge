@@ -20,7 +20,7 @@ spec:
         value: homepage.theblacklodge.dev
     envFrom:
       - secretRef:
-        name: homepage-credentials
+          name: homepage-credentials
 
     volumeMounts:
       - name: homepage-config
