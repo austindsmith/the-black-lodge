@@ -7,7 +7,6 @@ resources:
   - helmrepository.yaml
   - helmrelease.yaml
   - ingressroute.yaml
-  - configmap.yaml
   - secret.yaml
 
 configMapGenerator:
