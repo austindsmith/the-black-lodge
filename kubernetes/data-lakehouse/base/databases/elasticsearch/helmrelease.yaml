@@ -21,3 +21,9 @@ spec:
     networkPolicy:
       http:
         enabled: false
+    volumeClaimTemplate:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: longhorn
+      resources:
+        requests:
+          storage: 30Gi
