@@ -26,3 +26,4 @@ spec:
           dsm: "192.168.1.131"
           location: /volume1
           fsType: ext4
+          formatOptions: "-E nodiscard -E lazy_itable_init=1,lazy_journal_init=1"
