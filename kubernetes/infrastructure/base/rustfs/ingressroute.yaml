@@ -9,5 +9,5 @@ spec:
     - match: Host(`rustfs.theblacklodge.dev`)
       kind: Rule
       services:
-        - name: console
+        - name: rustfs-svc
           port: 9001

@@ -7,6 +7,4 @@ resources:
   - helmrepository.yaml
   - namespace.yaml
   - ingressroute.yaml
-  #- storageclass.yaml
-  - service.yaml
   - secret.yaml
