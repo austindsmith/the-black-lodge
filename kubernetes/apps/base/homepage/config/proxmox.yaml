@@ -1,4 +1,3 @@
-# must match your actual Proxmox node name
 proxmox:
     url: https://192.168.1.80:8006
     token: root@pam!homepage
@@ -7,14 +6,14 @@ sops:
     age:
         - enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBxVG85TFVPZUhoTUtVSFNi
-            Y3hNUXkzN1V6Zlg0TS9xT3U1Tkl6V0dZcjNRClJnUDR0ZnRkMWhWbTduLzZPV3VZ
-            U2xMZGRFemp2MXBzWWcwRU5LSWR5R0EKLS0tIEVsUGJIRTBJTWM4clNzQTQxSGFo
-            Ky9YMkp1MDVuYm91YnBIdVVlTmQ5dzAKsiDChzK1v9dK0HlgQqLj5GLnmJrYkStP
-            vuAwqXe39EwJWfHmnbLZz3G0VzZP9dd6kDigj8bejJBSLAW/95Qc1g==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSAwelJJNHBDbEw0QVBORjJa
+            cEx0OHpyMnp3NVMrTmcycFZVYXZzVVMzZ3hRCm03K3pHT2hzOEZwWlNtSjVCY0RJ
+            MW1XV1BkM0ovMW80TWxGVEh6aDVTc00KLS0tIDVEWGl1TEJuZWFFcW4xdmVaUU9Q
+            ejB4SjNVSFUxcnp5UnJFUE1ybDZxOW8K1M4yjLV/rS+8e1zzyrXa0VWWtKZPCRr2
+            eG2Ymjju4mmPr6ZeimA6JyTvxAjnD6liEMfYsLLll8oDMZg20aXNUw==
             -----END AGE ENCRYPTED FILE-----
           recipient: age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n
     encrypted_regex: ^(data|stringData|spec)$
-    lastmodified: "2026-06-19T05:29:01Z"
-    mac: ENC[AES256_GCM,data:pNvs9G9IiuJ0MYppVOpXwmsBUbW8Bb/qWV3GXthefpJ+MnZr+jMrUN84yEKB1bH7seOa4N4v8aNkzMYkvZXT7GEAbal3Nq5xJ6pVL8hosOjpoeOTJPFIm56Qf3ztGQhK2PEU7za1IDCNf/l5SmVBkOBkBuwfObdWfdHb1FoyyPk=,iv:orijYeVOJFFRCCWjEMcpu++/ik8UGbzrZ/54jdhTUKY=,tag:h6cFGVsLukFPh77ciQngIQ==,type:str]
+    lastmodified: "2026-06-19T06:21:43Z"
+    mac: ENC[AES256_GCM,data:eB7uKGhH0XrhJpBC3bJiR3qWVfPgScbuC/RMAZWJmw+oureifP7PbFz3Wd9xTaiJx197slR42z84+a4lf/SGvtYiB6W591bnw22oHrrgXGwn4XYu7VUBAro7KYs1rpREkZGG3Q7RYwosOA+7xJXhVs0QEq/qUJ6ZIZQ64+p+JZk=,iv:8+X2i0nyEvYjDZP7Gsrqkfm5rk+e9IVax2brwq7czEc=,tag:ZytdkV8E/mTQ8EM4pptAGA==,type:str]
     version: 3.13.1
