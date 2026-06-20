@@ -13,6 +13,12 @@ spec:
           roles:
             - ENC[AES256_GCM,data:MKxWzxsf,iv:zrRFv+stjJ3cucJt8hTzU6ezuVJ5zwv7pSDhZ6apYs8=,tag:uAI3sMSZ2R1CxtwgkeqHOQ==,type:str]
             - ENC[AES256_GCM,data:g1k+lT3e,iv:WVDpEn7V53HMnSd1KrhGFiXm3tHvPez4OxWnbAg9XM0=,tag:0MHSVT5pODh6ysAR8B42Wg==,type:str]
+            - ENC[AES256_GCM,data:83XSNaaq/cBo,iv:SrFEb8vjBro1RNL+k0Hp4CnInDX+DT57q67M7Z7GQKM=,tag:5GJ18Rus/pKQAe1yLZERrg==,type:str]
+          traits:
+            logins:
+                - ENC[AES256_GCM,data:0hlWhw==,iv:q7eV7TuQQQjOy+DzA4EPQDbx5Fxpr7lMKrhCzbuIiwU=,tag:oYn9hOSkT1cOUba0En1q9g==,type:str]
+                - ENC[AES256_GCM,data:0mzrajLOPg==,iv:vs+WxJ8VkC26T0iH8K18yPbzVVpg4PZd6Ugg3DSBmSw=,tag:BfGE1qfW14L+JZ7N7z3WBQ==,type:str]
+                - ENC[AES256_GCM,data:hDhEfhcJ,iv:wpAh4rOl+t+7scIx4A+Q/+BWC05KOKbc5a1cKLsxAxM=,tag:KqEdXkLAVjDEXxzvISXZDw==,type:str]
 sops:
     age:
         - enc: |
@@ -25,6 +31,6 @@ sops:
             -----END AGE ENCRYPTED FILE-----
           recipient: age19azmnl8ee2f4r95jnwvr47uhllf33eq66dfc3vuxezq7k5vwqgfsyrdv8n
     encrypted_regex: ^(data|stringData|spec)$
-    lastmodified: "2026-06-10T04:20:57Z"
-    mac: ENC[AES256_GCM,data:krllCEF9SqizFYMJSHQEjMRnVX6Hl/g6tYuJ62K4sYg+n4AQQXPGKGbZpqp8wO6HmLe66oRI/Q3AFgJXyjk1B8SOMgg8NJd9xy+EL7n4VRMjnXwlulv23HWIpjYTWTpKDvKVDIbmlz8sMvQtMPDpViV8SC3ock3lwEOpc6tJ1YY=,iv:QsefqONlgAtIe646PIJy6KS8nLZCl3KUU/taOAdMjeA=,tag:ZAcWhiWGqP0inaQGW35veA==,type:str]
+    lastmodified: "2026-06-20T01:11:19Z"
+    mac: ENC[AES256_GCM,data:NtaRqfoaoWcLiulwRkALDfG7Z/bytFnHv68jkeWVMuQWsK0hMz2UUtOMVJZ6XlflKEzBuLmCbFf1ySFsPaA+nRDKoZU8CzmG6Wp911b4khxvz+MRT6h3iLSizneVXZTAkKaORQYlezg/jH6mhl9NhQNTOw0YuV1pAfxWHUIezcU=,iv:gXhiz4/bA0FM/h8EtPf5AhZE+BxlXnUG3tXq5gPyGac=,tag:6GHcIrmtSlcT4x43EumSsQ==,type:str]
     version: 3.13.1
