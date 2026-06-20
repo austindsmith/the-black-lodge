@@ -8,3 +8,4 @@ resources:
   - proxmox
   - cloudnative-pg
   - teleport
+  - atlas

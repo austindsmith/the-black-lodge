@@ -1,23 +1,24 @@
 apiVersion: db.atlasgo.io/v1alpha1
 kind: AtlasSchema
 metadata:
-  name: myapp
-  namespace: myapp
+  name: atlas-schema
+  namespace: cloudnative-pg
 spec:
   credentials:
-    scheme: postgres
-    host: app-cluster-rw.test
-    user: app
+    scheme: public
+    host: app-cluster-rw
+    user: test
     passwordFrom:
       secretKeyRef:
         key: password
-        name: myapp-pg-app
-    database: app
+        name: test-credentials
+    database: test
     port: 5432
     parameters:
       sslmode: disable
   schema:
     sql: |
       create table t1 (
-        id int
+        id int,
+        test_col varchar(256)
       );
