@@ -6,7 +6,7 @@ metadata:
 spec:
   credentials:
     scheme: postgres
-    host: app-cluster-rw
+    host: app-cluster-rw.cloudnative-pg.svc.cluster.local
     user: test
     passwordFrom:
       secretKeyRef:
