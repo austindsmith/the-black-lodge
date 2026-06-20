@@ -18,6 +18,7 @@ packages:
     - sops
     - age
     - yubikey-manager
+    - fstabfmt
   applications:
     - brave
     - zed

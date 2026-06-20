@@ -2,7 +2,7 @@ apiVersion: db.atlasgo.io/v1alpha1
 kind: AtlasSchema
 metadata:
   name: atlas-schema
-  namespace: cloudnative-pg
+  namespace: atlas
 spec:
   credentials:
     scheme: postgres
