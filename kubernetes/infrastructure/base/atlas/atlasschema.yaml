@@ -5,7 +5,7 @@ metadata:
   namespace: cloudnative-pg
 spec:
   credentials:
-    scheme: public
+    scheme: postgres
     host: app-cluster-rw
     user: test
     passwordFrom:
