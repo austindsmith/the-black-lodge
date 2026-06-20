@@ -1,5 +1,6 @@
 resources:
   - cloudnative-pg-crds.yaml
+  - atlas-crds.yaml
   #- clickstack-operators.yaml
   #- metallb-config.yaml
   - infrastructure.yaml

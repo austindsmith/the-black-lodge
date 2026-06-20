@@ -2,7 +2,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: ariga
-  namespace: cloudnative-pg
+  namespace: flux-system
 spec:
   type: oci
   url: oci://ghcr.io/ariga/charts
