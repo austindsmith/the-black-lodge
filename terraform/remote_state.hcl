@@ -8,7 +8,7 @@ generate "backend" {
   contents  = <<EOF
 terraform {
   backend "s3" {
-    bucket = "terraform-state"
+    bucket = "state"
     key    = "${get_path_from_repo_root()}/terraform.tfstate"
     region = "us-east-1"
     endpoints = {

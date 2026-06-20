@@ -19,6 +19,7 @@ packages:
     - age
     - yubikey-manager
     - fstabfmt
+    - rustfs-cli
   applications:
     - brave
     - zed
