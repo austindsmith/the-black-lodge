@@ -7,6 +7,18 @@
 - [Just Files](https://github.com/casey/just) - Useful for saving hard to remember commands.k3d
 - [Just Files Manual](https://just.systems/man/en/)
 
+## NAS
+
+### nfsv4
+
+- With nfsv4, mounting will work with LDAP/username. Just ensure that users in the FreeIPA domain have permissions to the shared folder. Then they can be mounted without squashing.
+
+### Shared folders
+
+- [ ] Migrate `infrastructure`
+- [ ] Rename `paperless` to `paperless-ngx`
+- [ ] Break infrastructure into `kubernetes` and `proxmox` and eliminate `docker`.
+
 ## Autodocs
 
 - Sphinx

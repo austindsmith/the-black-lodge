@@ -18,6 +18,7 @@ packages:
     - sops
     - age
     - yubikey-manager
+    - rustfs-cli
   applications:
     - brave
     - zed
