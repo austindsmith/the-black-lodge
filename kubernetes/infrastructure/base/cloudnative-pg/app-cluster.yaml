@@ -27,66 +27,86 @@ spec:
   managed:
     roles:
       - name: authentik
+        login: true
         passwordSecret:
           name: authentik-db-secret
-        login: true
       - name: immich
+        login: true
         passwordSecret:
           name: immich-db-secret
-        login: true
       - name: n8n
+        login: true
         passwordSecret:
           name: n8n-db-secret
-        login: true
       - name: nextcloud
+        login: true
         passwordSecret:
           name: nextcloud-db-secret
-        login: true
       - name: mealie
+        login: true
         passwordSecret:
           name: mealie-db-secret
-        login: true
       - name: paperless-ngx
+        login: true
         passwordSecret:
           name: paperless-ngx-db-secret
-        login: true
       - name: semaphore
+        login: true
         passwordSecret:
           name: semaphore-db-secret
-        login: true
       - name: bytebase
+        login: true
         passwordSecret:
           name: bytebase-db-secret
-        login: true
       - name: dbgate
+        login: true
         passwordSecret:
           name: dbgate-db-secret
-        login: true
       - name: radarr
+        login: true
         passwordSecret:
           name: radarr-db-secret
-        login: true
       - name: sonarr
+        login: true
         passwordSecret:
           name: sonarr-db-secret
-        login: true
       - name: bazarr
+        login: true
         passwordSecret:
           name: bazarr-db-secret
-        login: true
       - name: prowlarr
+        login: true
         passwordSecret:
           name: prowlarr-db-secret
-        login: true
       - name: autobrr
+        login: true
         passwordSecret:
           name: autobrr-db-secret
-        login: true
       - name: deduparr
+        login: true
         passwordSecret:
           name: deduparr-db-secret
-        login: true
       - name: qui
+        login: true
         passwordSecret:
           name: qui-db-secret
+      - name: romm
         login: true
+        passwordSecret:
+          name: romm-db-secret
+      - name: wikijs
+        login: true
+        passwordSecret:
+          name: wikijs-db-secret
+      - name: zammad
+        login: true
+        passwordSecret:
+          name: zammad-db-secret
+      - name: sabnzbd
+        login: true
+        passwordSecret:
+          name: sabnzbd-db-secret
+      - name: wizarr
+        login: true
+        passwordSecret:
+          name: wizarr-db-secret

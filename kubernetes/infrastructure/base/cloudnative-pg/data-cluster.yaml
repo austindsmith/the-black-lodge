@@ -19,3 +19,9 @@ spec:
     name: cloudnative-pg-admin
   storage:
     size: 5Gi
+  managed:
+    roles:
+      - name: data
+        login: true
+        passwordSecret:
+          name: data-db-secret
