@@ -110,3 +110,7 @@ spec:
         login: true
         passwordSecret:
           name: wizarr-db-secret
+      - name: test
+        login: true
+        passwordSecret:
+          name: test-db-secret

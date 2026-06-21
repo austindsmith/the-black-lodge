@@ -10,6 +10,10 @@ spec:
     db_labels:
       "*": "*"
     db_names:
+      - source
+      - staging
+      - marts
+      - scratch
       - authentik
       - immich
       - n8n
@@ -18,8 +22,13 @@ spec:
       - paperless_ngx
       - semaphore
       - postgres
+      - wikijs
+      - sabnzbd
+      - wizarrr
+      - romm
       - test
     db_users:
+      - data
       - postgres
       - authentik
       - semaphore
@@ -28,4 +37,8 @@ spec:
       - mealie
       - paperless-ngx
       - immich
+      - wikijs
+      - sabnzbd
+      - romm
+      - wizarrr
       - test

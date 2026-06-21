@@ -6,7 +6,6 @@ resources:
   - cert-issuer.yaml
   - helmrepository.yaml
   - helmrelease.yaml
-  #- app-cluster-certificate.yaml
   - app-cluster.yaml # Note, this may cause ordering issues
   - data-cluster.yaml
   - app-databases.yaml

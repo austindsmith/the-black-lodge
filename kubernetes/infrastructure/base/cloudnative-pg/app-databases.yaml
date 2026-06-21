@@ -189,3 +189,99 @@ spec:
   cluster:
     name: app-cluster
   databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: wikijs
+  namespace: cloudnative-pg
+spec:
+  name: wikijs
+  owner: wikijs
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: romm
+  namespace: cloudnative-pg
+spec:
+  name: romm
+  owner: romm
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: wikijs
+  namespace: cloudnative-pg
+spec:
+  name: wikijs
+  owner: wikijs
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: wikijs
+  namespace: cloudnative-pg
+spec:
+  name: wikijs
+  owner: wikijs
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: zammad
+  namespace: cloudnative-pg
+spec:
+  name: zammad
+  owner: zammad
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: sabnzbd
+  namespace: cloudnative-pg
+spec:
+  name: sabnzbd
+  owner: sabnzbd
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: wizarrr
+  namespace: cloudnative-pg
+spec:
+  name: wizarrr
+  owner: wizarrr
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: test
+  namespace: cloudnative-pg
+spec:
+  name: test
+  owner: test
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
