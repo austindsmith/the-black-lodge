@@ -1,0 +1,32 @@
+formatter: md doc
+
+recursive:
+  enabled: true
+  path: modules
+  include-main: true
+
+sections:
+  show:
+    - header
+    - providers
+    - inputs
+    - outputs
+    - modules
+    - footer
+
+content: |-
+  {{ .Header }}
+
+  {{ .Modules }}
+
+  {{ .Providers }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
+
+output:
+  file: "/home/austin/Documents/obsidian/Homelab/deployments/migration/terraform/main.md"
+  mode: replace
+  template: |-
+    {{ .Content }}
