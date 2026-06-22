@@ -26,7 +26,7 @@ content: |-
   {{ .Outputs }}
 
 output:
-  file: "/home/austin/Documents/obsidian/Homelab/deployments/migration/terraform/netcup.md"
+  file: "/home/austin/Documents/obsidian/Homelab/deployments/migration/terraform/proxmox.md"
   mode: replace
   template: |-
     {{ .Content }}
