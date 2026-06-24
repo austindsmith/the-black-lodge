@@ -18,7 +18,7 @@ spec:
   superuserSecret:
     name: cloudnative-pg-admin
   storage:
-    size: 5Gi
+    size: 15Gi
   monitoring:
     enablePodMonitor: true
     customQueriesConfigMap:
