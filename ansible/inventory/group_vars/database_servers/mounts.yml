@@ -1,0 +1,10 @@
+mounts:
+  - path: /mnt/nas
+    src: 192.168.1.131:/volume1/data
+    fstype: nfs
+    opts: rw,nofail
+
+  - path: /mnt/backups
+    src: 192.168.1.131:/volume1/backups
+    fstype: nfs
+    opts: rw,nofail

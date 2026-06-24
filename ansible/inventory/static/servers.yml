@@ -1,5 +1,7 @@
 legacy_servers:
   hosts:
+    cloud_server:
+      ansible_host: 192.168.2.5
     synology:
       ansible_host: 192.168.1.131
     ipa:

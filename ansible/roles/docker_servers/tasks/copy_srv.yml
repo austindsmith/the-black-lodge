@@ -1,0 +1,13 @@
+- name: Sync srv directory to local artifacts
+  become: false
+  ansible.builtin.command:
+    cmd: rsync -av --info=progress2 asmith@192.168.2.5:/srv/ /mnt/shared/artifacts/docker
+
+- name: Fix permissions
+  ansible.builtin.file:
+    path: "/mnt/shared/artifacts/docker"
+    state: directory
+    recurse: true
+    owner: austin
+    group: admins
+    mode: "u=rwX,g=rX,o=rX"

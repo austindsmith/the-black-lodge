@@ -1,0 +1,6 @@
+- name: Manage docker
+  become: true
+  hosts: docker_servers
+  gather_facts: false
+  roles:
+    - docker_servers

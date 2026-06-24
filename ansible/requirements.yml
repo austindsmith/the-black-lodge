@@ -24,6 +24,9 @@ collections:
   - name: community.docker
     version: "5.2.0"
 
+  - name: community.postgresql
+    version: "4.2.0"
+
 roles:
   - name: linux-system-roles.cockpit
     version: "1.7.4"
