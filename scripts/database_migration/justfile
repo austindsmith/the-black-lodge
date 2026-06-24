@@ -1,0 +1,4 @@
+migrate app:
+    set -euo pipefail
+    pass=$(sops -d secret.yaml | yq '.{{ app }}_password')
+    pgloader <(sed "s/pass/${pass}/" {{ app }}.load)
