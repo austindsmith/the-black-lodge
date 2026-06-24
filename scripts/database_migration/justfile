@@ -1,3 +1,8 @@
+# Clean argument adds drop tables if exists in case the migration fails and has to be restarted
+dump app:
+    pg_dump --clean --if-exists -U postgres {{ app }} > {{ app }}_dump.sql
+
+# Runs live
 migrate app:
     set -euo pipefail
     pass=$(sops -d secret.yaml | yq '.{{ app }}_password')
