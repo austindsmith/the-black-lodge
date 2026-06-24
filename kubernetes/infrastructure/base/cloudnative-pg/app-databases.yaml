@@ -121,10 +121,22 @@ spec:
 apiVersion: postgresql.cnpg.io/v1
 kind: Database
 metadata:
-  name: sonarr
+  name: sonarr-main
   namespace: cloudnative-pg
 spec:
-  name: sonarr
+  name: sonarr-main
+  owner: sonarr
+  cluster:
+    name: app-cluster
+  databaseReclaimPolicy: retain
+---
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: sonarr-log
+  namespace: cloudnative-pg
+spec:
+  name: sonarr-log
   owner: sonarr
   cluster:
     name: app-cluster
