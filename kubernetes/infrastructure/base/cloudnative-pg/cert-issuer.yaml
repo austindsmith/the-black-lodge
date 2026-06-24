@@ -52,3 +52,20 @@ spec:
     name: pg-client-ca
     kind: Issuer
     group: cert-manager.io
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: pgadmin-client-cert
+  namespace: cloudnative-pg
+spec:
+  commonName: postgres
+  secretName: pgadmin-client-cert
+  duration: 8760h
+  renewBefore: 720h
+  usages:
+    - client auth
+  issuerRef:
+    name: pg-client-ca
+    kind: Issuer
+    group: cert-manager.io

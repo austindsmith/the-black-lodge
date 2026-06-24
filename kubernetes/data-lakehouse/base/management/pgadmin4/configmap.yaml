@@ -14,7 +14,9 @@ data:
           "MaintenanceDB": "postgres",
           "Username": "postgres",
           "PassFile": "file.pgpass",
-          "SSLMode": "prefer"
+          "SSLMode": "require",
+          "SSLCert": "postgresql.crt",
+          "SSLKey": "postgresql.key"
         },
         "2": {
           "Name": "data-cluster",
@@ -24,7 +26,9 @@ data:
           "MaintenanceDB": "postgres",
           "Username": "postgres",
           "PassFile": "file.pgpass",
-          "SSLMode": "prefer"
+          "SSLMode": "require",
+          "SSLCert": "postgresql.crt",
+          "SSLKey": "postgresql.key"
         }
       }
     }
