@@ -8,7 +8,6 @@ spec:
     name: radarr
   interval: 1h
   values:
-    replicaCount: 0
     controllers:
       sonarr:
         annotations:

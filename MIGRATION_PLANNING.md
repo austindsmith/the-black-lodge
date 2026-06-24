@@ -7,6 +7,11 @@ In addition, one of the nice things about a homelab is that there's no pressure 
 > [!info] Important
 > All the below assumes GitOps practices. So using Terraform, Packer, Ansible, Kubernetes, Atlas or any other new tools identified, unless doing so is some "hack" or is otherwise impossible/not supported. In those scenarios, create documentation regardless. Or perhaps a shell script.
 
+## Lingering issues
+
+- [ ] Add `thewhitelodge.org` to Cloudflare.
+- [ ] Create namespace for Cloudnative PG for apps vs data lakehouse
+
 ## References
 
 ### Terraform

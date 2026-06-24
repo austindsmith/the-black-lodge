@@ -1,13 +1,29 @@
-legacy_servers:
-  hosts:
-    cloud_server:
-      ansible_host: 192.168.2.5
-    synology:
-      ansible_host: 192.168.1.131
-    ipa:
-      ansible_host: 192.168.50.20
-    tang:
-      ansible_host: 192.168.100.5
-    proxmox:
-      ansible_host: 192.168.1.80
-      ansible_remote_tmp: /tmp/.ansible/tmp
+all:
+  children:
+    cloud:
+      hosts:
+        kubernetes-server-01:
+          ansible_host: 152.53.52.163
+
+    local:
+      children:
+        storage:
+          hosts:
+            synology:
+              ansible_host: 192.168.1.131
+
+        identity:
+          hosts:
+            ipa:
+              ansible_host: 192.168.50.20
+
+        security:
+          hosts:
+            tang:
+              ansible_host: 192.168.100.5
+
+        hypervisors:
+          hosts:
+            proxmox:
+              ansible_host: 192.168.1.80
+              ansible_remote_tmp: /tmp/.ansible/tmp

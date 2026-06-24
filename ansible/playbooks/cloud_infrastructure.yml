@@ -1,0 +1,8 @@
+- name: Base cloud server setup
+  hosts: cloud
+  become: true
+  roles:
+    - cockpit
+
+- ansible.builtin.import_playbook: global.yml
+- ansible.builtin.import_playbook: kubernetes.yml

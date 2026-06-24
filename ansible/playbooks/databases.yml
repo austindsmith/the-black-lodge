@@ -1,6 +1,0 @@
-- name: Manage databases
-  become: true
-  hosts: database_servers
-  gather_facts: false
-  roles:
-    - database_servers

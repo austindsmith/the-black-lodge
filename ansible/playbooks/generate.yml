@@ -1,5 +1,0 @@
-- name: Deploy Generate on Windows Server
-  hosts: generate
-  gather_facts: true
-  roles:
-    - generate
