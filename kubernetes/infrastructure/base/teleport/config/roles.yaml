@@ -10,6 +10,8 @@ spec:
     db_labels:
       "*": "*"
     db_names:
+      - postgres
+      - app
       - source
       - staging
       - marts
@@ -19,26 +21,45 @@ spec:
       - n8n
       - nextcloud
       - mealie
-      - paperless_ngx
+      - paperless-ngx
       - semaphore
-      - postgres
-      - wikijs
-      - sabnzbd
-      - wizarrr
+      - bytebase
+      - dbgate
+      - radarr
+      - sonarr
+      - bazarr
+      - prowlarr
+      - autobrr
+      - deduparr
+      - qui
       - romm
+      - wikijs
+      - zammad
+      - sabnzbd
+      - wizarr
       - test
     db_users:
-      - data
       - postgres
+      - data
       - authentik
-      - semaphore
-      - nextcloud
+      - immich
       - n8n
+      - nextcloud
       - mealie
       - paperless-ngx
-      - immich
-      - wikijs
-      - sabnzbd
+      - semaphore
+      - bytebase
+      - dbgate
+      - radarr
+      - sonarr
+      - bazarr
+      - prowlarr
+      - autobrr
+      - deduparr
+      - qui
       - romm
-      - wizarrr
+      - wikijs
+      - zammad
+      - sabnzbd
+      - wizarr
       - test
