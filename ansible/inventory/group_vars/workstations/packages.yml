@@ -20,6 +20,8 @@ packages:
     - yubikey-manager
     - fstabfmt
     - rustfs-cli
+  dotfiles:
+    - quickshell-git
   applications:
     - brave
     - zed

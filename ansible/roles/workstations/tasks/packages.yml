@@ -41,6 +41,14 @@
     extra_args: "--noconfirm"
   become: false
 
+- name: Install dotfiles packages
+  kewlfft.aur.aur:
+    name: "{{ packages.dotfiles }}"
+    use: paru
+    state: present
+    extra_args: "--noconfirm"
+  become: false
+
 - name: Install applications packages
   kewlfft.aur.aur:
     name: "{{ packages.applications }}"
