@@ -12,7 +12,6 @@ packages:
     - atuin
     - fzf
     - age-plugin-yubikey
-    - chezmoi
     - ripgrep
     - proton-pass-cli-bin
     - sops
@@ -22,6 +21,8 @@ packages:
     - rustfs-cli
   dotfiles:
     - quickshell-git
+    - watchman-bin
+    - chezmoi
   applications:
     - brave
     - zed
