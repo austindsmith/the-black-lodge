@@ -4,6 +4,10 @@
 - [Vagrant libvirt provider](https://github.com/vagrant-libvirt/vagrant-libvirt)
 - [Public Vagrant box listings](https://portal.cloud.hashicorp.com/vagrant/discover)
 
+## Todo
+
+- [ ] Add Spice to virt-manager to replace VNC
+
 ## Commands
 
 Installing libvirt plugin

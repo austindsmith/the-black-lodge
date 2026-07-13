@@ -1,0 +1,134 @@
+{
+  "buckets": [
+    {
+      "Name": "main",
+      "Source": "~\\scoop\\buckets\\main",
+      "Updated": "\/Date(1783900447920)\/",
+      "Manifests": 1611
+    },
+    {
+      "Name": "extras",
+      "Source": "https://github.com/ScoopInstaller/Extras",
+      "Updated": {
+        "value": "\/Date(1783888377000)\/",
+        "DisplayHint": 2,
+        "DateTime": "Sunday, July 12, 2026 8:32:57 PM"
+      },
+      "Manifests": 2345
+    }
+  ],
+  "apps": [
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "1password-cli",
+      "Version": "2.34.1",
+      "Updated": "\/Date(1783902627681)\/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "7zip",
+      "Version": "26.02",
+      "Updated": "\/Date(1783900518623)\/"
+    },
+    {
+      "Info": "",
+      "Source": "extras",
+      "Name": "autohotkey",
+      "Version": "2.0.26",
+      "Updated": "\/Date(1783902647697)\/"
+    },
+    {
+      "Info": "Install failed",
+      "Source": null,
+      "Name": "btop",
+      "Version": null,
+      "Updated": "\/Date(1783902729147)\/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "fzf",
+      "Version": "0.74.0",
+      "Updated": "\/Date(1783902742007)\/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "git",
+      "Version": "2.55.0.2",
+      "Updated": "\/Date(1783901025686)\/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "innounp",
+      "Version": "2.67.10",
+      "Updated": "\/Date(1783902543275)\/"
+    },
+    {
+      "Info": "",
+      "Source": "extras",
+      "Name": "komorebi",
+      "Version": "0.1.41",
+      "Updated": "\/Date(1783902384009)\/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "neovim",
+      "Version": "0.12.4",
+      "Updated": "\/Date(1783902603494)\/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "ripgrep",
+      "Version": "15.1.0",
+      "Updated": "\/Date(1783902748350)\/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "starship",
+      "Version": "1.26.0",
+      "Updated": "\/Date(1783902481463)\/"
+    },
+    {
+      "Info": "",
+      "Source": "extras",
+      "Name": "terminal-icons",
+      "Version": "0.11.0",
+      "Updated": "\/Date(1783902808163)\/"
+    },
+    {
+      "Info": "",
+      "Source": "extras",
+      "Name": "windows-terminal",
+      "Version": "1.24.11321.0",
+      "Updated": "\/Date(1783902816585)\/"
+    },
+    {
+      "Info": "",
+      "Source": "extras",
+      "Name": "yasb",
+      "Version": "2.0.5",
+      "Updated": "\/Date(1783902502338)\/"
+    },
+    {
+      "Info": "",
+      "Source": "main",
+      "Name": "yazi",
+      "Version": "26.5.6",
+      "Updated": "\/Date(1783902540197)\/"
+    },
+    {
+      "Info": "",
+      "Source": "extras",
+      "Name": "zed",
+      "Version": "1.10.2",
+      "Updated": "\/Date(1783902553228)\/"
+    }
+  ]
+}
