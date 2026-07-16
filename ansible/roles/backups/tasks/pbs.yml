@@ -1,0 +1,16 @@
+- name: disable swap
+  command: swapoff -a
+  when: ansible_swaptotal_mb > 0
+
+- name: remove swap from fstab
+  lineinfile:
+    path: /etc/fstab
+    regexp: '\sswap\s'
+    state: absent
+
+- name: set swappiness fallback
+  sysctl:
+    name: vm.swappiness
+    value: "1"
+    sysctl_file: /etc/sysctl.d/99-swappiness.conf
+    reload: true
