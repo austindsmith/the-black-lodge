@@ -1,0 +1,81 @@
+- name: Create netbox system group
+  ansible.builtin.group:
+    name: netbox
+    system: true
+
+- name: Create netbox system user
+  ansible.builtin.user:
+    name: netbox
+    group: netbox
+    system: true
+    create_home: false
+
+- name: Set NetBox directory ownership
+  ansible.builtin.file:
+    path: "{{ item }}"
+    owner: netbox
+    recurse: true
+  loop:
+    - /opt/netbox/netbox/media
+    - /opt/netbox/netbox/reports
+    - /opt/netbox/netbox/scripts
+
+- name: Check for existing NetBox secret key
+  ansible.builtin.stat:
+    path: /opt/netbox/netbox/netbox/secret_key.txt
+  register: netbox_secret_key_file
+
+- name: Generate NetBox secret key
+  ansible.builtin.command:
+    cmd: python3 /opt/netbox/netbox/generate_secret_key.py
+  register: netbox_secret_key_generated
+  when: not netbox_secret_key_file.stat.exists
+
+- name: Persist NetBox secret key
+  ansible.builtin.copy:
+    content: "{{ netbox_secret_key_generated.stdout }}"
+    dest: /opt/netbox/netbox/netbox/secret_key.txt
+    owner: netbox
+    group: netbox
+    mode: "0600"
+  when: not netbox_secret_key_file.stat.exists
+
+- name: Read NetBox secret key
+  ansible.builtin.slurp:
+    src: /opt/netbox/netbox/netbox/secret_key.txt
+  register: netbox_secret_key_slurped
+
+- name: Set NetBox secret key fact
+  ansible.builtin.set_fact:
+    netbox_secret_key: "{{ netbox_secret_key_slurped.content | b64decode | trim }}"
+
+- name: Deploy NetBox configuration
+  ansible.builtin.template:
+    src: configuration.py.j2
+    dest: /opt/netbox/netbox/netbox/configuration.py
+    owner: netbox
+    group: netbox
+    mode: "0644"
+
+- name: Run NetBox upgrade script
+  ansible.builtin.command:
+    cmd: /opt/netbox/upgrade.sh
+  become: true
+
+- name: Create NetBox superuser
+  ansible.builtin.command:
+    cmd: /opt/netbox/venv/bin/python manage.py createsuperuser --noinput
+    chdir: /opt/netbox/netbox
+  environment:
+    DJANGO_SUPERUSER_USERNAME: "{{ netbox_username }}"
+    DJANGO_SUPERUSER_EMAIL: "{{ netbox_email_address }}"
+    DJANGO_SUPERUSER_PASSWORD: "{{ netbox_password }}"
+
+- name: Enable and start NetBox services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - netbox
+    - netbox-rq

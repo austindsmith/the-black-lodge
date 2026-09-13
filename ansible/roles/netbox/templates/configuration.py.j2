@@ -1,0 +1,31 @@
+ALLOWED_HOSTS = ['*']
+
+DATABASES = {
+    'default': {
+        'NAME': '{{ db_name }}',
+        'USER': '{{ db_user }}',
+        'PASSWORD': '{{ db_password }}',
+        'HOST': 'localhost',
+        'PORT': '',
+        'CONN_MAX_AGE': 300,
+    }
+}
+
+REDIS = {
+    'tasks': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'PASSWORD': '',
+        'DATABASE': 0,
+        'SSL': False,
+    },
+    'caching': {
+        'HOST': 'localhost',
+        'PORT': 6379,
+        'PASSWORD': '',
+        'DATABASE': 1,
+        'SSL': False,
+    }
+}
+
+SECRET_KEY = '{{ netbox_secret_key }}'

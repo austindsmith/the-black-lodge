@@ -1,15 +1,26 @@
+- name: Create db user
+  postgresql_user:
+    state: present
+    name: "{{ db_user }}"
+    password: "{{ db_password }}"
+  become: true
+  become_user: postgres
+
 - name: Create database
   postgresql_db:
     state: present
     name: "{{ db_name }}"
+    owner: "{{ db_user }}"
   become: true
   become_user: postgres
 
-- name: Create db user
-  postgresql_user:
-    state: present
-    name: "{{ db_name }}"
-    password: "{{ db_password }}"
+- name: Grant db user privileges on public schema
+  postgresql_privs:
+    db: "{{ db_name }}"
+    type: schema
+    objs: public
+    roles: "{{ db_user }}"
+    privs: create,usage
   become: true
   become_user: postgres
 
@@ -23,14 +34,17 @@
   become: true
   become_user: postgres
 
-- name: Allow md5 connection for the db user
+- name: Allow md5 connection for local hosts
   postgresql_pg_hba:
     dest: "~/data/pg_hba.conf"
     contype: host
     databases: all
+    users: all
     method: md5
-    users: "{{ db_user }}"
     create: true
   become: true
   become_user: postgres
   notify: restart postgres
+
+- name: Apply pg_hba changes immediately
+  meta: flush_handlers

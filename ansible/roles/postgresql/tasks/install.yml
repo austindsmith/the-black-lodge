@@ -1,5 +1,5 @@
 - name: Install packages
-  dnf:
+  ansible.builtin.dnf:
     name:
       - postgresql
       - postgresql-server
@@ -9,7 +9,7 @@
     state: present
 
 - name: Install Python package
-  pip:
+  ansible.builtin.pip:
     name: psycopg2-binary
     state: present
 
@@ -23,7 +23,7 @@
   when: not postgres_data.stat.exists
 
 - name: Start and enable services
-  service:
+  ansible.builtin.service:
     name: postgresql
     state: started
     enabled: true

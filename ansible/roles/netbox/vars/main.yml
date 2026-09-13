@@ -1,3 +1,6 @@
-#SPDX-License-Identifier: MIT-0
----
-# vars file for roles/netbox
+netbox_username: "{{ lookup('community.general.onepassword', 'netbox', field='username', vault='the-black-lodge') }}"
+netbox_email_address: "{{ lookup('community.general.onepassword', 'netbox', field='email_address', vault='the-black-lodge') }}"
+netbox_password: "{{ lookup('community.general.onepassword', 'netbox', field='password', vault='the-black-lodge') }}"
+db_name: "{{ lookup('community.general.onepassword', 'netbox', field='database', vault='the-black-lodge') }}"
+db_user: "{{ lookup('community.general.onepassword', 'netbox', field='database_user', vault='the-black-lodge') }}"
+db_password: "{{ lookup('community.general.onepassword', 'netbox', field='database_password', vault='the-black-lodge') }}"

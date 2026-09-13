@@ -1,5 +1,2 @@
-- name: Download Netbox from GitHub
-  community.general.github_release:
-    user: netbox-community
-    repo: netbox
-    action: latest_release
+- import_tasks: install.yml
+- import_tasks: configure.yml

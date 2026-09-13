@@ -1,0 +1,55 @@
+- name: Install packages
+  ansible.builtin.dnf:
+    name:
+      - python3
+      - python3-pip
+      - python3-packaging
+      - tar
+      - gzip
+      - gcc
+      - python3-devel
+      - postgresql-devel
+      - libxml2-devel
+      - libxslt-devel
+      - libffi-devel
+      - openssl-devel
+    state: present
+  become: true
+
+- name: Install Python package
+  ansible.builtin.pip:
+    name: github3.py
+    state: present
+  become: true
+
+- name: Get latest release of Netbox from GitHub
+  community.general.github_release:
+    user: netbox-community
+    repo: netbox
+    action: latest_release
+  register: netbox_release
+
+- name: Set Netbox version fact
+  ansible.builtin.set_fact:
+    netbox_version: "{{ netbox_release.tag | regex_replace('^v', '') }}"
+
+- name: Download latest release of Netbox from GitHub
+  ansible.builtin.get_url:
+    url: "https://github.com/netbox-community/netbox/archive/refs/tags/{{ netbox_release.tag }}.tar.gz"
+    dest: "/tmp/{{ netbox_release.tag }}.tar.gz"
+    mode: "0644"
+
+- name: Extract remote archive
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ netbox_release.tag }}.tar.gz"
+    dest: /opt
+    remote_src: true
+    creates: "/opt/netbox-{{ netbox_version }}"
+  become: true
+
+- name: Create symbolic link
+  ansible.builtin.file:
+    src: "/opt/netbox-{{ netbox_version }}/"
+    dest: /opt/netbox
+    state: link
+  become: true

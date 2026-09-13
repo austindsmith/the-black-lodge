@@ -1,12 +1,12 @@
 - name: Install packages
-  dnf:
+  ansible.builtin.dnf:
     name:
       - valkey
     state: present
     update_cache: true
 
 - name: Start and enable services
-  service:
+  ansible.builtin.service:
     name: valkey
     state: started
     enabled: true

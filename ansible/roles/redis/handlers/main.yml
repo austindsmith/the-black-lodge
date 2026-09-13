@@ -1,4 +1,4 @@
 - name: restart valkey
-  service:
+  ansible.builtin.service:
     name: valkey
     state: restarted
