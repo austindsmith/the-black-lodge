@@ -1,4 +1,6 @@
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["{{ netbox_hostname }}", "127.0.0.1", "localhost"]
+
+CSRF_TRUSTED_ORIGINS = ["https://{{ netbox_hostname }}"]
 
 DATABASES = {
     'default': {

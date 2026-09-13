@@ -1,0 +1,11 @@
+[Unit]
+Description=NetBox housekeeping
+After=network-online.target
+Requires=netbox.service
+
+[Service]
+Type=oneshot
+User=netbox
+Group=netbox
+WorkingDirectory=/opt/netbox/netbox
+ExecStart=/opt/netbox/venv/bin/python manage.py housekeeping

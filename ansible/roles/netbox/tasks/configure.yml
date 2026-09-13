@@ -57,10 +57,25 @@
     group: netbox
     mode: "0644"
 
+- name: Check for existing NetBox virtualenv
+  ansible.builtin.stat:
+    path: /opt/netbox/venv/bin/python
+  register: netbox_venv
+
 - name: Run NetBox upgrade script
   ansible.builtin.command:
     cmd: /opt/netbox/upgrade.sh
   become: true
+  when: not netbox_venv.stat.exists
+
+- name: Check for existing NetBox superuser
+  ansible.builtin.command:
+    cmd: >
+      /opt/netbox/venv/bin/python manage.py shell -c "from django.contrib.auth import get_user_model; import sys; sys.exit(0 if get_user_model().objects.filter(username='{{ netbox_username }}').exists() else 1)"
+    chdir: /opt/netbox/netbox
+  register: netbox_superuser_check
+  failed_when: false
+  changed_when: false
 
 - name: Create NetBox superuser
   ansible.builtin.command:
@@ -70,12 +85,36 @@
     DJANGO_SUPERUSER_USERNAME: "{{ netbox_username }}"
     DJANGO_SUPERUSER_EMAIL: "{{ netbox_email_address }}"
     DJANGO_SUPERUSER_PASSWORD: "{{ netbox_password }}"
+  when: netbox_superuser_check.rc != 0
+
+- name: Deploy gunicorn configuration
+  ansible.builtin.copy:
+    src: /opt/netbox/contrib/gunicorn.py
+    dest: /opt/netbox/gunicorn.py
+    remote_src: true
+    owner: root
+    group: root
+    mode: "0644"
+    force: false
+
+- name: Deploy NetBox housekeeping units
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/systemd/system/{{ item }}"
+    owner: root
+    group: root
+    mode: "0644"
+  loop:
+    - netbox-housekeeping.service
+    - netbox-housekeeping.timer
 
 - name: Enable and start NetBox services
-  ansible.builtin.systemd:
+  ansible.builtin.systemd_service:
     name: "{{ item }}"
     enabled: true
     state: started
+    daemon_reload: true
   loop:
     - netbox
     - netbox-rq
+    - netbox-housekeeping.timer

@@ -14,6 +14,16 @@
   become: true
   become_user: postgres
 
+- name: Enable required PostgreSQL extensions
+  community.postgresql.postgresql_ext:
+    name: "{{ item }}"
+    login_db: "{{ db_name }}"
+    state: present
+  become: true
+  become_user: postgres
+  loop:
+    - ltree
+
 - name: Grant db user privileges on public schema
   postgresql_privs:
     db: "{{ db_name }}"

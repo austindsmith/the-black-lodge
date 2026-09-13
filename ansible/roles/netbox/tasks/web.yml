@@ -1,0 +1,70 @@
+- name: Install web packages
+  ansible.builtin.dnf:
+    name:
+      - nginx
+      - policycoreutils-python-utils
+    state: present
+
+- name: Create TLS directory
+  ansible.builtin.file:
+    path: /etc/ssl/netbox
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+
+- name: Generate private key
+  community.crypto.openssl_privatekey:
+    path: /etc/ssl/netbox/netbox.key
+    owner: root
+    group: root
+    mode: "0600"
+
+- name: Generate certificate signing request
+  community.crypto.openssl_csr:
+    path: /etc/ssl/netbox/netbox.csr
+    privatekey_path: /etc/ssl/netbox/netbox.key
+    common_name: "{{ netbox_hostname }}"
+    subject_alt_name: "{{ netbox_subject_alt_names }}"
+
+- name: Generate self-signed certificate
+  community.crypto.x509_certificate:
+    path: /etc/ssl/netbox/netbox.crt
+    privatekey_path: /etc/ssl/netbox/netbox.key
+    csr_path: /etc/ssl/netbox/netbox.csr
+    provider: selfsigned
+    selfsigned_not_after: "+3650d"
+  notify: reload nginx
+
+- name: Allow nginx to proxy to gunicorn
+  ansible.posix.seboolean:
+    name: httpd_can_network_connect
+    state: true
+    persistent: true
+
+- name: Label NetBox static files for nginx
+  community.general.sefcontext:
+    target: "/opt/netbox-.*/netbox/static(/.*)?"
+    setype: httpd_sys_content_t
+    state: present
+  register: netbox_static_context
+
+- name: Apply static file labels
+  ansible.builtin.command:
+    cmd: restorecon -Rv /opt/netbox/netbox/static
+  when: netbox_static_context.changed
+
+- name: Deploy nginx site configuration
+  ansible.builtin.template:
+    src: netbox.conf.j2
+    dest: /etc/nginx/conf.d/netbox.conf
+    owner: root
+    group: root
+    mode: "0644"
+  notify: reload nginx
+
+- name: Enable and start nginx
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: true
