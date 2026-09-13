@@ -1,15 +1,19 @@
 {
+  "schema": 1,
   "root": "{localappdata}\\kit",
   "apps": [
     {
       "name": "git",
-      "desc": "Git for Windows, portable (bash, ssh and less included)",
       "repo": "git-for-windows/git",
       "version": "2.55.0.5",
       "tag": "v2.55.0.windows.5",
       "asset": "PortableGit-{version}-64-bit.7z.exe",
-      "path": ["cmd"],
-      "bin": ["cmd\\git.exe"]
+      "path": [
+        "cmd"
+      ],
+      "bin": [
+        "cmd\\git.exe"
+      ]
     },
     {
       "name": "neovim",
@@ -17,18 +21,23 @@
       "version": "0.12.5",
       "asset": "nvim-win64.zip",
       "extract_dir": "nvim-win64",
-      "path": ["bin"],
-      "bin": ["bin\\nvim.exe"]
+      "path": [
+        "bin"
+      ],
+      "bin": [
+        "bin\\nvim.exe"
+      ]
     },
     {
       "name": "python",
-      "desc": "python-build-standalone: relocatable CPython, no installer or admin needed",
       "repo": "astral-sh/python-build-standalone",
       "version": "3.13.15",
       "tag": "20260901",
       "asset": "cpython-{version}+{tag}-x86_64-pc-windows-msvc-install_only.tar.gz",
       "extract_dir": "python",
-      "bin": ["python.exe"]
+      "bin": [
+        "python.exe"
+      ]
     },
     {
       "name": "uv",
@@ -36,25 +45,31 @@
       "version": "0.12.13",
       "tag": "{version}",
       "asset": "uv-x86_64-pc-windows-msvc.zip",
-      "bin": ["uv.exe", "uvx.exe"]
+      "bin": [
+        "uv.exe",
+        "uvx.exe"
+      ]
     },
     {
       "name": "node",
-      "desc": "Node.js LTS; runtime for the npm tools in node/package.json",
       "version": "24.21.0",
       "url": "https://nodejs.org/dist/v{version}/node-v{version}-win-x64.zip",
       "sha256": "158f7685b44de51f6c0df1d153526cbcd3e1bc739a8dfc607721cef75de9e541",
       "extract_dir": "node-v{version}-win-x64",
-      "bin": ["node.exe", "npm.cmd"]
+      "bin": [
+        "node.exe",
+        "npm.cmd"
+      ]
     },
     {
       "name": "tree-sitter",
-      "desc": "CLI nvim-treesitter uses to compile parsers (in the builder)",
       "repo": "tree-sitter/tree-sitter",
       "version": "0.27.0",
       "asset": "tree-sitter-windows-x64.gz",
       "rename": "tree-sitter.exe",
-      "bin": ["tree-sitter.exe"]
+      "bin": [
+        "tree-sitter.exe"
+      ]
     },
     {
       "name": "lua-language-server",
@@ -62,15 +77,21 @@
       "version": "3.19.1",
       "tag": "{version}",
       "asset": "lua-language-server-{version}-win32-x64.zip",
-      "path": ["bin"],
-      "bin": ["bin\\lua-language-server.exe"]
+      "path": [
+        "bin"
+      ],
+      "bin": [
+        "bin\\lua-language-server.exe"
+      ]
     },
     {
       "name": "stylua",
       "repo": "JohnnyMorganz/StyLua",
       "version": "2.5.2",
       "asset": "stylua-windows-x86_64.zip",
-      "bin": ["stylua.exe"]
+      "bin": [
+        "stylua.exe"
+      ]
     },
     {
       "name": "ruff",
@@ -78,7 +99,9 @@
       "version": "0.16.7",
       "tag": "{version}",
       "asset": "ruff-x86_64-pc-windows-msvc.zip",
-      "bin": ["ruff.exe"]
+      "bin": [
+        "ruff.exe"
+      ]
     },
     {
       "name": "ripgrep",
@@ -87,7 +110,9 @@
       "tag": "{version}",
       "asset": "ripgrep-{version}-x86_64-pc-windows-msvc.zip",
       "extract_dir": "ripgrep-{version}-x86_64-pc-windows-msvc",
-      "bin": ["rg.exe"]
+      "bin": [
+        "rg.exe"
+      ]
     },
     {
       "name": "fd",
@@ -95,14 +120,18 @@
       "version": "10.5.0",
       "asset": "fd-v{version}-x86_64-pc-windows-msvc.zip",
       "extract_dir": "fd-v{version}-x86_64-pc-windows-msvc",
-      "bin": ["fd.exe"]
+      "bin": [
+        "fd.exe"
+      ]
     },
     {
       "name": "fzf",
       "repo": "junegunn/fzf",
       "version": "0.74.3",
       "asset": "fzf-{version}-windows_amd64.zip",
-      "bin": ["fzf.exe"]
+      "bin": [
+        "fzf.exe"
+      ]
     },
     {
       "name": "jq",
@@ -111,21 +140,27 @@
       "tag": "jq-{version}",
       "asset": "jq-windows-amd64.exe",
       "rename": "jq.exe",
-      "bin": ["jq.exe"]
+      "bin": [
+        "jq.exe"
+      ]
     },
     {
       "name": "starship",
       "repo": "starship/starship",
       "version": "1.26.0",
       "asset": "starship-x86_64-pc-windows-msvc.zip",
-      "bin": ["starship.exe"]
+      "bin": [
+        "starship.exe"
+      ]
     },
     {
       "name": "zoxide",
       "repo": "ajeetdsouza/zoxide",
       "version": "0.10.0",
       "asset": "zoxide-{version}-x86_64-pc-windows-msvc.zip",
-      "bin": ["zoxide.exe"]
+      "bin": [
+        "zoxide.exe"
+      ]
     },
     {
       "name": "yazi",
@@ -133,39 +168,52 @@
       "version": "26.9.1",
       "asset": "yazi-x86_64-pc-windows-msvc.zip",
       "extract_dir": "yazi-x86_64-pc-windows-msvc",
-      "bin": ["yazi.exe", "ya.exe"]
+      "bin": [
+        "yazi.exe",
+        "ya.exe"
+      ]
     },
     {
       "name": "komorebi",
       "repo": "LGUG2Z/komorebi",
       "version": "0.1.41",
       "asset": "komorebi-{version}-x86_64-pc-windows-msvc.zip",
-      "bin": ["komorebi.exe", "komorebic.exe", "komorebi-bar.exe"]
+      "bin": [
+        "komorebi.exe",
+        "komorebic.exe",
+        "komorebi-bar.exe"
+      ]
     },
     {
       "name": "whkd",
-      "desc": "hotkey daemon komorebi's quickstart config uses",
       "repo": "LGUG2Z/whkd",
       "version": "0.2.10",
       "asset": "whkd-{version}-x86_64-pc-windows-msvc.zip",
-      "bin": ["whkd.exe"]
+      "bin": [
+        "whkd.exe"
+      ]
     },
     {
       "name": "yasb",
       "repo": "amnweb/yasb",
       "version": "2.0.6",
       "asset": "yasb-{version}-x64.msi",
-      "bin": ["yasb.exe"]
+      "bin": [
+        "yasb.exe"
+      ]
     },
     {
       "name": "glazewm",
-      "desc": "current tiling WM at work, until komorebi replaces it",
       "repo": "glzr-io/glazewm",
       "version": "3.10.1",
       "asset": "standalone-glazewm-v{version}-x64.msi",
       "extract_dir": "PFiles64\\glzr.io\\GlazeWM",
-      "path": ["cli"],
-      "bin": ["cli\\glazewm.exe"]
+      "path": [
+        "cli"
+      ],
+      "bin": [
+        "cli\\glazewm.exe"
+      ]
     },
     {
       "name": "wezterm",
@@ -174,7 +222,10 @@
       "tag": "{version}",
       "asset": "WezTerm-windows-{version}.zip",
       "extract_dir": "WezTerm-windows-{version}",
-      "bin": ["wezterm.exe", "wezterm-gui.exe"]
+      "bin": [
+        "wezterm.exe",
+        "wezterm-gui.exe"
+      ]
     },
     {
       "name": "sops",
@@ -182,7 +233,9 @@
       "version": "3.13.3",
       "asset": "sops-v{version}.amd64.exe",
       "rename": "sops.exe",
-      "bin": ["sops.exe"]
+      "bin": [
+        "sops.exe"
+      ]
     },
     {
       "name": "age",
@@ -190,23 +243,42 @@
       "version": "1.3.2",
       "asset": "age-v{version}-windows-amd64.zip",
       "extract_dir": "age",
-      "bin": ["age.exe", "age-keygen.exe"]
+      "bin": [
+        "age.exe",
+        "age-keygen.exe"
+      ]
     },
     {
       "name": "duckdb",
       "repo": "duckdb/duckdb",
       "version": "1.5.5",
       "asset": "duckdb_cli-windows-amd64.zip",
-      "bin": ["duckdb.exe"]
+      "bin": [
+        "duckdb.exe"
+      ]
     }
   ],
   "python": {
-    "tools": ["basedpyright", "pyfiglet", "tldr"]
+    "tools": [
+      "basedpyright",
+      "pyfiglet",
+      "tldr"
+    ]
   },
   "neovim": {
     "treesitter": [
-      "bash", "json", "lua", "markdown", "markdown_inline", "powershell",
-      "python", "query", "toml", "vim", "vimdoc", "yaml"
+      "bash",
+      "json",
+      "lua",
+      "markdown",
+      "markdown_inline",
+      "powershell",
+      "python",
+      "query",
+      "toml",
+      "vim",
+      "vimdoc",
+      "yaml"
     ]
   },
   "dotfiles": {

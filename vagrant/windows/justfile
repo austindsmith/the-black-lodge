@@ -2,43 +2,51 @@ set shell := ["bash", "-euo", "pipefail", "-c"]
 
 usb := env("KIT_USB_LABEL", "portable")
 
-# Prints all commands when running `just`
+[doc("Prints all commands when running `just`")]
 default:
     @just --list
 
-# Pins kit/ inputs: app URLs + sha256, Python and npm lock files (--upgrade to bump deps)
+[doc("Validates the manifest, lock files, scripts and Vagrantfile")]
+check:
+    scripts/check.sh
+
+[doc("Pins app urls and hashes plus the python and npm lock files (--upgrade bumps deps)")]
 lock *args:
-    kit/lock.sh {{ args }}
+    scripts/lock.sh {{ args }}
 
-# Lists apps with a newer upstream release than the locked one
+[doc("Lists apps with a newer upstream release than the locked one")]
 outdated:
-    kit/outdated.sh
+    scripts/outdated.sh
 
-# Brings up the online builder: toolchain, kit build onto the stick, install
-builder:
+[doc("Brings up the online builder: toolchain, kit build onto the stick, install")]
+builder: check
     vagrant up builder
 
-# Rebuilds the kit onto the stick (incremental) and reinstalls it in the builder
-build:
+[doc("Rebuilds the kit onto the stick and reinstalls it in the builder")]
+build: check
     vagrant provision builder --provision-with kit-clean,kit-upload,build,install
 
-# Brings up the offline work VM: installs from the stick and smoke-tests it
+[doc("Brings up the offline work VM: installs from the stick and smoke-tests it")]
 work:
     vagrant up work
 
-# Re-runs the offline install and smoke test in the work VM
+[doc("Re-runs the offline install and smoke test in the work VM")]
 test:
     vagrant provision work --provision-with install,test
 
-# Opens a VM's desktop (log in as worker/worker in the work VM)
+[doc("Summarises what is currently on the USB stick")]
+stick:
+    scripts/stick.sh {{ usb }}
+
+[doc("Opens a VM's desktop; log in as worker/worker on the work VM")]
 console vm="builder":
     virt-manager --connect qemu:///system --show-domain-console kit-{{ vm }}
 
-# Hot-plugs the stick into a running VM (e.g. it wasn't plugged in at `up`)
+[doc("Hot-plugs the stick into a running VM")]
 usb-attach vm="builder":
     scripts/usb.sh release {{ usb }}
     scripts/usb.sh xml {{ usb }} | virsh --connect qemu:///system attach-device kit-{{ vm }} /dev/stdin --live
 
-# Destroys both VMs; the stick returns to the host
+[doc("Destroys both VMs; the stick returns to the host")]
 destroy:
     vagrant destroy --force

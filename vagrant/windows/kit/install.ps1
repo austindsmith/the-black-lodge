@@ -1,123 +1,173 @@
-<#
-.SYNOPSIS
-Installs the offline kit from this USB stick. No admin rights, no network.
+#Requires -Version 5.1
+param(
+    [string]$Root
+)
 
-.DESCRIPTION
-    powershell -ExecutionPolicy Bypass -File E:\kit\install.ps1
-
-Safe to re-run: app versions already installed are skipped and everything else is
-brought in line with the stick. It only touches the kit root (packages.json "root"),
-the dotfiles clone, nvim-data\lazy and nvim-data\site, uv's tool dir, the user PATH
-and environment, and PowerShell profile stubs it created itself.
-#>
 $ErrorActionPreference = 'Stop'
 $ProgressPreference = 'SilentlyContinue'
 Import-Module (Join-Path $PSScriptRoot 'Kit.psm1') -Force
 
-$kitDir   = $PSScriptRoot
-$usbRoot  = Split-Path $kitDir -Parent
-$manifest = Read-Json (Join-Path $kitDir 'packages.json')
-$dist     = Read-Json (Join-Path $kitDir 'dist.json')
-$vars     = Get-KitVars $manifest
-$root     = $vars.root
-New-Item -ItemType Directory -Force $root | Out-Null
+$SchemaVersion = 1
+$KitDir = $PSScriptRoot
+$UsbRoot = Split-Path $KitDir -Parent
 
-# Input keys of the unversioned components installed last time.
-$stateFile = Join-Path $root 'installed.json'
-$state = @{}
-if (Test-Path $stateFile) { (Read-Json $stateFile).PSObject.Properties | ForEach-Object { $state[$_.Name] = $_.Value } }
-function Test-Current([string]$Name) { $state[$Name] -eq $dist.components.$Name.key }
-
-Write-Host "Installing kit $($dist.revision) (dotfiles $($dist.dotfiles), built $($dist.built)) into $root"
-
-Write-Host "==> apps"
-$pathDirs = @()
-foreach ($c in $dist.components.PSObject.Properties) {
-    if ($c.Value.app) { $pathDirs += Install-KitApp -KitDir $kitDir -Component $c.Value -Root $root }
+function Get-AppComponent($Dist, [string]$Name) {
+    ($Dist.components.PSObject.Properties | Where-Object { $_.Value.app -and $_.Value.app.name -eq $Name }).Value
 }
 
-$wheels = Join-Path $root 'wheels'
-if ($dist.components.wheels -and -not (Test-Current 'wheels')) {
-    Write-Host "==> python wheels"
-    Assert-KitFiles $kitDir $dist.components.wheels
-    Remove-Item -Recurse -Force $wheels -ErrorAction SilentlyContinue
-    Copy-Item -Recurse (Join-Path $kitDir 'dist\wheels') $wheels
-    $state['wheels'] = $dist.components.wheels.key
-}
-
-if ($dist.components.'node-tools') {
-    $nodeTools = Join-Path $root 'node-tools'
-    if (-not (Test-Current 'node-tools')) {
-        Write-Host "==> node tools"
-        Assert-KitFiles $kitDir $dist.components.'node-tools'
-        Remove-Item -Recurse -Force $nodeTools -ErrorAction SilentlyContinue
-        Expand-Zip (Join-Path $kitDir 'dist\node-tools.zip') $nodeTools
-        $state['node-tools'] = $dist.components.'node-tools'.key
+function Read-InstalledState([string]$Path) {
+    $state = @{}
+    if (Test-Path $Path) {
+        (Read-Json $Path).PSObject.Properties | ForEach-Object { $state[$_.Name] = $_.Value }
     }
-    $pathDirs += Join-Path $nodeTools 'node_modules\.bin'
+    $state
 }
 
-if ($dist.components.'nvim-data' -and -not (Test-Current 'nvim-data')) {
-    Write-Host "==> neovim plugins and parsers"
-    Assert-KitFiles $kitDir $dist.components.'nvim-data'
-    $nvimData = Join-Path $env:LOCALAPPDATA 'nvim-data'
-    $new = "$nvimData.new"
-    Remove-Item -Recurse -Force $new -ErrorAction SilentlyContinue
-    Expand-Zip (Join-Path $kitDir 'dist\nvim-data.zip') $new
-    # Replace only what the kit owns: all of lazy\, and the site\ subdirs it ships
-    # (parser, queries, ...). Shada, undo history and site\spell survive.
-    $owned = @(Get-Item (Join-Path $new 'lazy') -ErrorAction SilentlyContinue) +
-             @(Get-ChildItem (Join-Path $new 'site') -Directory -ErrorAction SilentlyContinue)
-    foreach ($dir in $owned) {
-        $target = Join-Path $nvimData $dir.FullName.Substring($new.Length + 1)
+function Test-ComponentInstalled($Dist, [string]$Name) {
+    $script:State[$Name] -eq $Dist.components.$Name.key
+}
+
+function Install-Apps($Dist, [string]$KitRoot) {
+    $pathDirs = @()
+    foreach ($component in $Dist.components.PSObject.Properties) {
+        if ($component.Value.app) {
+            $pathDirs += Install-KitApp -KitDir $KitDir -Component $component.Value -Root $KitRoot
+        }
+    }
+    $pathDirs
+}
+
+function Install-Wheels($Dist, [string]$Destination) {
+    if (-not $Dist.components.wheels -or (Test-ComponentInstalled $Dist 'wheels')) { return }
+
+    Assert-KitFiles $KitDir $Dist.components.wheels
+    Remove-Item -Recurse -Force $Destination -ErrorAction SilentlyContinue
+    Copy-Item -Recurse (Join-Path $KitDir 'dist\wheels') $Destination
+    $script:State['wheels'] = $Dist.components.wheels.key
+}
+
+function Install-NodeTools($Dist, [string]$Destination) {
+    if (-not $Dist.components.'node-tools') { return }
+
+    if (-not (Test-ComponentInstalled $Dist 'node-tools')) {
+        Assert-KitFiles $KitDir $Dist.components.'node-tools'
+        Remove-Item -Recurse -Force $Destination -ErrorAction SilentlyContinue
+        Expand-Zip (Join-Path $KitDir 'dist\node-tools.zip') $Destination
+        $script:State['node-tools'] = $Dist.components.'node-tools'.key
+    }
+    Join-Path $Destination 'node_modules\.bin'
+}
+
+function Install-NvimData($Dist) {
+    if (-not $Dist.components.'nvim-data' -or (Test-ComponentInstalled $Dist 'nvim-data')) { return }
+
+    Assert-KitFiles $KitDir $Dist.components.'nvim-data'
+    $dataDir = Join-Path $env:LOCALAPPDATA 'nvim-data'
+    $incoming = "$dataDir.incoming"
+    Remove-Item -Recurse -Force $incoming -ErrorAction SilentlyContinue
+    Expand-Zip (Join-Path $KitDir 'dist\nvim-data.zip') $incoming
+
+    $owned = @(Get-Item (Join-Path $incoming 'lazy') -ErrorAction SilentlyContinue) +
+             @(Get-ChildItem (Join-Path $incoming 'site') -Directory -ErrorAction SilentlyContinue)
+    foreach ($directory in $owned) {
+        $target = Join-Path $dataDir $directory.FullName.Substring($incoming.Length + 1)
         Remove-Item -Recurse -Force -LiteralPath $target -ErrorAction SilentlyContinue
         New-Item -ItemType Directory -Force (Split-Path $target) | Out-Null
-        Move-Item -LiteralPath $dir.FullName $target
+        Move-Item -LiteralPath $directory.FullName $target
     }
-    Remove-Item -Recurse -Force $new
-    $state['nvim-data'] = $dist.components.'nvim-data'.key
+
+    Remove-Item -Recurse -Force $incoming
+    $script:State['nvim-data'] = $Dist.components.'nvim-data'.key
 }
 
-Write-Host "==> environment"
-Set-UserPath -Dirs $pathDirs -Root $root
-foreach ($e in $manifest.env.PSObject.Properties) {
-    Set-UserEnv $e.Name (Expand-KitString $e.Value $vars)
-}
+function Install-PythonTools($Manifest, $Dist, [string]$KitRoot) {
+    $tools = @($Manifest.python.tools)
+    if ($tools.Count -eq 0) { return }
 
-$tools = @($manifest.python.tools)
-if ($tools.Count -gt 0) {
-    $python = Join-Path $root 'apps\python\current\python.exe'
-    $toolsKey = "$($state['wheels'])|$($dist.components.'app:python'.app.version)|$($tools -join ',')"
-    if ($state['uv-tools'] -ne $toolsKey) {
-        Write-Host "==> python tools"
-        foreach ($t in $tools) {
-            # Venvs aren't relocatable, so tools are built here, from the wheelhouse.
-            Invoke-Native uv tool install --reinstall --offline --no-index --find-links $wheels --python $python $t
+    $python = Join-Path $KitRoot 'apps\python\current\python.exe'
+    $wheels = Join-Path $KitRoot 'wheels'
+    $key = "$($script:State['wheels'])|$((Get-AppComponent $Dist 'python').app.version)|$($tools -join ',')"
+
+    if ($script:State['uv-tools'] -ne $key) {
+        foreach ($tool in $tools) {
+            Invoke-Native uv tool install --reinstall --offline --no-index --find-links $wheels --python $python $tool | Out-Host
         }
-        $state['uv-tools'] = $toolsKey
+        $script:State['uv-tools'] = $key
     }
-    $pathDirs += (& uv tool dir --bin)
-    Set-UserPath -Dirs $pathDirs -Root $root
+    & uv tool dir --bin
 }
 
-Write-Host "==> dotfiles"
-if (Sync-Dotfiles -UsbRoot $usbRoot -RepoRel $manifest.dotfiles.repo -Path $vars.dotfiles) {
-    foreach ($j in $manifest.dotfiles.junctions.PSObject.Properties) {
-        $link = Expand-KitString $j.Name $vars
-        $target = Expand-KitString $j.Value $vars
-        if (Test-Path $target) { Set-Junction $link $target }
-        else { Write-Warning "Not linking $link; $target doesn't exist in the dotfiles yet" }
+function Set-KitEnvironment($Manifest, [hashtable]$Vars) {
+    foreach ($variable in $Manifest.env.PSObject.Properties) {
+        Set-UserEnv $variable.Name (Expand-KitString $variable.Value $Vars)
     }
-    if ($manifest.dotfiles.profile) { Set-ProfileStub (Expand-KitString $manifest.dotfiles.profile $vars) }
 }
 
-Write-Json $stateFile $state
+function Connect-Dotfiles($Manifest, [hashtable]$Vars) {
+    if (-not (Sync-Dotfiles -UsbRoot $UsbRoot -RepoRel $Manifest.dotfiles.repo -Path $Vars.dotfiles)) { return }
 
-# New shells use the first policy set outside the Process scope.
-$policy = Get-ExecutionPolicy -List |
-    Where-Object { $_.Scope -ne 'Process' -and $_.ExecutionPolicy -ne 'Undefined' } | Select-Object -First 1
-if (-not $policy -or [string]$policy.ExecutionPolicy -in 'Restricted', 'AllSigned') {
-    Write-Warning 'The execution policy blocks unsigned profiles. If policy allows it: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
+    foreach ($junction in $Manifest.dotfiles.junctions.PSObject.Properties) {
+        $link = Expand-KitString $junction.Name $Vars
+        $target = Expand-KitString $junction.Value $Vars
+        if (Test-Path $target) {
+            Set-Junction $link $target
+        } else {
+            Write-Warning "Not linking $link; $target does not exist in the dotfiles yet"
+        }
+    }
+
+    if ($Manifest.dotfiles.profile) {
+        Set-ProfileStub (Expand-KitString $Manifest.dotfiles.profile $Vars)
+    }
 }
-Write-Host "Done. Open a new terminal to pick up PATH and environment changes."
-exit 0  # not whatever the last native command left in $LASTEXITCODE
+
+function Show-ExecutionPolicyWarning {
+    if ((Get-EffectiveExecutionPolicy) -in 'Restricted', 'AllSigned') {
+        Write-Warning 'The execution policy blocks unsigned profiles. If policy allows: Set-ExecutionPolicy -Scope CurrentUser RemoteSigned'
+    }
+}
+
+$distFile = Join-Path $KitDir 'dist.json'
+if (-not (Test-Path $distFile)) { throw "No kit on this stick ($distFile is missing); build it first" }
+
+$manifest = Read-Json (Join-Path $KitDir 'packages.json')
+$dist = Read-Json $distFile
+if ($dist.schema -ne $SchemaVersion) {
+    throw "This stick was built with kit schema $($dist.schema), this installer expects $SchemaVersion; rebuild the kit"
+}
+
+$vars = Get-KitVars $manifest
+if ($Root) { $vars.root = $Root }
+$kitRoot = $vars.root
+New-Item -ItemType Directory -Force $kitRoot | Out-Null
+$script:State = Read-InstalledState (Join-Path $kitRoot 'installed.json')
+
+Write-Host "Installing kit $($dist.revision) (dotfiles $($dist.dotfiles), built $($dist.built)) into $kitRoot"
+
+Write-Step 'apps'
+$pathDirs = Install-Apps $dist $kitRoot
+
+Write-Step 'python wheels'
+Install-Wheels $dist (Join-Path $kitRoot 'wheels')
+
+Write-Step 'node tools'
+$pathDirs += Install-NodeTools $dist (Join-Path $kitRoot 'node-tools')
+
+Write-Step 'neovim'
+Install-NvimData $dist
+
+Write-Step 'environment'
+Set-UserPath -Prepend $pathDirs -ManagedRoot $kitRoot
+Set-KitEnvironment $manifest $vars
+
+Write-Step 'python tools'
+$pathDirs += Install-PythonTools $manifest $dist $kitRoot
+Set-UserPath -Prepend $pathDirs -ManagedRoot $kitRoot
+
+Write-Step 'dotfiles'
+Connect-Dotfiles $manifest $vars
+
+Write-Json (Join-Path $kitRoot 'installed.json') $script:State
+Show-ExecutionPolicyWarning
+Write-Host 'Done. Open a new terminal to pick up the PATH and environment changes.'
+exit 0
