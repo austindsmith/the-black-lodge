@@ -1,5 +1,12 @@
+locals {
+  ansible_inventory_template_path   = "${path.module}/inventory-${var.ansible_template_type}.tmpl"
+  ansible_inventory_template_exists = fileexists(local.ansible_inventory_template_path)
+}
+
 resource "local_file" "ansible_inventory" {
-  content = templatefile("${path.module}/inventory-${var.ansible_template_type}.tmpl", {
+  count = local.ansible_inventory_template_exists ? 1 : 0
+
+  content = templatefile(local.ansible_inventory_template_path, {
     nodes = var.nodes
   })
   filename        = var.ansible_inventory_path

@@ -15,5 +15,5 @@ locals {
 inputs = local.inventory.inputs
 
 terraform {
-  source = "${get_repo_root()}/terraform/proxmox/modules/proxmox-vm"
+  source = "${get_parent_terragrunt_dir("root")}/modules/proxmox-vm"
 }

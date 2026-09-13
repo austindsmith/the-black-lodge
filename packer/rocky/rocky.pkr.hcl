@@ -16,7 +16,7 @@ source "proxmox-iso" "rocky" {
   vm_id                    = 9001
   pool                     = var.pool
 
-  template_name        = "rocky-v10-1"
+  template_name        = "rocky-v10-2"
   template_description = "Rocky Linux cloud image with QEMU guest agent and cloud-init."
 
   cpu_type   = "host"
@@ -48,8 +48,8 @@ source "proxmox-iso" "rocky" {
   boot_iso {
     type             = "ide"
     iso_storage_pool = "local"
-    iso_url          = "https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.1-x86_64-boot.iso"
-    iso_checksum     = "file:https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.1-x86_64-boot.iso.CHECKSUM"
+    iso_url          = "https://download.rockylinux.org/pub/rocky/10/isos/x86_64/Rocky-10.2-x86_64-boot.iso"
+    iso_checksum     = "file:https://download.rockylinux.org/pub/rocky/10/isos/x86_64/CHECKSUM"
     iso_download_pve = true
     unmount          = true
   }

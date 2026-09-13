@@ -1,0 +1,12 @@
+- name: Install packages
+  dnf:
+    name:
+      - valkey
+    state: present
+    update_cache: true
+
+- name: Start and enable services
+  service:
+    name: valkey
+    state: started
+    enabled: true

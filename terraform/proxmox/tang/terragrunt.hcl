@@ -2,9 +2,14 @@ include "root" {
   path = find_in_parent_folders("root.hcl")
 }
 
-terraform {
-  source = "../modules/proxmox-vm"
+include "remote_state" {
+  path = find_in_parent_folders("remote_state.hcl")
 }
+
+terraform {
+  source = "${get_parent_terragrunt_dir("root")}/modules/proxmox-vm"
+}
+
 locals {
   common = read_terragrunt_config(find_in_parent_folders("root.hcl"))
 }

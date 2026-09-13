@@ -1,4 +1,4 @@
-download_dir = "${get_repo_root()}/.terragrunt-cache"
+download_dir = "${get_repo_root()}/terraform/.terragrunt-cache"
 
 generate "provider" {
   path      = "provider.tf"
@@ -25,7 +25,7 @@ EOF
 }
 
 locals {
-  secrets = yamldecode(sops_decrypt_file("${get_parent_terragrunt_dir()}/secret.yaml"))
+  secrets = yamldecode(sops_decrypt_file("${get_parent_terragrunt_dir("root")}/secret.yaml"))
 }
 
 generate "secrets" {
@@ -37,7 +37,3 @@ generate "secrets" {
     ssh_password  = "${local.secrets.ssh_password}"
   EOT
 }
-
-#inputs = {
-#  ansible_inventory_path = "${get_repo_root()}/ansible/inventory/terraform.yml"
-#}

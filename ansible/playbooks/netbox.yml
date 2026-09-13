@@ -1,0 +1,7 @@
+- name: Install and configure Netbox
+  hosts: netbox-server-01
+  become: true
+  roles:
+    #- postgresql
+    - redis
+    #- netbox

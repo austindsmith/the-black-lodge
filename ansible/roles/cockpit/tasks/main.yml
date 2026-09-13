@@ -1,3 +1,0 @@
-- name: Install cockpit - server management UI
-  ansible.builtin.include_role:
-    name: linux-system-roles.cockpit
