@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "description": "npm CLIs for the work laptop. `just lock` pins package-lock.json; the builder runs npm ci and ships the result.",
+  "dependencies": {
+    "@google/clasp": "^3.4.1",
+    "prettier": "^3.9.6"
+  }
+}

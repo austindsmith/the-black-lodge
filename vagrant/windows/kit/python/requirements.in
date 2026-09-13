@@ -1,0 +1,8 @@
+# Python packages for the work laptop. `just lock` resolves these for Windows into
+# requirements.txt (hash-pinned); the builder turns that into the USB wheelhouse,
+# compiling any sdist with MSVC. At work, UV_FIND_LINKS/PIP_FIND_LINKS point at it.
+#
+# Tools in packages.json "python.tools" must be listed here too.
+basedpyright
+pyfiglet
+tldr
