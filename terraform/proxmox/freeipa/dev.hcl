@@ -9,7 +9,7 @@ inputs = {
   description  = ""
   pool_id      = "infrastructure"
   type         = "freeipa"
-  vlan_id      = 5
+  vlan_id      = 2
   gateway      = "192.168.100.1"
   dns_servers  = ["192.168.1.5"]
   domain       = "theblacklodge.org"
@@ -23,6 +23,6 @@ inputs = {
   tags = ["packer", "proxmox", "gitops", "freeipa"]
 
   nodes = {
-    freeipa-server-01 = { vm_id = 7000, ip = "192.168.100.25/24" }
+    freeipa-server-01 = { vm_id = 1002, ip = "192.168.50.20/24" }
   }
 }

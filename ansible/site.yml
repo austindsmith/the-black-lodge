@@ -1,17 +1,41 @@
-- name: Global configurations
-  ansible.builtin.import_playbook: playbooks/global.yml
+- name: Deploy Netbox server
+  hosts: netbox-server-01
+  tags:
+    - netbox
+  become: true
+  roles:
+    - common
+    - cockpit
+    - firewall
+    - postgresql
+    - redis
+    - netbox
 
-- name: Cockpit server management
-  ansible.builtin.import_playbook: playbooks/cockpit.yml
+- name: Deploy Tang server
+  hosts: tang
+  tags:
+    - tang
+  become: true
+  roles:
+    - role: common
+    - role: cockpit
+    - role: firewall
+    - role: tang
 
-- name: FreeIPA servers and clients
-  ansible.builtin.import_playbook: playbooks/freeipa.yml
+- name: Deploy Docker server
+  hosts: docker
+  become: true
+  roles:
+    - role: common
+    - role: cockpit
+    - role: firewall
+    - role: docker
+      tags:
+        - docker
 
-- name: Create Kubernetes cluster
-  ansible.builtin.import_playbook: playbooks/kubernetes.yml
-
-- name: Refresh workstations
-  ansible.builtin.import_playbook: playbooks/workstations.yml
-
-- name: Create tang server
-  ansible.builtin.import_playbook: playbooks/tang.yml
+- name: Configure workstations
+  hosts: workstations
+  tags:
+    - workstations
+  roles:
+    - role: workstations

@@ -1,9 +1,0 @@
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: proxmox-headers
-  namespace: traefik
-spec:
-  headers:
-    customRequestHeaders:
-      Host: "proxmox.theblacklodge.org"

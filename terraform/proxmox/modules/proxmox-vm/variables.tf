@@ -18,6 +18,7 @@ variable "proxmox_node" {
 variable "pool_id" {
   type        = string
   description = "The pool to assign VMs for organization"
+  default = ""
 }
 
 variable "template_id" {
@@ -103,15 +104,4 @@ variable "ssh_password" {
 variable "ssh_public_keys" {
   type        = list(string)
   description = "SSH public keys added to the cloud-init user"
-}
-
-variable "ansible_inventory_path" {
-  type    = string
-  default = ""
-}
-
-variable "ansible_template_type" {
-  type        = string
-  description = "Type of Ansible template to use"
-  default = ""
 }

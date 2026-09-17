@@ -1,7 +1,7 @@
 inputs = {
   cpu_type               = "host"
-  cores                  = 2
-  ram                    = 4096
+  cores                  = 4
+  ram                    = 16384
   disk_size              = 100
   datastore_id           = "local-lvm"
   interface              = "virtio0"
@@ -19,9 +19,9 @@ inputs = {
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJX0mh+BfWY7aSt9LccuFdMbJCXEebr6qbI/glX7A6V ansible@theblacklodge.org"
   ]
 
-  tags = ["packer", "proxmox", "gitops", "pihole"]
+  tags = ["packer", "proxmox", "gitops", "backups"]
 
   nodes = {
-    pihole-server-01 = { vm_id = 1000, ip = "192.168.50.10/24" }
+    proxmox-backup-server-01 = { vm_id = 1003, ip = "192.168.50.25/24" }
   }
 }

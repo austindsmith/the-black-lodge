@@ -1,4 +1,0 @@
-firewall_services:
-  - service: cockpit
-  - service: http
-  - service: https

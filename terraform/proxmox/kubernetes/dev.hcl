@@ -8,8 +8,6 @@ inputs = {
   template_id            = 9001
   description            = ""
   pool_id                = "kubernetes"
-  ansible_template_type  = "k3s_cluster"
-  ansible_inventory_path = "${get_repo_root()}/ansible/inventory/dynamic/k3s_cluster.yml"
   vlan_id                = 5
   gateway                = "192.168.100.1"
   dns_servers            = ["192.168.1.5"]
@@ -24,6 +22,6 @@ inputs = {
   tags = ["packer", "proxmox", "gitops", "kubernetes"]
 
   nodes = {
-    kubernetes-server-01 = { vm_id = 7000, ip = "192.168.100.15/24" }
+    kubernetes-server-01 = { vm_id = 2001, ip = "192.168.100.15/24" }
   }
 }

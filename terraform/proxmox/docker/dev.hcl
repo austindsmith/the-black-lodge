@@ -1,15 +1,14 @@
 inputs = {
   cpu_type               = "host"
   cores                  = 2
-  ram                    = 4096
-  disk_size              = 100
+  ram                    = 8192
+  disk_size              = 250
   datastore_id           = "local-lvm"
   interface              = "virtio0"
   template_id            = 9001
   description            = ""
-  pool_id                = "infrastructure"
-  vlan_id                = 2
-  gateway                = "192.168.50.1"
+  vlan_id                = 5
+  gateway                = "192.168.100.1"
   dns_servers            = ["192.168.1.5"]
   domain                 = "theblacklodge.org"
 
@@ -19,9 +18,9 @@ inputs = {
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKJX0mh+BfWY7aSt9LccuFdMbJCXEebr6qbI/glX7A6V ansible@theblacklodge.org"
   ]
 
-  tags = ["packer", "proxmox", "gitops", "pihole"]
+  tags = ["packer", "proxmox", "gitops", "docker"]
 
   nodes = {
-    pihole-server-01 = { vm_id = 1000, ip = "192.168.50.10/24" }
+    docker-server-01 = { vm_id = 2000, ip = "192.168.100.10/24" }
   }
 }

@@ -18,9 +18,12 @@
 
 - name: Apply firewall rules
   ansible.posix.firewalld:
-    service: "{{ item.service }}"
-    zone: "{{ item.zone | default('public') }}"
+    service: "{{ item }}"
+    zone: public
     permanent: true
     state: enabled
     immediate: true
-  loop: "{{ firewall_services }}"
+  loop:
+    - https
+    - http
+    - cockpit

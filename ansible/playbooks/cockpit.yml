@@ -1,4 +1,0 @@
-- name: Install cockpit - server management UI
-  hosts: servers
-  roles:
-    - cockpit

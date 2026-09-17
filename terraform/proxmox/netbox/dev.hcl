@@ -23,6 +23,6 @@ inputs = {
   tags = ["packer", "proxmox", "gitops", "infrastructure"]
 
   nodes = {
-    netbox-server-01 = { vm_id = 1001, ip = "192.168.50.5/24" }
+    netbox-server-01 = { vm_id = 1004, ip = "192.168.50.30/24" }
   }
 }

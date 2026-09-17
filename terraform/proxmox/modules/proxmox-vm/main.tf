@@ -1,18 +1,3 @@
-locals {
-  ansible_inventory_template_path   = "${path.module}/inventory-${var.ansible_template_type}.tmpl"
-  ansible_inventory_template_exists = fileexists(local.ansible_inventory_template_path)
-}
-
-resource "local_file" "ansible_inventory" {
-  count = local.ansible_inventory_template_exists ? 1 : 0
-
-  content = templatefile(local.ansible_inventory_template_path, {
-    nodes = var.nodes
-  })
-  filename        = var.ansible_inventory_path
-  file_permission = "0644"
-}
-
 resource "proxmox_virtual_environment_vm" "vm" {
   for_each = var.nodes
 

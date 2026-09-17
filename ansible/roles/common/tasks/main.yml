@@ -1,0 +1,16 @@
+- name: Refresh DNF cache
+  ansible.builtin.dnf:
+    update_cache: true
+    state: present
+
+- name: Install common packages
+  ansible.builtin.dnf:
+    name:
+      - curl
+      - wget
+      - vim
+      - git
+      - unzip
+      - tar
+      - dnf-plugins-core
+    state: present
