@@ -1,3 +1,6 @@
+- name: Gather service facts
+  ansible.builtin.service_facts:
+
 - name: Install firewalld
   ansible.builtin.package:
     name: firewalld

@@ -1,0 +1,66 @@
+- name: Configure Ed-Fi DMS Docker Compose
+  ansible.builtin.copy:
+    src: local-dms.yml
+    dest: /opt/edfi-dms/eng/docker-compose/local-dms.yml
+    mode: "0644"
+  become: true
+
+- name: Configure Ed-Fi Configuration Service Docker Compose
+  ansible.builtin.copy:
+    src: local-config.yml
+    dest: /opt/edfi-dms/eng/docker-compose/local-config.yml
+    mode: "0644"
+  become: true
+
+- name: Start local Ed-Fi DMS
+  ansible.builtin.command:
+    cmd: pwsh ./start-local-dms.ps1 -EnableConfig
+    chdir: /opt/edfi-dms/eng/docker-compose
+  changed_when: true
+
+- name: Wait for Ed-Fi Configuration Service
+  ansible.builtin.uri:
+    url: http://127.0.0.1:8081/config/health
+    method: GET
+    status_code: 200
+  register: edfi_config_health
+  until: edfi_config_health.status == 200
+  retries: 30
+  delay: 2
+
+- name: Check whether Ed-Fi data store already exists
+  ansible.builtin.command:
+    cmd: pwsh ./configure-local-data-store.ps1 -NoDataStore
+    chdir: /opt/edfi-dms/eng/docker-compose
+  register: edfi_datastore_check
+  changed_when: false
+  failed_when:
+    - edfi_datastore_check.rc != 0
+    - "'no existing data stores were found' not in (edfi_datastore_check.stdout ~ edfi_datastore_check.stderr)"
+
+- name: Configure initial Ed-Fi datastore
+  ansible.builtin.command:
+    cmd: pwsh ./configure-local-data-store.ps1
+    chdir: /opt/edfi-dms/eng/docker-compose
+  when: edfi_datastore_check.rc != 0
+
+- name: Wait for Ed-Fi API
+  ansible.builtin.uri:
+    url: http://127.0.0.1:8080/api/health
+    method: GET
+    status_code: 200
+  register: edfi_api_health
+  until: edfi_api_health.status == 200
+  retries: 60
+  delay: 2
+
+- name: Open Ed-Fi ports
+  ansible.posix.firewalld:
+    port: "{{ item }}/tcp"
+    permanent: true
+    immediate: true
+    state: enabled
+  loop:
+    - "8080"
+    - "8081"
+    - "8082"

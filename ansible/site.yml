@@ -22,16 +22,17 @@
     - role: firewall
     - role: tang
 
-- name: Deploy Docker server
-  hosts: docker
+- name: Deploy Ed-Fi server
+  hosts: edfi
+  tags:
+    - ed-fi
   become: true
   roles:
     - role: common
     - role: cockpit
     - role: firewall
     - role: docker
-      tags:
-        - docker
+    - role: ed-fi
 
 - name: Configure workstations
   hosts: workstations

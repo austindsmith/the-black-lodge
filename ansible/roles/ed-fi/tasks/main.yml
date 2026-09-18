@@ -1,0 +1,8 @@
+- name: Install PowerShell 7
+  ansible.builtin.import_tasks: powershell.yml
+
+- name: Install Ed-Fi
+  ansible.builtin.import_tasks: install.yml
+
+- name: Configure Ed-Fi
+  ansible.builtin.import_tasks: configure.yml

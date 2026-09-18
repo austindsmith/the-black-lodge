@@ -1,0 +1,32 @@
+- name: Import Microsoft package signing key
+  ansible.builtin.rpm_key:
+    key: https://packages.microsoft.com/keys/microsoft-2025.asc
+    state: present
+  become: true
+
+- name: Download Microsoft Red Hat repository package
+  ansible.builtin.get_url:
+    url: "https://packages.microsoft.com/config/rhel/{{ ansible_distribution_major_version }}/packages-microsoft-prod.rpm"
+    dest: /tmp/packages-microsoft-prod.rpm
+    mode: "0644"
+
+- name: Register the Microsoft RedHat repository
+  ansible.builtin.dnf:
+    name: /tmp/packages-microsoft-prod.rpm
+    state: present
+
+- name: Remove temp files
+  ansible.builtin.file:
+    path: /tmp/packages-microsoft-prod.rpm
+    state: absent
+
+- name: Refresh DNF cache
+  ansible.builtin.dnf:
+    update_cache: true
+    state: present
+
+- name: Install Powershell package
+  ansible.builtin.dnf:
+    name:
+      - powershell
+    state: present

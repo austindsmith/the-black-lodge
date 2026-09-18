@@ -1,0 +1,37 @@
+- name: Check whether Docker is installed
+  ansible.builtin.command:
+    cmd: docker --version
+  register: docker_installed
+  changed_when: false
+  failed_when: false
+
+- name: Download Docker repository configuration
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/rhel/docker-ce.repo
+    dest: /etc/yum.repos.d/docker-ce.repo
+    mode: "0644"
+  when: docker_installed.rc != 0
+
+- name: Install Docker packages
+  ansible.builtin.dnf:
+    name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-buildx-plugin
+      - docker-compose-plugin
+    state: present
+
+- name: Enable and start Docker service
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: true
+
+- name: Add Ansible user to Docker group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups:
+      - docker
+    append: true
+  become: true

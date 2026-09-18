@@ -1,0 +1,23 @@
+- name: Check whether local Docker context exists
+  ansible.builtin.command:
+    cmd: "docker context inspect {{ inventory_hostname }}"
+  delegate_to: localhost
+  become: false
+  register: docker_context
+  changed_when: false
+  failed_when: false
+
+- name: Create local Docker context
+  ansible.builtin.command:
+    cmd: >-
+      docker context create {{ inventory_hostname }} --docker host=ssh://{{ ansible_user }}@{{ ansible_host }}
+  delegate_to: localhost
+  become: false
+  when: docker_context.rc != 0
+
+- name: Switch Docker context
+  ansible.builtin.command:
+    cmd: >-
+      docker context use {{ inventory_hostname }}
+  delegate_to: localhost
+  become: false

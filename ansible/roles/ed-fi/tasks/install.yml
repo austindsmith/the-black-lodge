@@ -1,0 +1,20 @@
+- name: Download Ed-Fi from GitHub
+  ansible.builtin.get_url:
+    url: "https://github.com/ed-fi-alliance-oss/data-management-service/archive/refs/tags/v{{ edfi_version }}.tar.gz"
+    dest: "/tmp/{{ edfi_version }}.tar.gz"
+    mode: "0644"
+
+- name: Extract remote archive
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ edfi_version }}.tar.gz"
+    dest: /opt
+    remote_src: true
+    creates: "/opt/Data-Management-Service-{{ edfi_version }}"
+    become: true
+
+- name: Create symbolic link
+  ansible.builtin.file:
+    src: "/opt/Data-Management-Service-{{ edfi_version }}"
+    dest: /opt/edfi-dms
+    state: link
+  become: true
