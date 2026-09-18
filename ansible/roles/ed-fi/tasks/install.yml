@@ -10,7 +10,6 @@
     dest: /opt
     remote_src: true
     creates: "/opt/Data-Management-Service-{{ edfi_version }}"
-    become: true
 
 - name: Create symbolic link
   ansible.builtin.file:
