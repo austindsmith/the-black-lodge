@@ -13,5 +13,4 @@
       - unzip
       - tar
       - dnf-plugins-core
-      - gnupg2
     state: present
