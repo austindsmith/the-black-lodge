@@ -1,0 +1,60 @@
+---
+- name: Require the developer-shell wrapper
+  ansible.windows.win_stat:
+    path: "{{ work_kit_build }}\\vcbuild.cmd"
+  register: work_kit_vcbuild_stat
+
+- name: Fail clearly when the toolchain has not been installed
+  ansible.builtin.fail:
+    msg: "Run the toolchain tag first: `just build -t toolchain`."
+  when: not work_kit_vcbuild_stat.stat.exists
+
+- name: Clone Neovim at the pinned ref
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $src = '{{ work_kit_build }}\neovim'
+    if (Test-Path "$src\.git") {
+      git -C $src fetch --tags --force origin
+    } else {
+      git clone https://github.com/neovim/neovim.git $src
+    }
+    $before = git -C $src rev-parse HEAD
+    git -C $src checkout --force '{{ payload.neovim.ref }}'
+    $after = git -C $src rev-parse HEAD
+    if ($before -ne $after) { Write-Output 'CHANGED' }
+    Write-Output "REV=$after"
+  register: work_kit_nvim_clone
+  changed_when: "'CHANGED' in work_kit_nvim_clone.stdout"
+
+- name: Record the Neovim revision
+  ansible.builtin.set_fact:
+    work_kit_nvim_rev: >-
+      {{ work_kit_nvim_clone.stdout | regex_search('REV=(\S+)', '\1') | first }}
+
+- name: Install the build script
+  ansible.windows.win_template:
+    src: Build-Neovim.ps1.j2
+    dest: "{{ work_kit_build }}\\Build-Neovim.ps1"
+  register: work_kit_nvim_script
+
+- name: Check for an existing build at this revision
+  ansible.windows.win_stat:
+    path: "{{ work_kit_nvim }}\\bin\\nvim.exe"
+  register: work_kit_nvim_binary
+
+- name: Build and install Neovim
+  ansible.windows.win_shell: >-
+    powershell.exe -NoProfile -ExecutionPolicy Bypass
+    -File "{{ work_kit_build }}\Build-Neovim.ps1"
+  async: 10800
+  poll: 30
+  register: work_kit_nvim_build
+  when: >-
+    work_kit_nvim_clone.changed
+    or work_kit_nvim_script.changed
+    or not work_kit_nvim_binary.stat.exists
+
+- name: Confirm the installed Neovim version
+  ansible.windows.win_command: "{{ work_kit_nvim }}\\bin\\nvim.exe --version"
+  register: work_kit_nvim_version
+  changed_when: false

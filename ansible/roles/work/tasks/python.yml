@@ -1,0 +1,73 @@
+---
+
+- name: Download the CPython installer
+  ansible.windows.win_get_url:
+    url: >-
+      https://www.python.org/ftp/python/{{ payload.python.version }}/python-{{ payload.python.version }}-amd64.exe
+    dest: "{{ work_kit_build }}\\python-{{ payload.python.version }}-amd64.exe"
+
+- name: Check for an existing kit interpreter
+  ansible.windows.win_stat:
+    path: "{{ work_kit_python }}\\python.exe"
+  register: work_kit_python_stat
+
+- name: Install CPython into the kit
+  ansible.windows.win_command: >-
+    "{{ work_kit_build }}\python-{{ payload.python.version }}-amd64.exe"
+    /quiet
+    InstallAllUsers=0
+    TargetDir={{ work_kit_python }}
+    PrependPath=0
+    AssociateFiles=0
+    Shortcuts=0
+    Include_launcher=0
+    Include_test=0
+    Include_pip=1
+    Include_dev=1
+  when: not work_kit_python_stat.stat.exists
+
+- name: Render the pinned requirements
+  ansible.windows.win_copy:
+    dest: "{{ work_kit_root }}\\requirements.txt"
+    content: |
+      # {{ ansible_managed }}
+      # Pins live in vagrant/windows/kit.yml (payload.python.requirements).
+      {% for requirement in payload.python.requirements %}
+      {{ requirement }}
+      {% endfor %}
+  register: work_kit_requirements
+
+- name: Upgrade the packaging toolchain
+  ansible.windows.win_command: >-
+    "{{ work_kit_python }}\python.exe" -m pip install --upgrade pip setuptools wheel
+  register: work_kit_pip_upgrade
+  changed_when: "'Successfully installed' in work_kit_pip_upgrade.stdout"
+
+- name: Build the wheelhouse
+  ansible.windows.win_shell: >-
+    cmd.exe /c "{{ work_kit_build }}\vcbuild.cmd"
+    "{{ work_kit_python }}\python.exe" -m pip wheel
+    --require-hashes=false
+    --wheel-dir "{{ work_kit_wheelhouse }}"
+    --requirement "{{ work_kit_root }}\requirements.txt"
+  async: 7200
+  poll: 30
+  register: work_kit_wheelbuild
+  when: work_kit_requirements.changed or work_kit_pip_upgrade.changed
+
+- name: Verify the wheelhouse installs with no network
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $venv = '{{ work_kit_build }}\wheelhouse-check'
+    if (Test-Path $venv) { Remove-Item -Recurse -Force $venv }
+    & '{{ work_kit_python }}\python.exe' -m venv $venv
+    & "$venv\Scripts\python.exe" -m pip install `
+      --no-index --find-links '{{ work_kit_wheelhouse }}' `
+      --requirement '{{ work_kit_root }}\requirements.txt'
+  changed_when: false
+
+- name: Record the wheelhouse contents
+  ansible.windows.win_find:
+    paths: "{{ work_kit_wheelhouse }}"
+    patterns: "*.whl"
+  register: work_kit_wheels

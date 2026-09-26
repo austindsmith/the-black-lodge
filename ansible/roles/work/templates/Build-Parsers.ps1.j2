@@ -1,0 +1,23 @@
+# {{ ansible_managed }}
+
+$ErrorActionPreference = 'Stop'
+
+$nvim = '{{ work_kit_nvim }}\bin\nvim.exe'
+$parsers = @({% for parser in payload.treesitter.parsers %}'{{ parser }}'{{ "," if not loop.last else "" }}{% endfor %})
+
+
+& $nvim --headless "+lua vim.pack.update(nil, { force = true })" +qa
+if ($LASTEXITCODE -ne 0) { throw "plugin bootstrap failed ($LASTEXITCODE)" }
+
+$list = ($parsers | ForEach-Object { "'$_'" }) -join ','
+& $nvim --headless "+lua require('nvim-treesitter').install({$list}):wait(600000)" +qa
+if ($LASTEXITCODE -ne 0) { throw "parser build failed ($LASTEXITCODE)" }
+
+$installed = & $nvim --headless '+lua io.write(vim.fn.stdpath("data"))' +qa 2>$null
+$source = Join-Path $installed 'site\parser'
+if (-not (Test-Path $source)) { throw "no parsers were produced at $source" }
+
+New-Item -ItemType Directory -Force -Path '{{ work_kit_parsers }}' | Out-Null
+Copy-Item -Path "$source\*" -Destination '{{ work_kit_parsers }}' -Recurse -Force
+
+Get-ChildItem '{{ work_kit_parsers }}' -Filter *.so | Select-Object -ExpandProperty Name

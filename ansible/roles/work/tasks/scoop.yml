@@ -1,0 +1,61 @@
+---
+
+- name: Copy the scoop export into the guest
+  ansible.windows.win_copy:
+    src: "{{ work_kit_dotfiles_src }}/{{ payload.scoop.export }}"
+    dest: "{{ work_kit_build }}\\scoop-export.json"
+
+- name: Check whether scoop is already rooted at the kit
+  ansible.windows.win_stat:
+    path: "{{ work_kit_scoop }}\\shims\\scoop.cmd"
+  register: work_kit_scoop_stat
+
+- name: Install portable scoop
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $env:SCOOP = '{{ work_kit_scoop }}'
+    Invoke-RestMethod get.scoop.sh -OutFile "$env:TEMP\install-scoop.ps1"
+    & "$env:TEMP\install-scoop.ps1" `
+      -ScoopDir '{{ work_kit_scoop }}' `
+      -ScoopGlobalDir '{{ work_kit_scoop }}\global' `
+      -RunAsAdmin
+  when: not work_kit_scoop_stat.stat.exists
+
+- name: Import the scoop export
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $env:SCOOP = '{{ work_kit_scoop }}'
+    $env:PATH  = '{{ work_kit_scoop }}\shims;' + $env:PATH
+    scoop import '{{ work_kit_build }}\scoop-export.json'
+  register: work_kit_scoop_import
+  changed_when: "'was installed successfully' in work_kit_scoop_import.stdout"
+
+- name: Install extra apps not yet in the export
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $env:SCOOP = '{{ work_kit_scoop }}'
+    $env:PATH  = '{{ work_kit_scoop }}\shims;' + $env:PATH
+    if (-not (scoop list 6>$null | Where-Object Name -eq '{{ item }}')) {
+      scoop install '{{ item }}'
+      Write-Output 'INSTALLED'
+    }
+  loop: "{{ payload.scoop.extra_apps }}"
+  register: work_kit_scoop_extra
+  changed_when: "'INSTALLED' in work_kit_scoop_extra.stdout"
+
+- name: Drop the scoop download cache
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $env:SCOOP = '{{ work_kit_scoop }}'
+    $env:PATH  = '{{ work_kit_scoop }}\shims;' + $env:PATH
+    scoop cache rm '*'
+  changed_when: false
+
+- name: Record the installed app versions
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $env:SCOOP = '{{ work_kit_scoop }}'
+    $env:PATH  = '{{ work_kit_scoop }}\shims;' + $env:PATH
+    scoop export
+  register: work_kit_scoop_state
+  changed_when: false

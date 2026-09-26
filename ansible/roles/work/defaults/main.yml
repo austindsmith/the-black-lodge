@@ -1,0 +1,20 @@
+work_kit_usb_root: ""
+work_kit_dotfiles_src: ""
+
+work_kit_root: "{{ install_root }}"
+work_kit_scoop: "{{ install_root }}\\scoop"
+work_kit_nvim: "{{ install_root }}\\nvim"
+work_kit_python: "{{ install_root }}\\python"
+work_kit_wheelhouse: "{{ install_root }}\\wheelhouse"
+work_kit_node: "{{ install_root }}\\node"
+work_kit_node_tools: "{{ install_root }}\\node-tools"
+work_kit_mirrors: "{{ install_root }}\\plugin-mirrors"
+work_kit_dotfiles: "{{ install_root }}\\dotfiles"
+work_kit_parsers: "{{ install_root }}\\treesitter"
+work_kit_bin: "{{ install_root }}\\bin"
+
+work_kit_build: 'C:\build'
+
+work_kit_install_toolchain: true
+
+work_kit_build_id: "{{ ansible_date_time.date }}"

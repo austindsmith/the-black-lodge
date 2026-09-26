@@ -34,5 +34,8 @@ roles:
   - name: linux-system-roles.cockpit
     version: "1.7.4"
 
+  - name: lablabs.rke2
+    version: "1.53.1"
+
   - name: mdsketch.teleport
     version: "v2.0.0"

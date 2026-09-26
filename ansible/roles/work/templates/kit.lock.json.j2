@@ -1,0 +1,24 @@
+{
+  "build_id": {{ work_kit_build_id | to_json }},
+  "built_at": {{ ansible_date_time.iso8601 | to_json }},
+  "install_root": {{ install_root | to_json }},
+  "neovim": {
+    "ref": {{ payload.neovim.ref | to_json }},
+    "rev": {{ work_kit_nvim_rev | default('unknown') | to_json }},
+    "version": {{ (work_kit_nvim_version.stdout_lines | default(['unknown']) | first | trim) | to_json }}
+  },
+  "python": {
+    "version": {{ payload.python.version | to_json }},
+    "requirements": {{ payload.python.requirements | to_json }},
+    "wheel_count": {{ work_kit_wheels.files | default([]) | length }}
+  },
+  "node": {
+    "version": {{ payload.node.version | to_json }},
+    "globals": {{ payload.node.globals | to_json }}
+  },
+  "scoop": {{ (work_kit_scoop_state.stdout | default('{}') | from_json) | to_json }},
+  "plugins": {{ work_kit_plugins | default({}) | to_json }},
+  "treesitter": {
+    "parsers": {{ payload.treesitter.parsers | to_json }}
+  }
+}

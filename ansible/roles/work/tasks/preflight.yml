@@ -1,0 +1,53 @@
+---
+- name: Require host-side paths
+  ansible.builtin.assert:
+    that:
+      - work_kit_usb_root | length > 0
+      - work_kit_dotfiles_src | length > 0
+    fail_msg: >-
+      LODGE_USB_ROOT and WINDOWS_DOTFILES_PATH must be set. Run `direnv allow`
+      in vagrant/, or export them by hand.
+  delegate_to: localhost
+
+- name: Confirm the USB drive is mounted on the host
+  ansible.builtin.stat:
+    path: "{{ work_kit_usb_root }}"
+  register: work_kit_usb_stat
+  delegate_to: localhost
+
+- name: Fail clearly when the USB drive is missing
+  ansible.builtin.fail:
+    msg: >-
+      {{ work_kit_usb_root }} does not exist. Plug the drive in and let the
+      desktop mount it, or point LODGE_USB_ROOT somewhere else.
+  when: not work_kit_usb_stat.stat.isdir | default(false)
+
+- name: Confirm the dotfiles source exists
+  ansible.builtin.stat:
+    path: "{{ work_kit_dotfiles_src }}"
+  register: work_kit_dotfiles_stat
+  delegate_to: localhost
+
+- name: Fail clearly when dotfiles are missing
+  ansible.builtin.fail:
+    msg: "{{ work_kit_dotfiles_src }} does not exist."
+  when: not work_kit_dotfiles_stat.stat.isdir | default(false)
+
+- name: Create the kit tree
+  ansible.windows.win_file:
+    path: "{{ item }}"
+    state: directory
+  loop:
+    - "{{ work_kit_root }}"
+    - "{{ work_kit_bin }}"
+    - "{{ work_kit_wheelhouse }}"
+    - "{{ work_kit_mirrors }}"
+    - "{{ work_kit_dotfiles }}"
+    - "{{ work_kit_parsers }}"
+    - "{{ work_kit_build }}"
+
+- name: Exclude the kit tree from Defender
+  ansible.windows.win_shell: |
+    Add-MpPreference -ExclusionPath '{{ work_kit_root }}','{{ work_kit_build }}'
+  changed_when: false
+  failed_when: false

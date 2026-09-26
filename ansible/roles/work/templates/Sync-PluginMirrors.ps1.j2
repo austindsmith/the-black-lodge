@@ -1,0 +1,37 @@
+# {{ ansible_managed }}
+
+$ErrorActionPreference = 'Stop'
+
+$mirrorRoot = '{{ work_kit_mirrors }}'
+$sources = @(
+{% for name, plugin in work_kit_plugins.items() %}
+    '{{ plugin.src }}'{{ "," if not loop.last else "" }}
+{% endfor %}
+)
+
+$changed = $false
+
+foreach ($source in $sources) {
+    $ownerRepo = $source -replace '^https://github\.com/', '' -replace '\.git$', ''
+    $target = Join-Path $mirrorRoot $ownerRepo
+
+    if (Test-Path (Join-Path $target 'HEAD')) {
+        $before = (git -C $target rev-parse --all | Out-String)
+        git -C $target remote update --prune
+        if ($LASTEXITCODE -ne 0) { throw "remote update failed: $ownerRepo" }
+        $after = (git -C $target rev-parse --all | Out-String)
+        if ($before -ne $after) {
+            Write-Output "updated $ownerRepo"
+            $changed = $true
+        }
+    }
+    else {
+        New-Item -ItemType Directory -Force -Path (Split-Path $target -Parent) | Out-Null
+        git clone --mirror $source $target
+        if ($LASTEXITCODE -ne 0) { throw "clone failed: $ownerRepo" }
+        Write-Output "cloned $ownerRepo"
+        $changed = $true
+    }
+}
+
+if ($changed) { Write-Output 'CHANGED' }

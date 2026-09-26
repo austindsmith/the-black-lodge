@@ -1,0 +1,20 @@
+---
+
+- name: Stage the dotfiles into the kit
+  ansible.windows.win_copy:
+    src: "{{ work_kit_dotfiles_src }}/"
+    dest: "{{ work_kit_dotfiles }}\\"
+
+- name: Deploy the dotfiles to their live locations
+  ansible.windows.win_copy:
+    src: "{{ work_kit_dotfiles_src }}/{{ item.src }}/"
+    dest: "{{ item.dest }}\\"
+  loop: "{{ dotfiles }}"
+  loop_control:
+    label: "{{ item.src }}"
+
+- name: Point komorebi at the deployed config
+  ansible.windows.win_environment:
+    name: KOMOREBI_CONFIG_HOME
+    value: "{{ ansible_env.USERPROFILE }}\\.config\\komorebi"
+    level: user

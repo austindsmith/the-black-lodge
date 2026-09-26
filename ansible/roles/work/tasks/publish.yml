@@ -1,0 +1,32 @@
+---
+- name: Share the kit read-only
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $existing = Get-SmbShare -Name '{{ share_name }}' -ErrorAction SilentlyContinue
+    if ($existing -and $existing.Path -eq '{{ work_kit_root }}') { exit 0 }
+    if ($existing) { Remove-SmbShare -Name '{{ share_name }}' -Force }
+    New-SmbShare -Name '{{ share_name }}' `
+      -Path '{{ work_kit_root }}' `
+      -Description 'Offline work-kit payload' `
+      -ReadAccess 'Everyone' | Out-Null
+    Write-Output 'CHANGED'
+  register: work_kit_share
+  changed_when: "'CHANGED' in work_kit_share.stdout"
+
+- name: Allow SMB on the private profile
+  community.windows.win_firewall_rule:
+    name: File and Printer Sharing (SMB-In)
+    enabled: true
+    state: present
+    localport: 445
+    action: allow
+    direction: in
+    protocol: tcp
+    profiles: private
+
+- name: Report how to collect the kit
+  ansible.builtin.debug:
+    msg: >-
+      Kit is shared at \\{{ ansible_host }}\{{ share_name }}.
+      Run `just pull` from vagrant/windows to copy it to
+      {{ work_kit_usb_root }}/kits/{{ work_kit_build_id }}.

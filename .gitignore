@@ -26,5 +26,4 @@ tmp/
 *.old
 *.iso
 secrets*
-windows-README.md
-.generated*
+flux.env

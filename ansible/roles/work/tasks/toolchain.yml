@@ -1,0 +1,39 @@
+---
+
+- name: Install build tools with Chocolatey
+  chocolatey.chocolatey.win_chocolatey:
+    name: "{{ toolchain.chocolatey }}"
+    state: present
+  register: work_kit_choco
+  retries: 3
+  delay: 15
+  until: work_kit_choco is succeeded
+
+- name: Locate the Visual Studio installation
+  ansible.windows.win_shell: |
+    $vswhere = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
+    & $vswhere -latest -products '*' `
+      -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+      -property installationPath
+  register: work_kit_vs
+  changed_when: false
+
+- name: Require a usable C toolchain
+  ansible.builtin.assert:
+    that:
+      - work_kit_vs.stdout | trim | length > 0
+    fail_msg: >-
+      No MSVC toolset found. The VC++ build tools workload did not install --
+      re-run with `-t toolchain` and check the Chocolatey log.
+
+- name: Record the VC developer shell entrypoint
+  ansible.builtin.set_fact:
+    work_kit_vsdevcmd: "{{ work_kit_vs.stdout | trim }}\\Common7\\Tools\\VsDevCmd.bat"
+
+- name: Install the developer-shell wrapper
+  ansible.windows.win_copy:
+    dest: "{{ work_kit_build }}\\vcbuild.cmd"
+    content: |
+      @echo off
+      call "{{ work_kit_vsdevcmd }}" -arch=amd64 -host_arch=amd64 || exit /b 1
+      %*

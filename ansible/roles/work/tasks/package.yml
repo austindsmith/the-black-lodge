@@ -1,0 +1,48 @@
+---
+
+- name: Write the kit lockfile
+  ansible.windows.win_template:
+    src: kit.lock.json.j2
+    dest: "{{ work_kit_root }}\\kit.lock.json"
+
+- name: Install the offline installer
+  ansible.windows.win_copy:
+    src: Install-Kit.ps1
+    dest: "{{ work_kit_root }}\\Install-Kit.ps1"
+
+- name: Checksum the payload
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $root = '{{ work_kit_root }}'
+    $sums = Join-Path $root 'SHA256SUMS'
+    if (Test-Path $sums) { Remove-Item $sums -Force }
+    $skip = @('kit.lock.json', 'SHA256SUMS', 'Install-Kit.ps1')
+    Get-ChildItem $root -Recurse -File |
+      Where-Object { $skip -notcontains $_.Name -or $_.DirectoryName -ne $root } |
+      ForEach-Object {
+        $relative = $_.FullName.Substring($root.Length + 1)
+        '{0}  {1}' -f (Get-FileHash $_.FullName -Algorithm SHA256).Hash, $relative
+      } | Set-Content -Path $sums -Encoding ascii
+    (Get-Content $sums).Count
+  async: 3600
+  poll: 15
+  register: work_kit_checksums
+  changed_when: true
+
+- name: Fetch the lockfile back for review
+  ansible.builtin.fetch:
+    src: "{{ work_kit_root }}\\kit.lock.json"
+    dest: "{{ playbook_dir }}/../../vagrant/windows/kit.lock.json"
+    flat: true
+
+- name: Report the kit contents
+  ansible.builtin.debug:
+    msg: >-
+      Kit {{ work_kit_build_id }}:
+      neovim {{ payload.neovim.ref }},
+      python {{ payload.python.version }}
+      ({{ work_kit_wheels.files | default([]) | length }} wheels),
+      node {{ payload.node.version }},
+      {{ work_kit_plugins | default({}) | length }} plugin mirrors,
+      {{ payload.treesitter.parsers | length }} parsers,
+      {{ work_kit_checksums.stdout_lines | default(['?']) | last }} files checksummed.

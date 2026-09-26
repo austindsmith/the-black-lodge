@@ -1,0 +1,42 @@
+---
+
+- name: Download the Node runtime
+  ansible.windows.win_get_url:
+    url: >-
+      https://nodejs.org/dist/v{{ payload.node.version }}/node-v{{ payload.node.version }}-win-x64.zip
+    dest: "{{ work_kit_build }}\\node-v{{ payload.node.version }}-win-x64.zip"
+
+- name: Check for an existing kit runtime
+  ansible.windows.win_stat:
+    path: "{{ work_kit_node }}\\node.exe"
+  register: work_kit_node_stat
+
+- name: Unpack Node into the kit
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $staging = '{{ work_kit_build }}\node-staging'
+    if (Test-Path $staging) { Remove-Item -Recurse -Force $staging }
+    Expand-Archive -Path '{{ work_kit_build }}\node-v{{ payload.node.version }}-win-x64.zip' `
+      -DestinationPath $staging
+    if (Test-Path '{{ work_kit_node }}') { Remove-Item -Recurse -Force '{{ work_kit_node }}' }
+    Move-Item "$staging\node-v{{ payload.node.version }}-win-x64" '{{ work_kit_node }}'
+  when: not work_kit_node_stat.stat.exists
+
+- name: Install the language servers
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $env:PATH = '{{ work_kit_node }};' + $env:PATH
+    & '{{ work_kit_node }}\npm.cmd' install --global `
+      --prefix '{{ work_kit_node_tools }}' `
+      {{ payload.node.globals | map('regex_replace', '^(.*)$', "'\\1'") | join(' ') }}
+  register: work_kit_npm
+  changed_when: "'added' in work_kit_npm.stdout or 'changed' in work_kit_npm.stdout"
+
+- name: Record the installed global versions
+  ansible.windows.win_shell: |
+    $ErrorActionPreference = 'Stop'
+    $env:PATH = '{{ work_kit_node }};' + $env:PATH
+    & '{{ work_kit_node }}\npm.cmd' list --global --depth 0 --json `
+      --prefix '{{ work_kit_node_tools }}'
+  register: work_kit_npm_state
+  changed_when: false

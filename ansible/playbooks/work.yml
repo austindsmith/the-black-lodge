@@ -1,0 +1,13 @@
+- name: Build Windows work-kit
+  hosts: work_kit
+  gather_facts: true
+
+  vars_files:
+    - "{{ playbook_dir }}/../../vagrant/windows/kit.yml"
+
+  vars:
+    work_kit_usb_root: "{{ lookup('env', 'LODGE_USB_ROOT') }}"
+    work_kit_dotfiles_src: "{{ lookup('env', 'WINDOWS_DOTFILES_PATH') }}"
+
+  roles:
+    - role: work_kit

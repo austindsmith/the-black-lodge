@@ -1,0 +1,35 @@
+# {{ ansible_managed }}
+
+$ErrorActionPreference = 'Stop'
+
+$src     = '{{ work_kit_build }}\neovim'
+$prefix  = '{{ work_kit_nvim }}'
+$vcbuild = '{{ work_kit_build }}\vcbuild.cmd'
+$config  = '{{ payload.neovim.build_type }}'
+
+function Invoke-VcBuild {
+    param([Parameter(ValueFromRemainingArguments = $true)][string[]]$Arguments)
+    & cmd.exe /c $vcbuild @Arguments
+    if ($LASTEXITCODE -ne 0) {
+        throw "vcbuild failed ($LASTEXITCODE): $($Arguments -join ' ')"
+    }
+}
+
+Push-Location $src
+try {
+    # Bundled dependencies (libuv, luajit, tree-sitter, ...). Slowest stage,
+    # and the one that actually needs the network.
+    Invoke-VcBuild cmake -S cmake.deps -B .deps -G Ninja -D CMAKE_BUILD_TYPE=$config
+    Invoke-VcBuild cmake --build .deps
+
+    Invoke-VcBuild cmake -B build -G Ninja `
+        -D CMAKE_BUILD_TYPE=$config `
+        -D CMAKE_INSTALL_PREFIX=$prefix
+    Invoke-VcBuild cmake --build build
+    Invoke-VcBuild cmake --install build
+}
+finally {
+    Pop-Location
+}
+
+& "$prefix\bin\nvim.exe" --version | Select-Object -First 1

@@ -1,0 +1,34 @@
+---
+
+- name: Read the plugin lockfile
+  ansible.builtin.set_fact:
+    work_kit_plugins: >-
+      {{ (lookup('file', work_kit_dotfiles_src ~ '/nvim/' ~ payload.nvim_plugins.lock)
+          | from_json).plugins }}
+
+- name: Require a non-empty lockfile
+  ansible.builtin.assert:
+    that:
+      - work_kit_plugins | length > 0
+    fail_msg: >-
+      {{ payload.nvim_plugins.lock }} contained no plugins. Regenerate it from
+      Neovim with `:lua vim.pack.update()` before building the kit.
+
+- name: Install the mirror sync script
+  ansible.windows.win_template:
+    src: Sync-PluginMirrors.ps1.j2
+    dest: "{{ work_kit_build }}\\Sync-PluginMirrors.ps1"
+
+- name: Mirror the plugins
+  ansible.windows.win_shell: >-
+    powershell.exe -NoProfile -ExecutionPolicy Bypass
+    -File "{{ work_kit_build }}\Sync-PluginMirrors.ps1"
+  async: 3600
+  poll: 15
+  register: work_kit_mirror_sync
+  changed_when: "'CHANGED' in work_kit_mirror_sync.stdout"
+
+- name: Ship the lockfile alongside the mirrors
+  ansible.windows.win_copy:
+    src: "{{ work_kit_dotfiles_src }}/nvim/{{ payload.nvim_plugins.lock }}"
+    dest: "{{ work_kit_root }}\\{{ payload.nvim_plugins.lock }}"

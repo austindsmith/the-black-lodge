@@ -1,0 +1,56 @@
+---
+- name: Check host-side inputs and prepare the kit tree
+  ansible.builtin.include_tasks:
+    file: preflight.yml
+  tags: [always]
+
+- name: Install build toolchain
+  ansible.builtin.include_tasks:
+    file: toolchain.yml
+  when: work_kit_install_toolchain
+  tags: [toolchain]
+
+- name: Stage portable scoop apps
+  ansible.builtin.include_tasks:
+    file: scoop.yml
+  tags: [scoop]
+
+- name: Build Neovim from source
+  ansible.builtin.include_tasks:
+    file: neovim.yml
+  tags: [neovim]
+
+- name: Build Python interpreter and wheelhouse
+  ansible.builtin.include_tasks:
+    file: python.yml
+  tags: [python]
+
+- name: Stage Node and language servers
+  ansible.builtin.include_tasks:
+    file: node.yml
+  tags: [node]
+
+- name: Mirror Neovim plugins
+  ansible.builtin.include_tasks:
+    file: mirrors.yml
+  tags: [mirrors]
+
+- name: Deploy dotfiles into the guest
+  ansible.builtin.include_tasks:
+    file: dotfiles.yml
+  tags: [dotfiles]
+
+- name: Compile treesitter parsers
+  ansible.builtin.include_tasks:
+    file: treesitter.yml
+  tags: [treesitter]
+
+- name: Write the kit lockfile and installer
+  ansible.builtin.include_tasks:
+    file: package.yml
+  tags: [package]
+
+- name: Expose the kit for collection
+  ansible.builtin.include_tasks:
+    file: publish.yml
+  tags: [publish]

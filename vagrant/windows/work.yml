@@ -1,0 +1,85 @@
+---
+vm:
+  box: gusztavvargadr/windows-10
+  box_version: "2511.0.0"
+  cpus: 6
+  memory: 12288
+  ip: 192.168.60.10
+  storage_pool: secondary-ssd-vms
+install_root: 'C:\kit'
+share_name: kit
+
+toolchain:
+  chocolatey:
+    - git
+    - 7zip
+    - cmake
+    - ninja
+    - visualstudio2022buildtools
+    - visualstudio2022-workload-vctools
+
+payload:
+  scoop:
+    export: scoop.json
+    extra_apps:
+      - ripgrep
+      - fd
+      - jq
+      - delta
+
+  neovim:
+    ref: v0.11.6
+    build_type: RelWithDebInfo
+
+  python:
+    version: "3.13.7"
+    requirements:
+      - ruff==0.14.0
+      - basedpyright==1.31.0
+      - mypy==1.18.1
+      - pytest==8.4.2
+      - ipython==9.5.0
+      - duckdb==1.4.0
+      - pandas==2.3.2
+      - polars==1.33.0
+
+  node:
+    version: "22.20.0"
+    globals:
+      - vscode-langservers-extracted@4.10.0
+      - yaml-language-server@1.19.0
+      - bash-language-server@5.6.0
+      - prettier@3.6.2
+
+  nvim_plugins:
+    lock: nvim-pack-lock.json
+
+  treesitter:
+    parsers:
+      - bash
+      - c
+      - json
+      - lua
+      - markdown
+      - markdown_inline
+      - python
+      - query
+      - sql
+      - toml
+      - vim
+      - vimdoc
+      - yaml
+
+dotfiles:
+  - src: nvim
+    dest: "{{ ansible_env.LOCALAPPDATA }}\\nvim"
+  - src: komorebi
+    dest: "{{ ansible_env.USERPROFILE }}\\.config\\komorebi"
+  - src: powershell
+    dest: "{{ ansible_env.USERPROFILE }}\\Documents\\PowerShell"
+  - src: starship
+    dest: "{{ ansible_env.USERPROFILE }}\\.config\\starship"
+  - src: wezterm
+    dest: "{{ ansible_env.USERPROFILE }}\\.config\\wezterm"
+  - src: yazi
+    dest: "{{ ansible_env.APPDATA }}\\yazi\\config"
